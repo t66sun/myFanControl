@@ -2,11 +2,28 @@
 
 更新日期：2026-10-04。面向接手 UI 迭代、验证与后续开发的人。
 
-发布保留规则：按用户要求，仅保留最近三版 ThinkBookControl 成品包，当前为 `ThinkBookControl-style-v2`、`ThinkBookControl-ui`、`ThinkBookControl`。`ThinkBookControl-preview`、`ThinkBookControl-control` 和 `ThinkBookControl-modern-standby` 旧成品目录已永久清理；其历史诊断记录仍用于追溯。`Ec*Probe` 目录属于诊断工具，不计入软件的三个发行版本。GitHub Releases 同样按发布时间保留最近三版；当前首次公开发行标记为 `v0.1.0`，ZIP 包含完整运行依赖与许可证，排除个人配置。首次 GitHub 发行为已验收美化版的打包，不重新触发硬件控制验收。
+## 当前发行：v0.1.1 运行时精简版
 
-最新视觉美化版：`artifacts/publish/ThinkBookControl-style-v2/ThinkBookControl.exe`。本次只调整 `MainWindow.xaml`、新增 `Styles/VisualTheme.xaml`、曲线绘制外观，以及两个自建对话框共享样式资源；未修改控制策略、后端、配置和生命周期逻辑。默认 960×760、最小 800×640，仍使用蓝/橙区分风扇 1/2，主要操作固定在底部。
+最新版为 `artifacts/publish/ThinkBookControl-compact/ThinkBookControl.exe`。桌面和 `EcPmcConfigProbe.exe` 同在根目录，仍为独立进程，共享一套 .NET 10.0.12 WindowsDesktop 自包含运行时。后端显式引用相同桌面框架，避免 Microsoft.VisualBasic.dll、System.Drawing.dll、WindowsBase.dll 的桌面/普通运行时差异；发布脚本只合并哈希相同的重名文件，其他冲突停止。两个项目仅保留 `zh-Hans`、`zh-Hant` 卫星资源。界面功能、控制策略、通信与恢复流程未修改。
 
-本版验证：`artifacts/diagnostics/ui-style-v2/verification.log` 离线 UI 回归通过；同目录 `control-policy.log` 为 27 项通过，`publish.log` 为 Release 自包含发布成功。十张截图涵盖默认/最小尺寸 100%/150%/200% 离线渲染、手动页、行校验错误、预设命名及未保存修改对话框；实体屏幕 DPI 切换与本机硬件回归本次未重测，实际睡眠验收仍延期。上一版 UI 与原始包均保留。
+ZIP 从 109.96 MiB 降至约 69.79 MiB（减少 36.5%），解压体积从约 253.19 MiB 降至 161.92 MiB，文件从 685 个降至 310 个。仍无需另装 .NET，许可证与第三方依赖完整保留；公开 ZIP 排除个人配置，校验以 Release 的 `SHA256SUMS.txt` 为准。升级需解压到新目录，再复制旧配置，避免残留旧运行时和语言文件。
+
+验证：Release 发布成功，后端 `--self-check`、27 项控制策略检查、离线 UI 回归通过。十张默认/最小尺寸与 100%/150%/200% 离线渲染、手动/错误/对话框截图在 `artifacts/diagnostics/runtime-compact/ui`；汇总在 `artifacts/diagnostics/runtime-compact/verification-summary.json`。本机报告 `artifacts/diagnostics/product-normal-boot-20261004-062410-080/report.json` 的 NormalBootVerified / ProductControlVerified 为 true；控制报告验证手动、曲线、温度失效及 EOF/心跳超时/父进程退出恢复。窗口报告 `artifacts/diagnostics/runtime-compact-regression-20261004-062409-704/window-product.json` 的 Succeeded / CloseHidden / ShownFromTray / ExplicitlyExited 为 true，隐藏 12 秒后目标仍为 36/38，真正退出后 C/D/E/F 全零。实际 Modern Standby 睡眠验收仍按用户安排延期，后续使用精简包 `--sleep-test` 人工睡眠约 20 秒再唤醒。
+
+当前仅保留三版成品 `ThinkBookControl-compact`、`ThinkBookControl-style-v2`、`ThinkBookControl-ui`；原 `ThinkBookControl` 及更早成品已永久删除，诊断报告保留。GitHub 按发布时间保留最近三版。新发布必须选不存在的目录：`scripts/Publish-Product.ps1 -DirectoryName ThinkBookControl-new`，此前先 restore 两个项目的 win-x64 自包含依赖，详见 README。发布脚本临时 `_host-publish` 合并后删除，成品没有 `control-host` 子目录。
+
+精简包 DLL SHA256：桌面 `309E51D2A498253064E95F6BDB24E77EA9049D5ED0508E51FD05BE9471C5BE9A`；后端 `E964408D07E4C7E977B2B60ABFEE387DA89421455385B773F7173BB8CB3AA5E1`。
+
+## 历史 UI 与控制交接记录
+
+以下包路径、哈希、构建和睡眠记录分别对应历史版本；已删除的成品路径仅用于说明报告来源。当前发布方式与验收以上节为准。
+
+
+历史 v0.1.0 保留规则：当时仅保留 `ThinkBookControl-style-v2`、`ThinkBookControl-ui`、`ThinkBookControl`。`ThinkBookControl-preview`、`ThinkBookControl-control` 和 `ThinkBookControl-modern-standby` 旧成品目录已永久清理；其历史诊断记录仍用于追溯。`Ec*Probe` 目录属于诊断工具，不计入软件的三个发行版本。GitHub Releases 同样按发布时间保留最近三版；当前首次公开发行标记为 `v0.1.0`，ZIP 包含完整运行依赖与许可证，排除个人配置。首次 GitHub 发行为已验收美化版的打包，不重新触发硬件控制验收。
+
+历史视觉美化版：`artifacts/publish/ThinkBookControl-style-v2/ThinkBookControl.exe`。本次只调整 `MainWindow.xaml`、新增 `Styles/VisualTheme.xaml`、曲线绘制外观，以及两个自建对话框共享样式资源；未修改控制策略、后端、配置和生命周期逻辑。默认 960×760、最小 800×640，仍使用蓝/橙区分风扇 1/2，主要操作固定在底部。
+
+本版验证：`artifacts/diagnostics/ui-style-v2/verification.log` 离线 UI 回归通过；同目录 `control-policy.log` 为 27 项通过，`publish.log` 为 Release 自包含发布成功。十张截图涵盖默认/最小尺寸 100%/150%/200% 离线渲染、手动页、行校验错误、预设命名及未保存修改对话框；实体屏幕 DPI 切换与本机硬件回归本次未重测，实际睡眠验收仍延期。当时上一版 UI 与原始包均保留；原始包现已按三版规则删除。
 
 美化版包 SHA256：桌面 `452C0B2F450CA4E41EDFFAD2D0867A18B7BDCDA36EE9A2225921D670987EA09E`；后端 `818CECC01CB38633719C92FCEF8702ADC66F78FB08D27675F539D45224D6EC88`。本次重新构建包含初始化后的 Git 版本元数据，后端源码没有改动；下面的旧包哈希与报告仍指对应历史包。
 
@@ -19,7 +36,7 @@
 当前只确认支持 **ThinkBook 14 G4+ IAP / 机器类型 21CX / BIOS HYCN42WW / Intel i5-12500H**，即用户的中国发售 2022 年机型。其他型号、BIOS 和干净系统的驱动安装流程尚未验收。
 
 - 工作区：`C:\dev\myfancontrol`
-- 旧版已验收包：`artifacts/publish/ThinkBookControl/ThinkBookControl.exe`，保留用于对照
+- 旧版已验收包：`artifacts/publish/ThinkBookControl/ThinkBookControl.exe`，现已按三版规则删除
 - 本轮 UI 发布包：`artifacts/publish/ThinkBookControl-ui/ThinkBookControl.exe`
 - 本轮离线证据：`artifacts/diagnostics/ui-redesign-offline` 中的日志与六张截图
 - 本轮本机总报告：[report.json](artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/report.json)

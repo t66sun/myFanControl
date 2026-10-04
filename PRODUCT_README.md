@@ -1,14 +1,16 @@
-# ThinkBookControl UI 迭代版
+# ThinkBookControl 精简版
 
-2026-10-04 视觉美化第二版发布于 `artifacts/publish/ThinkBookControl-style-v2`。采用雾灰背景、蓝色主操作、统一圆角控件与表格样式，曲线和对话框同步美化；现有控制、配置、预设、托盘与退出流程保持原有行为。该版本完成离线 UI 回归、十张界面状态截图检查、27 项控制策略检查及 Release 发布，证据位于 `artifacts/diagnostics/ui-style-v2`。下述本机控制报告属于上一版 `ThinkBookControl-ui`，美化版未另做本机硬件或睡眠验收。
+2026-10-04 `v0.1.1` 精简版发布目录为 `artifacts/publish/ThinkBookControl-compact`。保留视觉美化版的雾灰背景、蓝色主操作、统一圆角控件、表格与对话框样式，现有控制、配置、预设、托盘与退出流程保持原有行为。桌面与独立控制后端在根目录共享一套 .NET 10.0.12 自包含 WindowsDesktop 运行时，仅保留简体/繁体中文卫星资源。
 
-适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。本轮离线 UI 检查、27 项控制策略检查、Release 自包含发布及本机控制/窗口验收已通过；实际睡眠验收按用户安排延期。下方 2026-10-03 实测记录属于旧版基准包。
+适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。本轮后端自检、离线 UI、27 项策略与真实控制/窗口回归已通过；实际睡眠验收按用户安排延期。下方旧 UI、美化版及 2026-10-03 报告均为对应历史版本证据。
+
+ZIP 约 69.79 MiB，较 v0.1.0 的 109.96 MiB 减少 36.5%；解压约 161.92 MiB。
 
 ## 使用
 
-GitHub 安装包见 [Releases](https://github.com/t66sun/myFanControl/releases)。下载 Windows x64 ZIP，完整解压后运行其中的 `ThinkBookControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
+下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。Windows x64 ZIP 完整解压后运行其中的 `ThinkBookControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
-保留整个发布目录，运行 `ThinkBookControl.exe`，确认管理员提示。新 UI 发布到 `artifacts/publish/ThinkBookControl-ui`，旧版 `artifacts/publish/ThinkBookControl` 保留用于对照。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
+保留整个发布目录，运行 `ThinkBookControl.exe`，确认管理员提示。本地保留 `ThinkBookControl-compact`、`ThinkBookControl-style-v2`、`ThinkBookControl-ui` 最近三版；原 `ThinkBookControl` 基准成品已清理，历史诊断仍保留。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 
 界面采用中文浅色 Windows 工具样式，默认 960×760，最小 800×640。顶部显示 CPU/GPU 温度、两路实际 RPM、已应用目标和当前模式；主要操作页脚固定，设备信息、完整传感器和诊断错误在折叠详情中。
 
@@ -39,20 +41,24 @@ EXE 同目录的 `control-settings.json` 保留 `Fan1Rpm`、`Fan2Rpm`、`Fan1Cur
 
 草稿不会自动保存。保存预设、处理未保存修改或成功应用参数时才写入相应配置；保存失败会单独提示。下次启动载入保存的输入和预设，仍由固件控制。
 
-本机后端使用现有 PawnIO 2.2 正式签名驱动与签名 LpcIO 模块，无需安装开发驱动。保留整个发布目录及其 `control-host`、`licenses` 子目录。
+本机后端使用现有 PawnIO 2.2 正式签名驱动与签名 LpcIO 模块，无需安装开发驱动。保留根目录的 `ThinkBookControl.exe`、`EcPmcConfigProbe.exe`、共享运行时文件、`zh-Hans`/`zh-Hant` 资源和 `licenses` 子目录。两个 EXE 仍各自运行为独立进程，控制后端由桌面程序启动；精简版不再使用旧的 `control-host` 子目录。
 
 ## 验收记录
 
-本轮 UI 版已有以下证据，位于 `artifacts/diagnostics/ui-redesign-offline`：
+精简版本轮后端自检、27 项策略与离线 UI 检查通过，十张默认/最小尺寸、手动页、校验与对话框截图位于 `artifacts/diagnostics/runtime-compact/ui`。这些缩放图仍是离线渲染，不代表实体屏幕 DPI 切换。
+
+本轮真实验收总报告为 `artifacts/diagnostics/runtime-compact-regression-20261004-062409-704/report.json`，Succeeded / ControlVerified / WindowVerified 均 true、Error=null。正常启动报告 `artifacts/diagnostics/product-normal-boot-20261004-062410-080/report.json` 的 NormalBootVerified / ProductControlVerified 均 true，目标包为 `ThinkBookControl-compact`；窗口报告为总报告同目录 `window-product.json`，隐藏 12 秒后目标 3600/3800 RPM 仍生效，真正退出后 C/D/E/F 全零。实际睡眠验收仍延期。
+
+以下是历史 `ThinkBookControl-ui` 的证据，离线记录位于 `artifacts/diagnostics/ui-redesign-offline`：
 
 - 离线 WPF 界面、编辑、配置、托盘及合成电源消息检查通过，Release 运行退出码 0，见 `verification.log`；未启动传感器监控或控制后端。
 - 默认/最小窗口的六张 `ui-default/minimum-{100,150,200}.png` 已完成视觉检查。这些是 96/144/192 DPI 的离线 RenderTargetBitmap 渲染，不代表在实体屏幕切换 DPI 的实测。
 - 27 项纯控制策略检查通过，见 `control-policy.log`；Release 自包含发布完成，见 `publish.log`。
 - 本机正常启动与真实控制通过：`artifacts/diagnostics/product-normal-boot-20261004-050337-871/report.json`，目标包为 `ThinkBookControl-ui`，NormalBootVerified / ProductControlVerified 均 true，Error=null；同目录 `control-product.json` 为 Succeeded=true、Errors=[]。
-- 新版窗口/托盘通过：`artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/window-product.json`。X 隐藏 12 秒后两路目标仍为 3600/3800 RPM，EC 反馈 3575/3763 RPM；托盘恢复显示与真正退出均通过，退出后 C/D/E/F 覆盖为零。
+- 历史 UI 窗口/托盘通过：`artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/window-product.json`。X 隐藏 12 秒后两路目标仍为 3600/3800 RPM，EC 反馈 3575/3763 RPM；托盘恢复显示与真正退出均通过，退出后 C/D/E/F 覆盖为零。
 - 总报告 `artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/report.json` 的 Succeeded / ControlVerified / WindowVerified 均 true，Error=null。用户决定本轮先交付，真实 Modern Standby 睡眠唤醒验收延期，作为后续首项工作。
 
-发布包为 `artifacts/publish/ThinkBookControl-ui`，旧版睡眠记录不能代替延期的新版睡眠验收。具体包哈希、构建警告和后续睡眠命令见 [HANDOFF.md](HANDOFF.md)。
+历史视觉美化版的离线回归、十张截图、27 项策略与发布记录位于 `artifacts/diagnostics/ui-style-v2`。当前发布包为 `artifacts/publish/ThinkBookControl-compact`，旧版睡眠记录不能代替延期的新版睡眠验收。具体包哈希、构建警告和后续睡眠命令见 [HANDOFF.md](HANDOFF.md)。
 
 2026-10-03 旧版基准包已有以下记录：
 

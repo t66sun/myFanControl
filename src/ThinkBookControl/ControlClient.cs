@@ -13,7 +13,7 @@ internal sealed class ControlClient : IAsyncDisposable
 
     internal ControlClient(int? parentPid = null)
     {
-        string helper = Path.Combine(AppContext.BaseDirectory, "control-host", "EcPmcConfigProbe.exe");
+        string helper = Path.Combine(AppContext.BaseDirectory, "EcPmcConfigProbe.exe");
         if (!File.Exists(helper)) throw new FileNotFoundException("控制后端未找到。", helper);
         process = new Process { StartInfo = new ProcessStartInfo(helper) {
             UseShellExecute = false, CreateNoWindow = true,
