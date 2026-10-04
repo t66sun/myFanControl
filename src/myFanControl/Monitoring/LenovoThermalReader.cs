@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record LenovoThermalSnapshot(bool Available, uint? Protocol, uint? FunctionCapabilities,
     uint? ModeCapabilities, uint? State, uint? MmcMode, IReadOnlyList<string> Errors)

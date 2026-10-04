@@ -1,6 +1,6 @@
 using LibreHardwareMonitor.Hardware;
 
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 /// <summary>
 /// Read-only CPU/GPU temperature sampling. Calls to Open, Capture, and Dispose are serialized.

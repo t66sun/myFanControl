@@ -3,10 +3,10 @@ using System.Text.Json;
 using FanControl.Core;
 using Microsoft.Win32;
 using System.Windows;
-using ThinkBookControl.Monitoring;
-using ThinkBookControl.Editing;
+using myFanControl.Monitoring;
+using myFanControl.Editing;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class MainWindow
 {

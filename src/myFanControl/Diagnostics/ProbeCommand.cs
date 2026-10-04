@@ -1,4 +1,4 @@
-namespace ThinkBookControl.Diagnostics;
+namespace myFanControl.Diagnostics;
 
 internal sealed record ProbeOptions(int Samples, string OutputPath);
 

@@ -8,8 +8,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AssemblyName>ThinkBookControl</AssemblyName>
-    <RootNamespace>ThinkBookControl</RootNamespace>
+    <AssemblyName>myFanControl</AssemblyName>
+    <RootNamespace>myFanControl</RootNamespace>
     <SatelliteResourceLanguages>zh-Hans;zh-Hant</SatelliteResourceLanguages>
   </PropertyGroup>
 

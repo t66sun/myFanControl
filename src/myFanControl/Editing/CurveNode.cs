@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-namespace ThinkBookControl.Editing;
+namespace myFanControl.Editing;
 public sealed record CurvePreset(string Name, string Fan1Curve, string Fan2Curve);
 public sealed class CurveNode : INotifyPropertyChanged
 {

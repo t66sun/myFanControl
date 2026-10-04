@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Microsoft.Win32.SafeHandles;
 
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record PawnIoAccessSnapshot(bool OpenSucceeded, int? Win32Error, string? ErrorMessage, bool IsAdministrator)
 {

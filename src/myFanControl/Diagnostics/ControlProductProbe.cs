@@ -3,9 +3,9 @@ using System.Text.Json;
 using EcIdentityProbe;
 using EcFeedbackProbe;
 using EcPmcConfigProbe;
-using ThinkBookControl.Monitoring;
+using myFanControl.Monitoring;
 
-namespace ThinkBookControl.Diagnostics;
+namespace myFanControl.Diagnostics;
 
 internal static class ControlProductProbe
 {

@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/ThinkBookControl/ThinkBookControl.csproj" />
+    <ProjectReference Include="../../src/myFanControl/myFanControl.csproj" />
     <ProjectReference Include="../../src/FanControl.Core/FanControl.Core.csproj" />
   </ItemGroup>
 </Project>

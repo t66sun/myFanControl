@@ -1,4 +1,4 @@
-ThinkBookControl read-only EC telemetry uses the signed PawnIO LpcIO module distributed with LibreHardwareMonitor.
+myFanControl read-only EC telemetry uses the signed PawnIO LpcIO module distributed with LibreHardwareMonitor.
 Module SHA256: b3896a1cab0d808fca31fe2ebcae045d59dac690da87b17c858bb8da357eb45e
 The LGPL-2.1-or-later module license and upstream source references are included alongside this file.
 No driver is installed, updated or bundled by this application.

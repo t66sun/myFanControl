@@ -1,7 +1,7 @@
 using EcFeedbackProbe;
 using EcIdentityProbe;
 
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record EcFanTelemetrySnapshot(
     bool Available,

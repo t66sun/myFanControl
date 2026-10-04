@@ -81,8 +81,8 @@ try {
     $taskSc = Join-Path $env:SystemRoot 'System32/sc.exe'
     if ($RpmTrial) {
         $taskTemperatureFile=Join-Path $taskDir 'temperature-before-trial.json'
-        $taskTemperatureProcess=Start-Process -FilePath (Join-Path $taskRoot 'artifacts/publish/ThinkBookControl-preview/ThinkBookControl.exe') -ArgumentList @('--probe','--samples','3','--output',('"'+$taskTemperatureFile+'"')) -WindowStyle Hidden -Wait -PassThru
-        $taskReport.Commands += [pscustomobject]@{Exe='ThinkBookControl.exe';Arguments=@('--probe','--samples','3');ExitCode=$taskTemperatureProcess.ExitCode;Log='temperature-before-trial.json'}
+        $taskTemperatureProcess=Start-Process -FilePath (Join-Path $taskRoot 'artifacts/publish/myFanControl-preview/myFanControl.exe') -ArgumentList @('--probe','--samples','3','--output',('"'+$taskTemperatureFile+'"')) -WindowStyle Hidden -Wait -PassThru
+        $taskReport.Commands += [pscustomobject]@{Exe='myFanControl.exe';Arguments=@('--probe','--samples','3');ExitCode=$taskTemperatureProcess.ExitCode;Log='temperature-before-trial.json'}
         if ($taskTemperatureProcess.ExitCode -ne 0) { throw 'CPU temperature probe failed.' }
         $taskTemperature=Get-Content -LiteralPath $taskTemperatureFile -Raw | ConvertFrom-Json
         if (-not $taskTemperature.cpuTemperatureAvailable) { throw 'CPU temperature unavailable; no control trial.' }

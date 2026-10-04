@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Threading;
-using ThinkBookControl.Monitoring;
+using myFanControl.Monitoring;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class MainWindow : Window
 {

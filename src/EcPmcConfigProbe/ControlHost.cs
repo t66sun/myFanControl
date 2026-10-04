@@ -17,7 +17,7 @@ internal static class ControlHost
         var owned = false;
         int exitCode = 2;
         bool ready = false;
-        using var ownerMutex = new Mutex(false, @"Global\ThinkBookControl.21CX.RpmOwner");
+        using var ownerMutex = new Mutex(false, @"Global\myFanControl.21CX.RpmOwner");
         bool ownerAcquired = false;
         try
         {

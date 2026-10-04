@@ -1,4 +1,4 @@
-# ThinkBookControl
+# myFanControl
 
 面向 ThinkBook 14 G4+ IAP（21CX）的 Windows 风扇控制软件开发项目。
 
@@ -6,13 +6,13 @@
 
 ## 下载与运行
 
-下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `ThinkBookControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `ThinkBookControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
+下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `myFanControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `myFanControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
-本地保留最近三版 `artifacts/publish/ThinkBookControl-compact`、`ThinkBookControl-style-v2`、`ThinkBookControl-ui`；原 `ThinkBookControl` 基准成品已清理，历史诊断仍保留。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
+本地保留最近三版 `artifacts/publish/myFanControl-compact`、`myFanControl-style-v2`、`myFanControl-ui`；原 `myFanControl` 基准成品已清理，历史诊断仍保留。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
 
-精简版后端自检、27 项策略与离线 UI 检查已通过，十张离线截图位于 `artifacts/diagnostics/runtime-compact/ui`。新包正常启动/真实控制与窗口/托盘回归也已通过，报告为 `artifacts/diagnostics/runtime-compact-regression-20261004-062409-704/report.json`；实际睡眠验收仍延期。此前 UI 和美化版报告作为历史证据保留。
+精简版后端自检、27 项策略与离线 UI 检查已通过，十张离线截图位于 `artifacts/diagnostics/runtime-compact/ui`。重命名后的新包正常启动、真实控制与窗口/托盘回归也已通过，报告为 `artifacts/diagnostics/runtime-compact-regression-20261004-093634-605/report.json`；实际睡眠验收仍延期。此前 UI 和美化版报告作为历史证据保留。
 
 ## 只读诊断
 
@@ -20,7 +20,7 @@
 & .\scripts\Get-ThinkBookDiagnostics.ps1
 & .\scripts\Get-PawnIoAccess.ps1
 & .\scripts\Expand-AcpiTables.ps1
-& .\artifacts\publish\ThinkBookControl-compact\ThinkBookControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
+& .\artifacts\publish\myFanControl-compact\myFanControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
 ```
 
 诊断 JSON 包括逐轮温度、风扇读数、ecFanTelemetry 原始双读字节与身份/映射/恢复检查、设备标识、错误和启动时固件模式查询。界面显示查询取得的模式；CPU 温度与 RPM 可用性分别报告。退出码：0 表示每轮都有 CPU 绝对温度读数；2 表示 CPU 温度未持续取得；3 表示输出文件写入失败；64 表示参数错误。完整的采样和清理错误仍应查看 JSON，退出码不代表控制硬件已验证。
@@ -33,9 +33,9 @@
 
 ```powershell
 & .\scripts\Build.ps1
-& .\scripts\Publish-Product.ps1 -DirectoryName ThinkBookControl-new
-& .\scripts\Publish-Product.ps1 -DirectoryName ThinkBookControl-new-fd -FrameworkDependent
-& .\scripts\Package-Release.ps1 -Version 0.1.1 -SelfContainedDirectory ThinkBookControl-new -FrameworkDependentDirectory ThinkBookControl-new-fd
+& .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new
+& .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new-fd -FrameworkDependent
+& .\scripts\Package-Release.ps1 -Version 0.1.1 -SelfContainedDirectory myFanControl-new -FrameworkDependentDirectory myFanControl-new-fd
 ```
 
 发布脚本要求目标目录尚不存在，并自动恢复依赖。默认生成自包含包，`-FrameworkDependent` 生成不含 .NET 的轻量包。两个变体都将桌面与后端合并到同一根目录，只复用哈希相同的文件，遇到不同哈希冲突会停止。打包脚本同时生成两个 ZIP 和含两行校验值的 `SHA256SUMS.txt`；这是后续版本的固定交付标准。历史 `Build.ps1 -Publish` 仅生成桌面预览包。

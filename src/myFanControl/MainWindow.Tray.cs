@@ -1,4 +1,4 @@
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class MainWindow
 {

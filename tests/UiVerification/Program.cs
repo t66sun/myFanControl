@@ -12,9 +12,9 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using FanControl.Core;
 using Microsoft.Win32;
-using ThinkBookControl;
-using ThinkBookControl.Editing;
-using ThinkBookControl.Monitoring;
+using myFanControl;
+using myFanControl.Editing;
+using myFanControl.Monitoring;
 
 internal static class Program
 {

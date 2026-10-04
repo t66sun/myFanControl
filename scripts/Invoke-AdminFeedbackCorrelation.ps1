@@ -4,7 +4,7 @@ $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
 $taskDir=Join-Path $taskRoot 'artifacts/diagnostics'
 $taskFeedbackExe=Join-Path $taskRoot 'artifacts/publish/EcFeedbackProbe/EcFeedbackProbe.exe'
-$taskTempExe=Join-Path $taskRoot 'artifacts/publish/ThinkBookControl-preview/ThinkBookControl.exe'
+$taskTempExe=Join-Path $taskRoot 'artifacts/publish/myFanControl-preview/myFanControl.exe'
 $taskFeedback=Join-Path $taskDir 'ec-feedback-mode-correlation.json'
 $taskTemp=Join-Path $taskDir 'temperature-admin-correlation.json'
 $taskModes=Join-Path $taskDir 'thermal-mode-correlation.json'
@@ -24,7 +24,7 @@ if(-not $taskAdmin){throw 'This worker must already be elevated; it never reques
 $taskBios=Get-ItemProperty -LiteralPath 'HKLM:\HARDWARE\DESCRIPTION\System\BIOS'
 if($taskBios.SystemProductName -ne '21CX' -or $taskBios.BIOSVersion -ne 'HYCN42WW'){throw 'Unsupported machine/BIOS.'}
 $taskFeedbackHash=(Get-FileHash -LiteralPath (Join-Path $taskRoot 'artifacts/publish/EcFeedbackProbe/EcFeedbackProbe.dll') -Algorithm SHA256).Hash
-$taskTempHash=(Get-FileHash -LiteralPath (Join-Path $taskRoot 'artifacts/publish/ThinkBookControl-preview/ThinkBookControl.dll') -Algorithm SHA256).Hash
+$taskTempHash=(Get-FileHash -LiteralPath (Join-Path $taskRoot 'artifacts/publish/myFanControl-preview/myFanControl.dll') -Algorithm SHA256).Hash
 if($taskFeedbackHash -ne '00E5020C9832D3D28D0CA8666EB60A43E648D92B0BFFC1DDC37F00CBDC16A64F' -or $taskTempHash -ne 'CB5A83ED63AEC20C11A867FE8BD5058AAF4D252E37BBA4FA5A6A96977925AB6D'){throw 'Unchecked binary; no experiment.'}
 $taskOutputStream=[IO.File]::Open($taskReport,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
 $taskErrors=[Collections.Generic.List[string]]::new()

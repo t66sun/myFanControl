@@ -12,7 +12,7 @@ try {
  if($taskPath -ne '\SystemRoot\System32\DriverStore\FileRepository\pawnio.inf_amd64_a72a2f969b8b7496\PawnIO.sys' -or (Get-Service PawnIO).Status -ne 'Running'){throw 'Original driver baseline mismatch.'}
  $taskReport.DriverPath=$taskPath
  $taskTemperatureFile=Join-Path $taskDir 'temperature-before-trial.json'
- $taskTemperatureProcess=Start-Process -FilePath (Join-Path $taskRoot 'artifacts/publish/ThinkBookControl-preview/ThinkBookControl.exe') -ArgumentList @('--probe','--samples','3','--output',('"'+$taskTemperatureFile+'"')) -WindowStyle Hidden -Wait -PassThru
+ $taskTemperatureProcess=Start-Process -FilePath (Join-Path $taskRoot 'artifacts/publish/myFanControl-preview/myFanControl.exe') -ArgumentList @('--probe','--samples','3','--output',('"'+$taskTemperatureFile+'"')) -WindowStyle Hidden -Wait -PassThru
  if($taskTemperatureProcess.ExitCode -ne 0){throw 'Temperature probe failed.'}
  $taskTemperature=Get-Content -LiteralPath $taskTemperatureFile -Raw | ConvertFrom-Json
  $taskCpuReadings=@($taskTemperature.samples | ForEach-Object {$_.temperatures} | Where-Object {$_.hardwareType -eq 'Cpu'})

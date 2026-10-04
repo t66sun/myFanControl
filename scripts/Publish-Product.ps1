@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$DirectoryName='ThinkBookControl',
+    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$DirectoryName='myFanControl',
     [switch]$FrameworkDependent
 )
 $ErrorActionPreference='Stop'
@@ -13,11 +13,11 @@ $taskSelfContained=if($FrameworkDependent){'false'}else{'true'}
 $taskOutput=Join-Path $taskRoot ('artifacts/publish/'+$DirectoryName)
 if(Test-Path -LiteralPath $taskOutput){throw 'Publish to a new directory to avoid retaining files from an older package.'}
 $taskHostOutput=Join-Path $taskOutput '_host-publish'
-foreach($taskProject in @('src/ThinkBookControl/ThinkBookControl.csproj','src/EcPmcConfigProbe/EcPmcConfigProbe.csproj')){
+foreach($taskProject in @('src/myFanControl/myFanControl.csproj','src/EcPmcConfigProbe/EcPmcConfigProbe.csproj')){
     & $taskDotnet restore (Join-Path $taskRoot $taskProject) --configfile $taskConfig -r win-x64 -p:SelfContained=$taskSelfContained
     if($LASTEXITCODE -ne 0){throw ('Restore failed: '+$taskProject)}
 }
-& $taskDotnet publish (Join-Path $taskRoot 'src/ThinkBookControl/ThinkBookControl.csproj') -c Release -r win-x64 --self-contained $taskSelfContained --no-restore -o $taskOutput
+& $taskDotnet publish (Join-Path $taskRoot 'src/myFanControl/myFanControl.csproj') -c Release -r win-x64 --self-contained $taskSelfContained --no-restore -o $taskOutput
 if($LASTEXITCODE -ne 0){throw 'Desktop product publish failed.'}
 & $taskDotnet publish (Join-Path $taskRoot 'src/EcPmcConfigProbe/EcPmcConfigProbe.csproj') -c Release -r win-x64 --self-contained $taskSelfContained --no-restore -o $taskHostOutput
 if($LASTEXITCODE -ne 0){throw 'Control host publish failed.'}
@@ -37,4 +37,4 @@ $taskResolvedHost=(Resolve-Path -LiteralPath $taskHostOutput).Path
 if([IO.Path]::GetDirectoryName($taskResolvedHost) -ne $taskResolvedOutput -or [IO.Path]::GetFileName($taskResolvedHost) -ne '_host-publish'){throw 'Invalid temporary publish directory.'}
 Remove-Item -LiteralPath $taskResolvedHost -Recurse -Force
 Copy-Item -LiteralPath (Join-Path $taskRoot 'PRODUCT_README.md') -Destination (Join-Path $taskOutput 'README.md') -Force
-Get-FileHash -LiteralPath (Join-Path $taskOutput 'ThinkBookControl.dll'),(Join-Path $taskOutput 'EcPmcConfigProbe.dll') -Algorithm SHA256
+Get-FileHash -LiteralPath (Join-Path $taskOutput 'myFanControl.dll'),(Join-Path $taskOutput 'EcPmcConfigProbe.dll') -Algorithm SHA256

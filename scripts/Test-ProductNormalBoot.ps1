@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param([ValidatePattern('^[A-Za-z0-9-]+$')][string]$DirectoryName='ThinkBookControl')
+param([ValidatePattern('^[A-Za-z0-9-]+$')][string]$DirectoryName='myFanControl')
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
 $taskPrincipal=[Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -25,7 +25,7 @@ public static class ThinkBookFinalBoot {
  if($taskPath -ne '\SystemRoot\System32\DriverStore\FileRepository\pawnio.inf_amd64_a72a2f969b8b7496\PawnIO.sys' -or (Get-Service PawnIO).Status -ne 'Running'){throw 'Original driver baseline differs.'}
  if((Get-FileHash -LiteralPath (Join-Path $env:SystemRoot $taskPath.Substring(12))).Hash -ne 'FCA6E7D58B0CF38DBB913A2B9E532F48629145D395F454B16A9F58E97B8D3940'){throw 'Original driver hash mismatch.'}
  $taskReport.NormalBootVerified=$true
- $taskExe=Join-Path $taskRoot ('artifacts/publish/'+$DirectoryName+'/ThinkBookControl.exe')
+ $taskExe=Join-Path $taskRoot ('artifacts/publish/'+$DirectoryName+'/myFanControl.exe')
  $taskOutput=Join-Path $taskDir 'control-product.json'
  $taskProcess=Start-Process -FilePath $taskExe -ArgumentList @('--control-test','--output',('"'+$taskOutput+'"')) -WindowStyle Hidden -Wait -PassThru
  if($taskProcess.ExitCode -ne 0 -or -not (Get-Content -LiteralPath $taskOutput -Raw | ConvertFrom-Json).Succeeded){throw 'Normal boot product control verification failed.'}

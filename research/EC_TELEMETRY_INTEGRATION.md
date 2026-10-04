@@ -12,4 +12,4 @@ WPF 在保守客户区 684×580、544×540 下用实际普通权限 JSON 渲染�
 
 该检查证明这次管理员应用采样，不证明独立物理校准、跨睡眠持续采样或手动调速。
 
-发布文件：`artifacts/publish/ThinkBookControl-preview/ThinkBookControl.exe`。哈希和检查状态见 [ec-telemetry-integration-verification.json](ec-telemetry-integration-verification.json)。NuGet 漏洞元数据无法访问，未完成该项检查。应用保持 asInvoker，不改变散热模式或手动风扇目标。完整调速目标仍未完成。
+发布文件：`artifacts/publish/myFanControl-preview/myFanControl.exe`。哈希和检查状态见 [ec-telemetry-integration-verification.json](ec-telemetry-integration-verification.json)。NuGet 漏洞元数据无法访问，未完成该项检查。应用保持 asInvoker，不改变散热模式或手动风扇目标。完整调速目标仍未完成。

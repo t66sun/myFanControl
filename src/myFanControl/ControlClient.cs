@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.Json;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 /// <summary>The separate host releases RPM overrides when stdin closes or heartbeats stop.</summary>
 internal sealed class ControlClient : IAsyncDisposable

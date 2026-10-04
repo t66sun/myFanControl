@@ -1,8 +1,8 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version,
-    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$SelfContainedDirectory='ThinkBookControl-compact',
-    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$FrameworkDependentDirectory='ThinkBookControl-framework-dependent'
+    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$SelfContainedDirectory='myFanControl-compact',
+    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$FrameworkDependentDirectory='myFanControl-framework-dependent'
 )
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
@@ -11,8 +11,8 @@ New-Item -ItemType Directory -Path $taskReleaseDirectory -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $taskPackages=@(
-    [pscustomobject]@{Directory=$SelfContainedDirectory;Name=('ThinkBookControl-v'+$Version+'-win-x64.zip');SelfContained=$true},
-    [pscustomobject]@{Directory=$FrameworkDependentDirectory;Name=('ThinkBookControl-v'+$Version+'-win-x64-framework-dependent.zip');SelfContained=$false}
+    [pscustomobject]@{Directory=$SelfContainedDirectory;Name=('myFanControl-v'+$Version+'-win-x64.zip');SelfContained=$true},
+    [pscustomobject]@{Directory=$FrameworkDependentDirectory;Name=('myFanControl-v'+$Version+'-win-x64-framework-dependent.zip');SelfContained=$false}
 )
 $taskResults=@()
 foreach($taskPackage in $taskPackages){
@@ -24,16 +24,16 @@ foreach($taskPackage in $taskPackages){
     try{
         foreach($taskFile in $taskFiles){
             $taskRelative=[IO.Path]::GetRelativePath($taskSource,$taskFile.FullName).Replace('\','/')
-            [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($taskArchive,$taskFile.FullName,('ThinkBookControl/'+$taskRelative),[IO.Compression.CompressionLevel]::Optimal)|Out-Null
+            [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($taskArchive,$taskFile.FullName,('myFanControl/'+$taskRelative),[IO.Compression.CompressionLevel]::Optimal)|Out-Null
         }
     }finally{$taskArchive.Dispose()}
     $taskCheck=[IO.Compression.ZipFile]::OpenRead($taskArchivePath)
     try{
-        foreach($taskRequired in @('ThinkBookControl/ThinkBookControl.exe','ThinkBookControl/ThinkBookControl.dll','ThinkBookControl/EcPmcConfigProbe.exe','ThinkBookControl/README.md')){
+        foreach($taskRequired in @('myFanControl/myFanControl.exe','myFanControl/myFanControl.dll','myFanControl/EcPmcConfigProbe.exe','myFanControl/README.md')){
             if($null -eq $taskCheck.GetEntry($taskRequired)){throw ('Archive missing '+$taskRequired)}
         }
-        if($null -ne $taskCheck.GetEntry('ThinkBookControl/control-settings.json')){throw 'Archive includes personal settings.'}
-        if(-not @($taskCheck.Entries|Where-Object {$_.FullName.StartsWith('ThinkBookControl/licenses/')}).Count){throw 'Archive missing licenses.'}
+        if($null -ne $taskCheck.GetEntry('myFanControl/control-settings.json')){throw 'Archive includes personal settings.'}
+        if(-not @($taskCheck.Entries|Where-Object {$_.FullName.StartsWith('myFanControl/licenses/')}).Count){throw 'Archive missing licenses.'}
         $taskRuntimeCount=@($taskCheck.Entries|Where-Object {$_.Name -eq 'System.Private.CoreLib.dll'}).Count
         if($taskPackage.SelfContained -and $taskRuntimeCount -ne 1){throw 'Self-contained archive must contain exactly one runtime.'}
         if(-not $taskPackage.SelfContained -and $taskRuntimeCount -ne 0){throw 'Framework-dependent archive contains a bundled runtime.'}

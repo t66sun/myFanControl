@@ -1,8 +1,8 @@
-ThinkBookControl optionally embeds and loads the existing signed PawnIO LpcIO module for read-only EC telemetry on the validated Lenovo 21CX / HYCN42WW profile.
+myFanControl optionally embeds and loads the existing signed PawnIO LpcIO module for read-only EC telemetry on the validated Lenovo 21CX / HYCN42WW profile.
 Module SHA256: b3896a1cab0d808fca31fe2ebcae045d59dac690da87b17c858bb8da357eb45e
 Binary source: LibreHardwareMonitor repository commit 677a3a56abde9adff5abdb42db3a7638c9137572, Resources/PawnIo/LpcIO.bin
 Official module sources: https://github.com/namazso/PawnIO.Modules
 Reviewed source checkout: 52a7e536dff3e53c96917a28caac5e0fa6510696 (the binary build commit has not been established).
 Module copyright: namazso; license LGPL-2.1-or-later. See PawnIO-Modules-LGPL-2.1.txt.
-ThinkBookControl does not install or update the PawnIO driver, does not request elevation, and accesses only the measured EC report window. The driver must already exist and the process must already be elevated.
+myFanControl does not install or update the PawnIO driver, does not request elevation, and accesses only the measured EC report window. The driver must already exist and the process must already be elevated.
 Reported RPM values are firmware EC reports; independent physical RPM measurement and arbitrary fan-speed control are not verified.

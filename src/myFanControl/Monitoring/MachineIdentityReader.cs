@@ -1,6 +1,6 @@
 using Microsoft.Win32;
 
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record MachineIdentity(
     string? Manufacturer,

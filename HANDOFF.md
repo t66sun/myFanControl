@@ -1,29 +1,29 @@
-# ThinkBookControl 开发交接
+# myFanControl 开发交接
 
 更新日期：2026-10-04。面向接手 UI 迭代、验证与后续开发的人。
 
 ## 当前发行：v0.1.1 运行时精简版
 
-从 v0.1.1 起，每个 GitHub Release 固定交付两个 Windows x64 ZIP：`ThinkBookControl-v<版本>-win-x64.zip` 为自包含包，`ThinkBookControl-v<版本>-win-x64-framework-dependent.zip` 为不含 .NET 的轻量包。两包功能、业务 DLL、独立后端、中文资源和许可证一致；轻量包要求目标系统安装同版本 Microsoft Windows Desktop Runtime x64。v0.1.1 两包分别约 69.79 MiB 与 2.33 MiB。`scripts/Package-Release.ps1` 必须一次生成两个 ZIP 与同时覆盖两者的 `SHA256SUMS.txt`。
+从 v0.1.1 起，每个 GitHub Release 固定交付两个 Windows x64 ZIP：`myFanControl-v<版本>-win-x64.zip` 为自包含包，`myFanControl-v<版本>-win-x64-framework-dependent.zip` 为不含 .NET 的轻量包。两包功能、业务 DLL、独立后端、中文资源和许可证一致；轻量包要求目标系统安装同版本 Microsoft Windows Desktop Runtime x64。v0.1.1 两包分别约 69.79 MiB 与 2.33 MiB。`scripts/Package-Release.ps1` 必须一次生成两个 ZIP 与同时覆盖两者的 `SHA256SUMS.txt`。
 
-最新版为 `artifacts/publish/ThinkBookControl-compact/ThinkBookControl.exe`。桌面和 `EcPmcConfigProbe.exe` 同在根目录，仍为独立进程，共享一套 .NET 10.0.12 WindowsDesktop 自包含运行时。后端显式引用相同桌面框架，避免 Microsoft.VisualBasic.dll、System.Drawing.dll、WindowsBase.dll 的桌面/普通运行时差异；发布脚本只合并哈希相同的重名文件，其他冲突停止。两个项目仅保留 `zh-Hans`、`zh-Hant` 卫星资源。界面功能、控制策略、通信与恢复流程未修改。
+最新版为 `artifacts/publish/myFanControl-compact/myFanControl.exe`。桌面和 `EcPmcConfigProbe.exe` 同在根目录，仍为独立进程，共享一套 .NET 10.0.12 WindowsDesktop 自包含运行时。后端显式引用相同桌面框架，避免 Microsoft.VisualBasic.dll、System.Drawing.dll、WindowsBase.dll 的桌面/普通运行时差异；发布脚本只合并哈希相同的重名文件，其他冲突停止。两个项目仅保留 `zh-Hans`、`zh-Hant` 卫星资源。界面功能、控制策略、通信与恢复流程未修改。
 
 ZIP 从 109.96 MiB 降至约 69.79 MiB（减少 36.5%），解压体积从约 253.19 MiB 降至 161.92 MiB，文件从 685 个降至 310 个。仍无需另装 .NET，许可证与第三方依赖完整保留；公开 ZIP 排除个人配置，校验以 Release 的 `SHA256SUMS.txt` 为准。升级需解压到新目录，再复制旧配置，避免残留旧运行时和语言文件。
 
-验证：Release 发布成功，后端 `--self-check`、27 项控制策略检查、离线 UI 回归通过。十张默认/最小尺寸与 100%/150%/200% 离线渲染、手动/错误/对话框截图在 `artifacts/diagnostics/runtime-compact/ui`；汇总在 `artifacts/diagnostics/runtime-compact/verification-summary.json`。本机报告 `artifacts/diagnostics/product-normal-boot-20261004-062410-080/report.json` 的 NormalBootVerified / ProductControlVerified 为 true；控制报告验证手动、曲线、温度失效及 EOF/心跳超时/父进程退出恢复。窗口报告 `artifacts/diagnostics/runtime-compact-regression-20261004-062409-704/window-product.json` 的 Succeeded / CloseHidden / ShownFromTray / ExplicitlyExited 为 true，隐藏 12 秒后目标仍为 36/38，真正退出后 C/D/E/F 全零。实际 Modern Standby 睡眠验收仍按用户安排延期，后续使用精简包 `--sleep-test` 人工睡眠约 20 秒再唤醒。
+验证：Release 发布成功，后端 `--self-check`、27 项控制策略检查、离线 UI 回归通过。十张默认/最小尺寸与 100%/150%/200% 离线渲染、手动/错误/对话框截图在 `artifacts/diagnostics/runtime-compact/ui`；汇总在 `artifacts/diagnostics/runtime-compact/verification-summary.json`。重命名后本机报告 `artifacts/diagnostics/product-normal-boot-20261004-093635-043/report.json` 的 NormalBootVerified / ProductControlVerified 为 true；控制报告验证手动、曲线、温度失效及 EOF/心跳超时/父进程退出恢复。窗口报告 `artifacts/diagnostics/runtime-compact-regression-20261004-093634-605/window-product.json` 的 Succeeded / CloseHidden / ShownFromTray / ExplicitlyExited 为 true，隐藏 12 秒后目标仍为 36/38，真正退出后 C/D/E/F 全零。实际 Modern Standby 睡眠验收仍按用户安排延期，后续使用精简包 `--sleep-test` 人工睡眠约 20 秒再唤醒。
 
-当前仅保留三版成品 `ThinkBookControl-compact`、`ThinkBookControl-style-v2`、`ThinkBookControl-ui`；原 `ThinkBookControl` 及更早成品已永久删除，诊断报告保留。GitHub 按发布时间保留最近三版。新发布必须选不存在的目录：`scripts/Publish-Product.ps1 -DirectoryName ThinkBookControl-new`，此前先 restore 两个项目的 win-x64 自包含依赖，详见 README。发布脚本临时 `_host-publish` 合并后删除，成品没有 `control-host` 子目录。
+当前仅保留三版成品 `myFanControl-compact`、`myFanControl-style-v2`、`myFanControl-ui`；原 `myFanControl` 及更早成品已永久删除，诊断报告保留。GitHub 按发布时间保留最近三版。新发布必须选不存在的目录：`scripts/Publish-Product.ps1 -DirectoryName myFanControl-new`，此前先 restore 两个项目的 win-x64 自包含依赖，详见 README。发布脚本临时 `_host-publish` 合并后删除，成品没有 `control-host` 子目录。
 
-精简包 DLL SHA256：桌面 `309E51D2A498253064E95F6BDB24E77EA9049D5ED0508E51FD05BE9471C5BE9A`；后端 `E964408D07E4C7E977B2B60ABFEE387DA89421455385B773F7173BB8CB3AA5E1`。
+精简包 DLL SHA256：桌面 `8F54086A3CFC181E83437FEEB38ACD9DF97EC8E8E35DE3CD61E6B79FE0F558E8`；后端 `FE2BE87C84B109AA7D148E7E129C080ED4AEF59A322727FD25C4805B6D2C6F0E`。
 
 ## 历史 UI 与控制交接记录
 
 以下包路径、哈希、构建和睡眠记录分别对应历史版本；已删除的成品路径仅用于说明报告来源。当前发布方式与验收以上节为准。
 
 
-历史 v0.1.0 保留规则：当时仅保留 `ThinkBookControl-style-v2`、`ThinkBookControl-ui`、`ThinkBookControl`。`ThinkBookControl-preview`、`ThinkBookControl-control` 和 `ThinkBookControl-modern-standby` 旧成品目录已永久清理；其历史诊断记录仍用于追溯。`Ec*Probe` 目录属于诊断工具，不计入软件的三个发行版本。GitHub Releases 同样按发布时间保留最近三版；当前首次公开发行标记为 `v0.1.0`，ZIP 包含完整运行依赖与许可证，排除个人配置。首次 GitHub 发行为已验收美化版的打包，不重新触发硬件控制验收。
+历史 v0.1.0 保留规则：当时仅保留 `myFanControl-style-v2`、`myFanControl-ui`、`myFanControl`。`myFanControl-preview`、`myFanControl-control` 和 `myFanControl-modern-standby` 旧成品目录已永久清理；其历史诊断记录仍用于追溯。`Ec*Probe` 目录属于诊断工具，不计入软件的三个发行版本。GitHub Releases 同样按发布时间保留最近三版；当前首次公开发行标记为 `v0.1.0`，ZIP 包含完整运行依赖与许可证，排除个人配置。首次 GitHub 发行为已验收美化版的打包，不重新触发硬件控制验收。
 
-历史视觉美化版：`artifacts/publish/ThinkBookControl-style-v2/ThinkBookControl.exe`。本次只调整 `MainWindow.xaml`、新增 `Styles/VisualTheme.xaml`、曲线绘制外观，以及两个自建对话框共享样式资源；未修改控制策略、后端、配置和生命周期逻辑。默认 960×760、最小 800×640，仍使用蓝/橙区分风扇 1/2，主要操作固定在底部。
+历史视觉美化版：`artifacts/publish/myFanControl-style-v2/myFanControl.exe`。本次只调整 `MainWindow.xaml`、新增 `Styles/VisualTheme.xaml`、曲线绘制外观，以及两个自建对话框共享样式资源；未修改控制策略、后端、配置和生命周期逻辑。默认 960×760、最小 800×640，仍使用蓝/橙区分风扇 1/2，主要操作固定在底部。
 
 本版验证：`artifacts/diagnostics/ui-style-v2/verification.log` 离线 UI 回归通过；同目录 `control-policy.log` 为 27 项通过，`publish.log` 为 Release 自包含发布成功。十张截图涵盖默认/最小尺寸 100%/150%/200% 离线渲染、手动页、行校验错误、预设命名及未保存修改对话框；实体屏幕 DPI 切换与本机硬件回归本次未重测，实际睡眠验收仍延期。当时上一版 UI 与原始包均保留；原始包现已按三版规则删除。
 
@@ -33,13 +33,13 @@ ZIP 从 109.96 MiB 降至约 69.79 MiB（减少 36.5%），解压体积从约 25
 
 2026-10-03 旧版基准包已交付可在本机正常 Windows 11 启动模式下实际调速的 WPF 软件。双路手动控制、真实 CPU 温度曲线、异常恢复、关窗退出和实际 Modern Standby 睡眠唤醒均有旧版实测记录。测试签名已关闭；HVCI（内存完整性）和驱动阻止列表保持开启。继续 UI 开发无需重新开启测试签名或切换开发驱动。
 
-本轮 UI 改造围绕本机自用、图形双路曲线和命名预设，采用中文浅色 Windows 工具样式。`ThinkBookControl-ui` 已完成 Release 自包含发布；离线 UI 检查、六张渲染截图视觉检查和 27 项控制策略检查已通过。本机正常启动、真实控制与新版窗口/托盘验收均通过，报告见第 6 节；用户明确本轮先交付，实际睡眠验收延期。旧版睡眠实测结果不代替新版睡眠验收。
+本轮 UI 改造围绕本机自用、图形双路曲线和命名预设，采用中文浅色 Windows 工具样式。`myFanControl-ui` 已完成 Release 自包含发布；离线 UI 检查、六张渲染截图视觉检查和 27 项控制策略检查已通过。本机正常启动、真实控制与新版窗口/托盘验收均通过，报告见第 6 节；用户明确本轮先交付，实际睡眠验收延期。旧版睡眠实测结果不代替新版睡眠验收。
 
 当前只确认支持 **ThinkBook 14 G4+ IAP / 机器类型 21CX / BIOS HYCN42WW / Intel i5-12500H**，即用户的中国发售 2022 年机型。其他型号、BIOS 和干净系统的驱动安装流程尚未验收。
 
 - 工作区：`C:\dev\myfancontrol`
-- 旧版已验收包：`artifacts/publish/ThinkBookControl/ThinkBookControl.exe`，现已按三版规则删除
-- 本轮 UI 发布包：`artifacts/publish/ThinkBookControl-ui/ThinkBookControl.exe`
+- 旧版已验收包：`artifacts/publish/myFanControl/myFanControl.exe`，现已按三版规则删除
+- 本轮 UI 发布包：`artifacts/publish/myFanControl-ui/myFanControl.exe`
 - 本轮离线证据：`artifacts/diagnostics/ui-redesign-offline` 中的日志与六张截图
 - 本轮本机总报告：[report.json](artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/report.json)
 - 使用说明：[PRODUCT_README.md](PRODUCT_README.md)
@@ -84,7 +84,7 @@ WPF MainWindow
 
 | 文件/目录 | 责任及接手提示 |
 | --- | --- |
-| `src/ThinkBookControl/MainWindow.xaml` | 浅色布局、实时摘要、曲线/手动页、折叠详情与固定操作区 |
+| `src/myFanControl/MainWindow.xaml` | 浅色布局、实时摘要、曲线/手动页、折叠详情与固定操作区 |
 | `MainWindow.xaml.cs` | 监控循环、摘要与详情展示、真正关闭后的资源释放 |
 | `MainWindow.Editor.cs`、`Editing/` | 双路节点草稿、校验、命名预设与未保存修改处理 |
 | `Controls/CurveEditor.cs` | 同图两路映射绘制、一路选择与节点拖拽，不访问硬件 |
@@ -99,7 +99,7 @@ WPF MainWindow
 | `src/EcPmcConfigProbe/ControlHost.cs` | 后端所有权、身份门禁、命令处理、心跳/父进程恢复 |
 | `FixedRpmOverrideWriter.cs` | 固定硬件字段写入与选择器恢复 |
 | `FanOverrideBaselineReader.cs` | 双快照、身份核验及零覆盖读取 |
-| `src/ThinkBookControl/Diagnostics/` | 产品共用流程的实际控制、关窗、睡眠验收 |
+| `src/myFanControl/Diagnostics/` | 产品共用流程的实际控制、关窗、睡眠验收 |
 
 当前使用 code-behind 与 partial class，没有完整 MVVM 分层。保持异步控制入口：`ApplyManualAsync`、`ApplyCurvesAsync`、`RestoreFirmwareAsync`、`ProcessControlSnapshotAsync`、`StopControlAsync`。显式退出统一调用 `RequestExitAsync`；`BeginSessionEnding` 处理无对话框、无等待的系统退出清理，`ShowFromTray` 供托盘和诊断恢复窗口。控制操作由 `_controlGate` 串行化，后台采样通过 Dispatcher 更新 WPF。新编辑器、图表和托盘不直接写硬件。
 
@@ -111,7 +111,7 @@ WPF MainWindow
 
 - 仅设置 `080C` / `080D`：两路目标 RPM，以 100 RPM 为单位；`0` 解除 RPM 覆盖。产品不写 `080E` / `080F` PWM 覆盖。
 - EC 身份为 `5571`、映射 `1060=00`，机型/BIOS、管理员身份及模块固定哈希均检查。
-- `Global\ThinkBookControl.21CX.RpmOwner` 保证单个控制所有者；底层访问使用全局 ISA 互斥。
+- `Global\myFanControl.21CX.RpmOwner` 保证单个控制所有者；底层访问使用全局 ISA 互斥。
 - 初始化要求一致且零覆盖的基线。仅“双快照变化、身份/选择器恢复正常、两份覆盖均零”允许最多八次只读重试；其他失败立即停止。
 - 只有命令成功确认后才更新 `AppliedControl`，不能把拟请求值当成已成功应用值。
 - 后端独立监视父进程 PID 与启动时间、stdin EOF、UTC 心跳间隔。超过 10 秒无心跳或父进程退出会清除两路覆盖。
@@ -140,11 +140,11 @@ UI 开发应通过 `ControlClient` 使用接口；不需要手工启动后端做
 Set-Location C:\dev\myfancontrol
 $env:DOTNET_CLI_HOME = Join-Path $PWD '.tools/cli-home'
 $env:NUGET_PACKAGES = Join-Path $PWD '.tools/nuget-packages'
-& .tools/dotnet/dotnet.exe build src/ThinkBookControl/ThinkBookControl.csproj -c Release --no-restore
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/Publish-Product.ps1 -DirectoryName ThinkBookControl-ui
+& .tools/dotnet/dotnet.exe build src/myFanControl/myFanControl.csproj -c Release --no-restore
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/Publish-Product.ps1 -DirectoryName myFanControl-ui
 ```
 
-本轮固定发布到 `ThinkBookControl-ui` 新目录，保留 `ThinkBookControl` 旧版已验收包用于对照。发布脚本同时生成桌面和 `control-host`，复制 README 与许可证，打印 DLL 哈希；`win-x64` 自包含，无需另装 .NET 运行时。真实运行 EXE 的 manifest 要求管理员，会弹 UAC。
+本轮固定发布到 `myFanControl-ui` 新目录，保留 `myFanControl` 旧版已验收包用于对照。发布脚本同时生成桌面和 `control-host`，复制 README 与许可证，打印 DLL 哈希；`win-x64` 自包含，无需另装 .NET 运行时。真实运行 EXE 的 manifest 要求管理员，会弹 UAC。
 
 复制整个发布目录，不要只复制 EXE。不要覆盖正在运行的软件目录。新机器接手时 `.tools` 缓存不一定齐全，应准备 .NET 10 SDK 并按项目恢复依赖；构建还依赖保留的上游 `LpcIO.bin` 和 `artifacts/pawn-modules/*.bin` 嵌入资源。不要只移交桌面源码子目录。
 
@@ -153,7 +153,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/Publish-Product.
 本轮 UI 发布包 SHA256：
 
 ```text
-ThinkBookControl.dll  AF0ACE266F0C218714A99915A7D15BA30103910440B73FF2461E01D7C469F706
+myFanControl.dll  AF0ACE266F0C218714A99915A7D15BA30103910440B73FF2461E01D7C469F706
 EcPmcConfigProbe.dll  2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60
 ```
 
@@ -175,21 +175,21 @@ UI 检查读取保存的采样数据，验证新摘要、编辑/预设与草稿�
 改动控制策略时检查纯计算用例；改动硬件后端时再运行其无硬件自检：
 
 ```powershell
-& artifacts/publish/ThinkBookControl-ui/control-host/EcPmcConfigProbe.exe --self-check
+& artifacts/publish/myFanControl-ui/control-host/EcPmcConfigProbe.exe --self-check
 ```
 
 本轮正常启动/控制验收可显式选择新包。在目标机管理员 PowerShell 运行：
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/Test-ProductNormalBoot.ps1 -DirectoryName ThinkBookControl-ui
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/Test-ProductNormalBoot.ps1 -DirectoryName myFanControl-ui
 ```
 
-它验证非测试启动、HVCI、阻止列表和原驱动，再实际执行两组手动目标、CPU 温度曲线、温度失效、EOF、心跳超时和父进程退出恢复。`-DirectoryName` 默认仍为旧 `ThinkBookControl` 目录以兼容旧调用；本轮须明确指定 `ThinkBookControl-ui`，报告的 `ProductDirectory` 记录目标包。本轮报告 `artifacts/diagnostics/product-normal-boot-20261004-050337-871/report.json` 的 NormalBootVerified / ProductControlVerified 均 true、Error=null、CI=00003401，同目录 `control-product.json` 的 Succeeded=true、Errors=[]。
+它验证非测试启动、HVCI、阻止列表和原驱动，再实际执行两组手动目标、CPU 温度曲线、温度失效、EOF、心跳超时和父进程退出恢复。`-DirectoryName` 默认仍为旧 `myFanControl` 目录以兼容旧调用；本轮须明确指定 `myFanControl-ui`，报告的 `ProductDirectory` 记录目标包。本轮报告 `artifacts/diagnostics/product-normal-boot-20261004-050337-871/report.json` 的 NormalBootVerified / ProductControlVerified 均 true、Error=null、CI=00003401，同目录 `control-product.json` 的 Succeeded=true、Errors=[]。
 
 窗口验收也直接指定新包。确认旧版与新版都已从托盘真正退出，再运行：
 
 ```powershell
-$taskUiExe = Join-Path $PWD 'artifacts/publish/ThinkBookControl-ui/ThinkBookControl.exe'
+$taskUiExe = Join-Path $PWD 'artifacts/publish/myFanControl-ui/myFanControl.exe'
 $taskWindowJson = Join-Path $PWD ('artifacts/diagnostics/ui-window-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '.json')
 & $taskUiExe --window-test --output $taskWindowJson
 ```
@@ -215,7 +215,7 @@ $taskSleepJson = Join-Path $PWD ('artifacts/diagnostics/ui-sleep-' + (Get-Date -
 | 纯控制策略 | 27 项通过，`ui-redesign-offline/control-policy.log` |
 | 离线 UI、编辑、配置、键盘、托盘与合成电源消息 | Release 运行退出码 0，`ui-redesign-offline/verification.log` |
 | 默认/最小窗口与六张缩放图像 | 已视觉检查，`ui-default/minimum-{100,150,200}.png`；属于离线渲染，未实测实体屏幕 DPI 切换 |
-| 新包正常启动与产品控制 | 已通过，`product-normal-boot-20261004-050337-871/report.json` 与同目录 `control-product.json`，目标目录 `ThinkBookControl-ui` |
+| 新包正常启动与产品控制 | 已通过，`product-normal-boot-20261004-050337-871/report.json` 与同目录 `control-product.json`，目标目录 `myFanControl-ui` |
 | 新包窗口/托盘持续控制与显式退出恢复 | 已通过，`ui-redesign-regression-20261004-050337-438/window-product.json`，隐藏 12 秒仍保持目标，退出后覆盖为零 |
 | 新包真实 Modern Standby 睡眠唤醒 | 用户决定延期，后续由人触发并补 JSON |
 
@@ -235,7 +235,7 @@ $taskSleepJson = Join-Path $PWD ('artifacts/diagnostics/ui-sleep-' + (Get-Date -
 旧版已验收包 SHA256（不能用于识别本轮 UI 包）：
 
 ```text
-ThinkBookControl.dll  5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD
+myFanControl.dll  5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD
 EcPmcConfigProbe.dll  2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60
 ```
 
@@ -251,4 +251,4 @@ UI 阶段不必重复 PMC 协议探索、开发驱动切换或 BIOS 固件分析
 
 ## 8. 给接手者的起始任务
 
-接手首项是本轮延期的真实睡眠验收：使用 `ThinkBookControl-ui` 的 `--sleep-test`，待诊断就绪后人工睡眠约 20 秒并唤醒，核验零覆盖、固件控制、窗口/托盘可用和未自动接管，补充新版 JSON 与结果。先阅读编辑器、控制、托盘、生命周期和电源 partial 文件，保持当前草稿/保存/应用语义及系统退出处理。离线 UI、策略、发布、真实控制与新版窗口/托盘证据已经记录，无新代码改动时无需重复构建或整轮控制验收；保留旧版基准包、本轮发布包和报告。
+接手首项是本轮延期的真实睡眠验收：使用 `myFanControl-ui` 的 `--sleep-test`，待诊断就绪后人工睡眠约 20 秒并唤醒，核验零覆盖、固件控制、窗口/托盘可用和未自动接管，补充新版 JSON 与结果。先阅读编辑器、控制、托盘、生命周期和电源 partial 文件，保持当前草稿/保存/应用语义及系统退出处理。离线 UI、策略、发布、真实控制与新版窗口/托盘证据已经记录，无新代码改动时无需重复构建或整轮控制验收；保留旧版基准包、本轮发布包和报告。

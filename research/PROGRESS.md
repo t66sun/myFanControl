@@ -112,7 +112,7 @@
 
 - 前一目标轮为进展：完成曲线计算内核并核对 27 项检查；本轮未取得新的硬件证据，属于无进展的阻塞复核，不视为运行中任务等待。
 - EC 身份诊断准备轮、曲线内核轮及本轮连续存在相同条件：前次 UAC 被取消，新的管理员诊断许可未收到。
-- 本轮主代理核对无 EcIdentityProbe/ThinkBookControl 活动进程、无 ec-identity-admin.json；诊断程序已准备。不存在可轮询的管理员进程句柄，不启动替代进程、不自动重复 UAC。
+- 本轮主代理核对无 EcIdentityProbe/myFanControl 活动进程、无 ec-identity-admin.json；诊断程序已准备。不存在可轮询的管理员进程句柄，不启动替代进程、不自动重复 UAC。
 - 不依赖硬件的必要曲线计算与故障检查已完成；继续验证身份、主机映射、RPM、实际调速与恢复需要管理员实机读取，不能用静态候选或合成测试替代。
 - 完整目标未达成。按连续三轮阻塞审查，将目标标记 blocked，等待用户允许一次管理员身份诊断；不使用 complete 或 paused。
 
@@ -326,12 +326,12 @@
 
 
 ## 2026-10-03 桌面控制与异常恢复集成实测通过
-product-control-20261002-181652-264.json：界面共用控制代码手动3600/3800，反馈约3575/3763；真实CPU温度驱动曲线达到约5061/5061。温度缺失、stdin关闭、10秒心跳超时、受监控父进程终止均使C/D归零，PWM覆盖保持0。托盘最小化/显示/清理及默认/最小尺寸渲染通过。发布目录 artifacts/publish/ThinkBookControl，独立host与桌面均自包含；原2.2正式驱动后端，无开发驱动依赖。
+product-control-20261002-181652-264.json：界面共用控制代码手动3600/3800，反馈约3575/3763；真实CPU温度驱动曲线达到约5061/5061。温度缺失、stdin关闭、10秒心跳超时、受监控父进程终止均使C/D归零，PWM覆盖保持0。托盘最小化/显示/清理及默认/最小尺寸渲染通过。发布目录 artifacts/publish/myFanControl，独立host与桌面均自包含；原2.2正式驱动后端，无开发驱动依赖。
 实际窗口关闭实测已启动，待UAC/结果；真实Windows睡眠事件诊断已准备（--sleep-test），仅观察、不调用睡眠；最终正常启动验证仍未完成。TESTSIGNING尚未恢复关闭，无重启操作。
 
 
 ## 最终验收待人工动作
-窗口关闭测试UAC在2026-10-03本轮被取消，未产生窗口测试报告；不会自动重发。剩余检查已串成 scripts/Test-ProductFinalChecks.ps1：实际窗口关闭→用户手动睡眠/唤醒→仅全部通过后恢复启动设置→用户最终手动重启。scripts/Test-ProductNormalBoot.ps1在重启后核对CI与原驱动并执行完整产品控制测试。发布产物hash：ThinkBookControl.dll 6F608E916C3B67D3EDC1E09212D650AA1F3AD761720B947108C1D8D96380E6AA；host DLL CA1756F303FA3DF16939720A46BCDF6E047BCC5C72E9A7D151C5F3D62BB39835。三个新增PowerShell脚本语法通过；真实睡眠与正常启动实机结果仍缺失，目标未完成。
+窗口关闭测试UAC在2026-10-03本轮被取消，未产生窗口测试报告；不会自动重发。剩余检查已串成 scripts/Test-ProductFinalChecks.ps1：实际窗口关闭→用户手动睡眠/唤醒→仅全部通过后恢复启动设置→用户最终手动重启。scripts/Test-ProductNormalBoot.ps1在重启后核对CI与原驱动并执行完整产品控制测试。发布产物hash：myFanControl.dll 6F608E916C3B67D3EDC1E09212D650AA1F3AD761720B947108C1D8D96380E6AA；host DLL CA1756F303FA3DF16939720A46BCDF6E047BCC5C72E9A7D151C5F3D62BB39835。三个新增PowerShell脚本语法通过；真实睡眠与正常启动实机结果仍缺失，目标未完成。
 
 
 ## 2026-10-03 Modern Standby通知修复
@@ -354,4 +354,4 @@ UI检查确认原生注册、合成消息分发/去重、注销均通过。repai
 
 第二轮手动目标反馈已达到目标附近，但旧验收错误要求比原固件转速升高。验收现比较3600/3800与4200/4400两组独立目标，反馈约3540/3743→4130/4329，证明双路实际响应；曲线核对当时的应用目标与反馈，不依赖初始固件转速。最终完整实测 Succeeded=true、Errors=[]：曲线跟随真实CPU温度，温度缺失、EOF、心跳超时、父进程退出后C/D/E/F均0，最终反馈3472/3422。此前真实关窗与S0睡眠证据保持有效，生命周期代码未改变。所有管理员流程取得终结状态，无待运行测试进程，无新重启需求。
 
-发布桌面 DLL SHA256：5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD；host DLL：2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60。交付 `artifacts/publish/ThinkBookControl/ThinkBookControl.exe`，保留整个发布目录，启动默认固件控制，手动选择调速或曲线。
+发布桌面 DLL SHA256：5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD；host DLL：2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60。交付 `artifacts/publish/myFanControl/myFanControl.exe`，保留整个发布目录，启动默认固件控制，手动选择调速或曲线。

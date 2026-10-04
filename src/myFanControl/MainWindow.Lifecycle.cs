@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class MainWindow
 {

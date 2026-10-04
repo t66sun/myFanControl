@@ -6,7 +6,7 @@ $taskPrincipal=[Security.Principal.WindowsPrincipal]::new([Security.Principal.Wi
 if(-not $taskPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)){throw 'Run this script from Administrator PowerShell.'}
 $taskDir=Join-Path $taskRoot ('artifacts/diagnostics/product-final-'+[DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss-fff'))
 New-Item -ItemType Directory -Path $taskDir | Out-Null
-$taskExe=Join-Path $taskRoot 'artifacts/publish/ThinkBookControl/ThinkBookControl.exe'
+$taskExe=Join-Path $taskRoot 'artifacts/publish/myFanControl/myFanControl.exe'
 $taskReport=[ordered]@{CapturedUtc=[DateTime]::UtcNow.ToString('o');WindowCloseVerified=$false;SleepResumeVerified=$false;BootSettingsRestored=$false;AutomaticReboot=$false;Error=$null}
 try {
  $taskWindowFile=Join-Path $taskDir 'window-close.json'

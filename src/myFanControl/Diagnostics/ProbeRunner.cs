@@ -2,9 +2,9 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using ThinkBookControl.Monitoring;
+using myFanControl.Monitoring;
 
-namespace ThinkBookControl.Diagnostics;
+namespace myFanControl.Diagnostics;
 
 internal sealed record ProbeRunResult(int ExitCode);
 

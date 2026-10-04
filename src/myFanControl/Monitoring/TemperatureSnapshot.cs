@@ -1,4 +1,4 @@
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record TemperatureReading(
     string HardwareType,

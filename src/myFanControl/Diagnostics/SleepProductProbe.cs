@@ -1,9 +1,9 @@
 using System.Text.Json;
 using EcPmcConfigProbe;
 using Microsoft.Win32;
-using ThinkBookControl.Monitoring;
+using myFanControl.Monitoring;
 
-namespace ThinkBookControl.Diagnostics;
+namespace myFanControl.Diagnostics;
 
 /// <summary>Records real Windows power events; never requests sleep or reboot.</summary>
 internal static class SleepProductProbe
@@ -71,7 +71,7 @@ internal static class SleepProductProbe
             window.ShowFromTray();
             System.Windows.MessageBox.Show(window, succeeded
                 ? "睡眠与唤醒实测通过，两路覆盖已清零。关闭窗口会进入托盘；结束程序请在托盘选择“恢复固件并退出”。"
-                : "睡眠实测未通过，详见诊断报告。请点击恢复固件控制。关闭窗口会进入托盘，不会终止程序。", "ThinkBookControl 实测");
+                : "睡眠实测未通过，详见诊断报告。请点击恢复固件控制。关闭窗口会进入托盘，不会终止程序。", "myFanControl 实测");
         } catch(Exception exception) {
             errors.Add(exception.ToString()); stage="Failed"; Save();
             try { await window.RestoreFirmwareAsync(); } catch(Exception restore) { errors.Add(restore.Message); Save(); }

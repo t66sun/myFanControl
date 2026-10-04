@@ -70,4 +70,4 @@ Windows事件506/507已证明本机实际进入/退出S0。旧睡眠诊断缺少
 
 第二轮手动目标反馈已达到目标附近，但旧验收错误要求比原固件转速升高。验收现比较3600/3800与4200/4400两组独立目标，反馈约3540/3743→4130/4329，证明双路实际响应；曲线核对当时的应用目标与反馈，不依赖初始固件转速。最终完整实测 Succeeded=true、Errors=[]：曲线跟随真实CPU温度，温度缺失、EOF、心跳超时、父进程退出后C/D/E/F均0，最终反馈3472/3422。此前真实关窗与S0睡眠证据保持有效，生命周期代码未改变。所有管理员流程取得终结状态，无待运行测试进程，无新重启需求。
 
-发布桌面 DLL SHA256：5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD；host DLL：2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60。交付 `artifacts/publish/ThinkBookControl/ThinkBookControl.exe`，保留整个发布目录，启动默认固件控制，手动选择调速或曲线。
+发布桌面 DLL SHA256：5A0F665DBED1CFF3062BEDE17682A7FFBB43187D1EC8591857D746528C75FCDD；host DLL：2BEAE3840CFA5782C08ED6D78DF88C60002BD049ADE5D74CED1C444E5D063B60。交付 `artifacts/publish/myFanControl/myFanControl.exe`，保留整个发布目录，启动默认固件控制，手动选择调速或曲线。

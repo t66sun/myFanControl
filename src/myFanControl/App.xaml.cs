@@ -1,7 +1,7 @@
 using System.Windows;
-using ThinkBookControl.Diagnostics;
+using myFanControl.Diagnostics;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class App : Application
 {

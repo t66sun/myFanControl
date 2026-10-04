@@ -4,8 +4,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using FanControl.Core;
-using ThinkBookControl.Editing;
-namespace ThinkBookControl;
+using myFanControl.Editing;
+namespace myFanControl;
 public partial class MainWindow
 {
     private readonly ObservableCollection<CurveNode>[] _nodes = [new(), new()];

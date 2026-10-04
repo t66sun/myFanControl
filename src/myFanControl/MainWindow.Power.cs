@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Microsoft.Win32;
 
-namespace ThinkBookControl;
+namespace myFanControl;
 
 public partial class MainWindow
 {

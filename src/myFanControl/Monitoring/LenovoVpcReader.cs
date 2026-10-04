@@ -1,4 +1,4 @@
-namespace ThinkBookControl.Monitoring;
+namespace myFanControl.Monitoring;
 
 public sealed record VpcFanSnapshot(bool Available, uint? RawMode, string? DriverSha256,
     DateTimeOffset CapturedAtUtc, IReadOnlyList<string> Errors);

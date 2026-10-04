@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using FanControl.Core;
-namespace ThinkBookControl.Controls;
+namespace myFanControl.Controls;
 public sealed class CurveEditor : FrameworkElement
 {
     public IReadOnlyList<CurvePoint> Fan1 { get; set; } = [];

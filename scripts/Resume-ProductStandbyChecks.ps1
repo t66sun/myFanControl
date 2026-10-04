@@ -11,12 +11,12 @@ try {
  Get-WinEvent -FilterHashtable @{LogName='System';ProviderName='Microsoft-Windows-Kernel-Power';Id=506,507;StartTime=[DateTime]::Parse('2026-10-03T03:58:00Z')} -MaxEvents 20 | Select-Object TimeCreated,Id,RecordId,Message | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $taskDir 'actual-modern-standby-events.json') -Encoding utf8
  $taskOld=Get-CimInstance Win32_Process -Filter 'ProcessId=23124'
  if($taskOld){
-  if($taskOld.ExecutablePath -ne (Join-Path $taskRoot 'artifacts/publish/ThinkBookControl/ThinkBookControl.exe') -or -not $taskOld.CommandLine.Contains('--sleep-test') -or -not $taskOld.CommandLine.Contains('product-final-20261003-035810-264')){throw 'Old test process identity mismatch; not stopped.'}
+  if($taskOld.ExecutablePath -ne (Join-Path $taskRoot 'artifacts/publish/myFanControl/myFanControl.exe') -or -not $taskOld.CommandLine.Contains('--sleep-test') -or -not $taskOld.CommandLine.Contains('product-final-20261003-035810-264')){throw 'Old test process identity mismatch; not stopped.'}
   Stop-Process -Id 23124
   Start-Sleep -Seconds 2
  }
  $taskReport.OldTestStopped=$true
- $taskSource=Join-Path $taskRoot 'artifacts/publish/ThinkBookControl-modern-standby'
+ $taskSource=Join-Path $taskRoot 'artifacts/publish/myFanControl-modern-standby'
  $taskProbe=Join-Path $taskSource 'control-host/EcPmcConfigProbe.exe'
  $taskBaseline=Join-Path $taskDir 'overrides-after-old-test.json'
  & $taskProbe --read-override-baseline --output $taskBaseline
@@ -24,7 +24,7 @@ try {
  $taskData=(Get-Content -LiteralPath $taskBaseline -Raw | ConvertFrom-Json).Result
  if($taskData.RawCandidateOverride0C -ne 0 -or $taskData.RawCandidateOverride0D -ne 0 -or $taskData.RawCandidateOverride0E -ne 0 -or $taskData.RawCandidateOverride0F -ne 0){throw 'Overrides are not zero; stop here.'}
  $taskReport.ZeroOverridesVerified=$true
- Copy-Item -Path (Join-Path $taskSource '*') -Destination (Join-Path $taskRoot 'artifacts/publish/ThinkBookControl') -Recurse -Force
+ Copy-Item -Path (Join-Path $taskSource '*') -Destination (Join-Path $taskRoot 'artifacts/publish/myFanControl') -Recurse -Force
  $taskReport.ProductUpdated=$true
 } catch {$taskReport.Error=$_.Exception.Message}
 finally {$taskReport | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $taskDir 'report.json') -Encoding utf8}
