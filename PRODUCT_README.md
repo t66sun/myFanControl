@@ -1,8 +1,12 @@
 # ThinkBookControl UI 迭代版
 
+2026-10-04 视觉美化第二版发布于 `artifacts/publish/ThinkBookControl-style-v2`。采用雾灰背景、蓝色主操作、统一圆角控件与表格样式，曲线和对话框同步美化；现有控制、配置、预设、托盘与退出流程保持原有行为。该版本完成离线 UI 回归、十张界面状态截图检查、27 项控制策略检查及 Release 发布，证据位于 `artifacts/diagnostics/ui-style-v2`。下述本机控制报告属于上一版 `ThinkBookControl-ui`，美化版未另做本机硬件或睡眠验收。
+
 适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。本轮离线 UI 检查、27 项控制策略检查、Release 自包含发布及本机控制/窗口验收已通过；实际睡眠验收按用户安排延期。下方 2026-10-03 实测记录属于旧版基准包。
 
 ## 使用
+
+GitHub 安装包见 [Releases](https://github.com/t66sun/myFanControl/releases)。下载 Windows x64 ZIP，完整解压后运行其中的 `ThinkBookControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
 保留整个发布目录，运行 `ThinkBookControl.exe`，确认管理员提示。新 UI 发布到 `artifacts/publish/ThinkBookControl-ui`，旧版 `artifacts/publish/ThinkBookControl` 保留用于对照。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 

@@ -2,6 +2,14 @@
 
 更新日期：2026-10-04。面向接手 UI 迭代、验证与后续开发的人。
 
+发布保留规则：按用户要求，仅保留最近三版 ThinkBookControl 成品包，当前为 `ThinkBookControl-style-v2`、`ThinkBookControl-ui`、`ThinkBookControl`。`ThinkBookControl-preview`、`ThinkBookControl-control` 和 `ThinkBookControl-modern-standby` 旧成品目录已永久清理；其历史诊断记录仍用于追溯。`Ec*Probe` 目录属于诊断工具，不计入软件的三个发行版本。GitHub Releases 同样按发布时间保留最近三版；当前首次公开发行标记为 `v0.1.0`，ZIP 包含完整运行依赖与许可证，排除个人配置。首次 GitHub 发行为已验收美化版的打包，不重新触发硬件控制验收。
+
+最新视觉美化版：`artifacts/publish/ThinkBookControl-style-v2/ThinkBookControl.exe`。本次只调整 `MainWindow.xaml`、新增 `Styles/VisualTheme.xaml`、曲线绘制外观，以及两个自建对话框共享样式资源；未修改控制策略、后端、配置和生命周期逻辑。默认 960×760、最小 800×640，仍使用蓝/橙区分风扇 1/2，主要操作固定在底部。
+
+本版验证：`artifacts/diagnostics/ui-style-v2/verification.log` 离线 UI 回归通过；同目录 `control-policy.log` 为 27 项通过，`publish.log` 为 Release 自包含发布成功。十张截图涵盖默认/最小尺寸 100%/150%/200% 离线渲染、手动页、行校验错误、预设命名及未保存修改对话框；实体屏幕 DPI 切换与本机硬件回归本次未重测，实际睡眠验收仍延期。上一版 UI 与原始包均保留。
+
+美化版包 SHA256：桌面 `452C0B2F450CA4E41EDFFAD2D0867A18B7BDCDA36EE9A2225921D670987EA09E`；后端 `818CECC01CB38633719C92FCEF8702ADC66F78FB08D27675F539D45224D6EC88`。本次重新构建包含初始化后的 Git 版本元数据，后端源码没有改动；下面的旧包哈希与报告仍指对应历史包。
+
 ## 1. 接手时的状态
 
 2026-10-03 旧版基准包已交付可在本机正常 Windows 11 启动模式下实际调速的 WPF 软件。双路手动控制、真实 CPU 温度曲线、异常恢复、关窗退出和实际 Modern Standby 睡眠唤醒均有旧版实测记录。测试签名已关闭；HVCI（内存完整性）和驱动阻止列表保持开启。继续 UI 开发无需重新开启测试签名或切换开发驱动。

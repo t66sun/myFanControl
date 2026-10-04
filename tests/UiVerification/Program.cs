@@ -81,6 +81,7 @@ internal static class Program
         window.Show(); // Creates an HWND and registers native power notices; no Loaded sampler remains.
         window.UpdateLayout();
         VerifyLayoutsAndScreenshots(window, imageDirectory);
+        CaptureManualTab(window, imageDirectory);
         var graph = (UIElement)window.FindName("CurveGraph")!;
         Invoke(window, "LoadNodes", 0, "40:2500;60:3500;75:5000;90:7500"); Invoke(window, "LoadNodes", 1, "40:2500;60:3500;75:5000;90:7500"); Invoke(window, "UpdateEditorState");
         Require(ReferenceEquals(System.Windows.Input.Keyboard.Focus(graph), graph), "Curve editor could not receive keyboard focus.");
@@ -109,8 +110,8 @@ internal static class Program
         var tabTraversal = graph.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         Require(tabTraversal && !ReferenceEquals(System.Windows.Input.Keyboard.FocusedElement, graph), "Tab-order traversal did not leave the curve editor.");
         VerifyPowerNotices(window);
-        VerifyRealGridEditing(window);
-        VerifyPresetCrud(window, settingsPath);
+        VerifyRealGridEditing(window, imageDirectory);
+        VerifyPresetCrud(window, settingsPath, imageDirectory);
         VerifyExitCancelKeepsWindowOpen(window);
         VerifyTrayLifecycle(window);
         VerifyManualPersistencePreservesCurveSelection(privateRoot);
@@ -339,7 +340,7 @@ internal static class Program
         window.Hide();
     }
 
-    private static void VerifyPresetCrud(MainWindow window, string settingsPath)
+    private static void VerifyPresetCrud(MainWindow window, string settingsPath, string imageDirectory)
     {
         const string firstCurve = "40:2500;60:3700;75:5200;90:7500";
         var presets = (IList)GetField(window, "_curvePresets")!;
@@ -352,7 +353,7 @@ internal static class Program
         object? oldApplied1 = GetField(window, "_fan1Applied"), oldApplied2 = GetField(window, "_fan2Applied");
 
         AutoClickOwnedDialog(window, "保存双路曲线预设", dialog => SetDialogTextAndClick(dialog, "保存", "验收甲"),
-            () => Click(window, "SaveAsPresetButton"));
+            () => Click(window, "SaveAsPresetButton"), dialog => SaveDialogScreenshot(dialog, imageDirectory, "ui-dialog-preset-name.png"));
         CurvePreset first = presets.Cast<CurvePreset>().Single(p => p.Name == "验收甲");
         Require(first.Fan1Curve == firstCurve && first.Fan2Curve == firstCurve, "Save As did not persist both current curves.");
         using (var saved = JsonDocument.Parse(File.ReadAllText(settingsPath)))
@@ -385,7 +386,7 @@ internal static class Program
         var selector = (ComboBox)window.FindName("PresetPicker")!;
         CurvePreset renamed = selector.ItemsSource.Cast<CurvePreset>().Single(p => p.Name == "验收改名");
         AutoClickOwnedDialog(window, "处理未保存修改", dialog => ClickDialogButton(dialog, "取消"),
-            () => selector.SelectedItem = renamed);
+            () => selector.SelectedItem = renamed, dialog => SaveDialogScreenshot(dialog, imageDirectory, "ui-dialog-dirty-draft.png"));
         Require(selector.SelectedItem is CurvePreset selectedAfterCancel && selectedAfterCancel.Name == "备用曲线" &&
                 Box(window, "Fan1CurveBox").Text.Contains("60:4000") && Text(window, "DraftStatusText").Text.Contains("未保存"),
             "Canceling a dirty preset switch did not preserve the current draft and selection.");
@@ -401,7 +402,7 @@ internal static class Program
         VerifyPresetSaveDidNotApply(window, oldMode, oldActive1, oldActive2, oldApplied1, oldApplied2);
     }
 
-    private static void VerifyRealGridEditing(MainWindow window)
+    private static void VerifyRealGridEditing(MainWindow window, string imageDirectory)
     {
         var grid = (DataGrid)window.FindName("NodeGrid")!;
         var nodes = (IList)grid.ItemsSource!;
@@ -416,6 +417,7 @@ internal static class Program
         Require(Text(window, "CurveValidationText").Text.Length > 0 && !((Button)window.FindName("ApplyButton")!).IsEnabled,
             "A committed invalid table cell did not block curve application.");
         Require(!(bool)Invoke(window, "SavePreset", false)!, "A committed invalid table cell was accepted by curve saving.");
+        SaveMainScreenshot(window, imageDirectory, "ui-table-error.png");
         Set(first, "Temperature", "40"); Invoke(window, "UpdateEditorState");
 
         grid.ScrollIntoView(last); window.UpdateLayout();
@@ -461,7 +463,7 @@ internal static class Program
         button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
     }
 
-    private static void AutoClickOwnedDialog(MainWindow owner, string title, Action<Window> respond, Action invoke)
+    private static void AutoClickOwnedDialog(MainWindow owner, string title, Action<Window> respond, Action invoke, Action<Window>? beforeRespond = null)
     {
         bool seen = false, timedOut = false; Exception? responseFailure = null; var watch = Stopwatch.StartNew();
         DispatcherTimer timer = null!;
@@ -471,7 +473,7 @@ internal static class Program
             if (dialog is not null)
             {
                 seen = true;
-                try { respond(dialog); } catch (Exception exception) { responseFailure = exception; dialog.Close(); }
+                try { beforeRespond?.Invoke(dialog); respond(dialog); } catch (Exception exception) { responseFailure = exception; dialog.Close(); }
                 timerStop();
             }
             else if (watch.Elapsed >= TimeSpan.FromSeconds(5))
@@ -579,18 +581,62 @@ internal static class Program
                 $"Footer action is clipped at {size.Name} size: {footer.ActualWidth}x{footer.ActualHeight}.");
             foreach (double dpi in new[] { 96d, 144d, 192d })
             {
-                int width = (int)Math.Ceiling(root.ActualWidth * dpi / 96d), height = (int)Math.Ceiling(root.ActualHeight * dpi / 96d);
-                var visual = new DrawingVisual();
-                using (var drawing = visual.RenderOpen())
-                {
-                    drawing.DrawRectangle(window.Background ?? Brushes.White, null, new Rect(0, 0, root.ActualWidth, root.ActualHeight));
-                    drawing.DrawRectangle(new VisualBrush(root), null, new Rect(0, 0, root.ActualWidth, root.ActualHeight));
-                }
-                var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32); bitmap.Render(visual);
-                var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
-                using var file = File.Create(Path.Combine(output, $"ui-{size.Name}-{(int)(dpi / 96 * 100)}.png")); encoder.Save(file);
+                SaveVisualScreenshot(root, root.RenderSize, window.Background ?? Brushes.White,
+                    Path.Combine(output, $"ui-{size.Name}-{(int)(dpi / 96 * 100)}.png"), dpi);
             }
         }
+    }
+
+    private static void CaptureManualTab(MainWindow window, string output)
+    {
+        double oldWidth = window.Width, oldHeight = window.Height;
+        var tabs = (TabControl)window.FindName("EditorTabs")!;
+        int oldTab = tabs.SelectedIndex;
+        window.Width = 960; window.Height = 760; tabs.SelectedIndex = 1;
+        Invoke(window, "UpdateEditorState"); window.UpdateLayout();
+        SaveMainScreenshot(window, output, "ui-manual-100.png");
+        tabs.SelectedIndex = oldTab; window.Width = oldWidth; window.Height = oldHeight;
+        Invoke(window, "UpdateEditorState"); window.UpdateLayout();
+    }
+
+    private static void SaveMainScreenshot(MainWindow window, string output, string fileName)
+    {
+        var root = (FrameworkElement)window.Content;
+        root.UpdateLayout();
+        SaveVisualScreenshot(root, root.RenderSize, window.Background ?? Brushes.White, Path.Combine(output, fileName), 96);
+    }
+
+    private static void SaveDialogScreenshot(Window dialog, string output, string fileName)
+    {
+        if (dialog.Content is not FrameworkElement content) throw new InvalidOperationException("Dialog content is not a framework element.");
+        content.UpdateLayout();
+        double width = Math.Max(240, content.ActualWidth);
+        double height = Math.Max(80, content.ActualHeight) + 36;
+        var visual = new DrawingVisual();
+        using (var drawing = visual.RenderOpen())
+        {
+            drawing.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
+            drawing.DrawText(new FormattedText(dialog.Title, System.Globalization.CultureInfo.CurrentUICulture,
+                FlowDirection.LeftToRight, new Typeface("Segoe UI"), 13, Brushes.Black, 1), new Point(12, 9));
+            drawing.DrawRectangle(new VisualBrush(content), null, new Rect(0, 36, width, height - 36));
+        }
+        SaveVisualScreenshot(visual, new Size(width, height), Brushes.White, Path.Combine(output, fileName), 96);
+    }
+
+    private static void SaveVisualScreenshot(Visual visual, Size logicalSize, Brush background, string path, double dpi)
+    {
+        int width = (int)Math.Ceiling(logicalSize.Width * dpi / 96d);
+        int height = (int)Math.Ceiling(logicalSize.Height * dpi / 96d);
+        var composition = new DrawingVisual();
+        using (var drawing = composition.RenderOpen())
+        {
+            drawing.DrawRectangle(background, null, new Rect(0, 0, logicalSize.Width, logicalSize.Height));
+            drawing.DrawRectangle(new VisualBrush(visual), null, new Rect(0, 0, logicalSize.Width, logicalSize.Height));
+        }
+        var bitmap = new RenderTargetBitmap(width, height, dpi, dpi, PixelFormats.Pbgra32);
+        bitmap.Render(composition);
+        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+        using var file = File.Create(path); encoder.Save(file);
     }
 
     private static void VerifyPowerNotices(MainWindow window)

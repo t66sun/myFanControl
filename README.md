@@ -2,13 +2,15 @@
 
 面向 ThinkBook 14 G4+ IAP（21CX）的 Windows 风扇控制软件开发项目。
 
-**当前版本是只读温度与 EC 风扇监控预览版。已接入两路 EC 报告转速；手动调速与自动曲线执行仍在开发。新版应用的三轮管理员采样已通过：CPU 温度与两路 EC 反馈有效，身份/映射/选择器恢复一致。**
+当前版本提供中文浅色界面、实时 CPU/GPU 温度与双路 EC 转速、手动转速控制、图形双路曲线、命名预设及托盘运行。最新发行版为视觉美化版，保留已有控制和保护策略。
 
-## 运行预览版
+## 下载与运行
 
-打包输出：`artifacts/publish/ThinkBookControl-preview/ThinkBookControl.exe`。自包含版本不要求全局安装 .NET。
+从 [GitHub Releases](https://github.com/t66sun/myFanControl/releases) 下载 Windows x64 ZIP，完整解压后运行 `ThinkBookControl.exe`，按 Windows 提示确认管理员权限。自包含包无需另装 .NET；本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
 
-双击打开中文温度与风扇监控窗口。CPU 温度与 EC 风扇读取需要右键“以管理员身份运行”，Windows 可能显示 UAC。程序不会自行提权；普通权限下会提示读数不可用。EC 读取仅适用于 21CX / HYCN42WW，风扇 1/2 暂未对应到 CPU/GPU。零值仅表示 EC 报告的零反馈，不能单独证明物理停转。GPU 显示本机实际可用的传感器。
+当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
+
+本地最近三版保留于 `artifacts/publish/ThinkBookControl-style-v2`、`ThinkBookControl-ui`、`ThinkBookControl`；旧版成品永久删除。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
 
 ## 只读诊断
 
@@ -16,7 +18,7 @@
 & .\scripts\Get-ThinkBookDiagnostics.ps1
 & .\scripts\Get-PawnIoAccess.ps1
 & .\scripts\Expand-AcpiTables.ps1
-& .\artifacts\publish\ThinkBookControl-preview\ThinkBookControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
+& .\artifacts\publish\ThinkBookControl-style-v2\ThinkBookControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
 ```
 
 诊断 JSON 包括逐轮温度、风扇读数、ecFanTelemetry 原始双读字节与身份/映射/恢复检查、设备标识、错误和启动时固件模式查询。界面显示查询取得的模式；CPU 温度与 RPM 可用性分别报告。退出码：0 表示每轮都有 CPU 绝对温度读数；2 表示 CPU 温度未持续取得；3 表示输出文件写入失败；64 表示参数错误。完整的采样和清理错误仍应查看 JSON，退出码不代表控制硬件已验证。
