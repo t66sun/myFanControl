@@ -6,7 +6,7 @@
 
 ## 下载与运行
 
-下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。Windows x64 ZIP 完整解压后运行 `ThinkBookControl.exe`，按 Windows 提示确认管理员权限。本地 `v0.1.1` 包为 `artifacts/publish/ThinkBookControl-compact`；根目录同时包含 `ThinkBookControl.exe` 与 `EcPmcConfigProbe.exe`，运行时和 `licenses` 随包保留，无需另装 .NET。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
+下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `ThinkBookControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `ThinkBookControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
@@ -33,12 +33,12 @@
 
 ```powershell
 & .\scripts\Build.ps1
-& .\.tools\dotnet\dotnet.exe restore .\src\EcPmcConfigProbe\EcPmcConfigProbe.csproj --configfile .\NuGet.Config -r win-x64 -p:SelfContained=true
-& .\.tools\dotnet\dotnet.exe restore .\src\ThinkBookControl\ThinkBookControl.csproj --configfile .\NuGet.Config -r win-x64 -p:SelfContained=true
 & .\scripts\Publish-Product.ps1 -DirectoryName ThinkBookControl-new
+& .\scripts\Publish-Product.ps1 -DirectoryName ThinkBookControl-new-fd -FrameworkDependent
+& .\scripts\Package-Release.ps1 -Version 0.1.1 -SelfContainedDirectory ThinkBookControl-new -FrameworkDependentDirectory ThinkBookControl-new-fd
 ```
 
-发布脚本要求目标目录尚不存在；示例使用 `ThinkBookControl-new`，若已存在则换未使用的新名字。先恢复两项目的自包含依赖，再发布完整软件。脚本将两套发布输出合并到同一根目录，只复用哈希相同的文件，遇到不同哈希冲突会停止。历史 `Build.ps1 -Publish` 仅生成桌面预览包。
+发布脚本要求目标目录尚不存在，并自动恢复依赖。默认生成自包含包，`-FrameworkDependent` 生成不含 .NET 的轻量包。两个变体都将桌面与后端合并到同一根目录，只复用哈希相同的文件，遇到不同哈希冲突会停止。打包脚本同时生成两个 ZIP 和含两行校验值的 `SHA256SUMS.txt`；这是后续版本的固定交付标准。历史 `Build.ps1 -Publish` 仅生成桌面预览包。
 
 开发依赖固定为 LibreHardwareMonitorLib 0.9.6，仅启用 CPU/GPU；不启用主板、控制器或内存扫描，不调用风扇控制 API，不自动安装驱动。
 

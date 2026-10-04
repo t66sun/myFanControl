@@ -4,11 +4,11 @@
 
 适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。本轮后端自检、离线 UI、27 项策略与真实控制/窗口回归已通过；实际睡眠验收按用户安排延期。下方旧 UI、美化版及 2026-10-03 报告均为对应历史版本证据。
 
-ZIP 约 69.79 MiB，较 v0.1.0 的 109.96 MiB 减少 36.5%；解压约 161.92 MiB。
+自包含 ZIP 约 69.79 MiB，较 v0.1.0 的 109.96 MiB 减少 36.5%；不含 .NET 的轻量 ZIP 约 2.33 MiB。
 
 ## 使用
 
-下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。Windows x64 ZIP 完整解压后运行其中的 `ThinkBookControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
+下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `ThinkBookControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
 保留整个发布目录，运行 `ThinkBookControl.exe`，确认管理员提示。本地保留 `ThinkBookControl-compact`、`ThinkBookControl-style-v2`、`ThinkBookControl-ui` 最近三版；原 `ThinkBookControl` 基准成品已清理，历史诊断仍保留。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 

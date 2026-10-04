@@ -4,6 +4,8 @@
 
 ## 当前发行：v0.1.1 运行时精简版
 
+从 v0.1.1 起，每个 GitHub Release 固定交付两个 Windows x64 ZIP：`ThinkBookControl-v<版本>-win-x64.zip` 为自包含包，`ThinkBookControl-v<版本>-win-x64-framework-dependent.zip` 为不含 .NET 的轻量包。两包功能、业务 DLL、独立后端、中文资源和许可证一致；轻量包要求目标系统安装同版本 Microsoft Windows Desktop Runtime x64。v0.1.1 两包分别约 69.79 MiB 与 2.33 MiB。`scripts/Package-Release.ps1` 必须一次生成两个 ZIP 与同时覆盖两者的 `SHA256SUMS.txt`。
+
 最新版为 `artifacts/publish/ThinkBookControl-compact/ThinkBookControl.exe`。桌面和 `EcPmcConfigProbe.exe` 同在根目录，仍为独立进程，共享一套 .NET 10.0.12 WindowsDesktop 自包含运行时。后端显式引用相同桌面框架，避免 Microsoft.VisualBasic.dll、System.Drawing.dll、WindowsBase.dll 的桌面/普通运行时差异；发布脚本只合并哈希相同的重名文件，其他冲突停止。两个项目仅保留 `zh-Hans`、`zh-Hant` 卫星资源。界面功能、控制策略、通信与恢复流程未修改。
 
 ZIP 从 109.96 MiB 降至约 69.79 MiB（减少 36.5%），解压体积从约 253.19 MiB 降至 161.92 MiB，文件从 685 个降至 310 个。仍无需另装 .NET，许可证与第三方依赖完整保留；公开 ZIP 排除个人配置，校验以 Release 的 `SHA256SUMS.txt` 为准。升级需解压到新目录，再复制旧配置，避免残留旧运行时和语言文件。
