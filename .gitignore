@@ -1,0 +1,7 @@
+.tools/
+artifacts/
+research/upstream/
+**/bin/
+**/obj/
+**/__pycache__/
+*.py[cod]

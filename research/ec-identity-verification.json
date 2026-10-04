@@ -1,0 +1,47 @@
+{
+  "SchemaVersion": 1,
+  "CapturedUtc": "2026-09-30T15:37:05.0229192-04:00",
+  "Source": "artifacts/diagnostics/ec-identity-admin.json",
+  "SourceSha256": "a82f89926e7ba19e10a636167b773e130bcbcbbfcec4320681bd9472c3676ee7",
+  "LaunchCount": 1,
+  "ExitCode": 0,
+  "Model": "21CX",
+  "Bios": "HYCN42WW",
+  "ChipIdHex": "0x5571",
+  "Mapping1060Hex": "0x00",
+  "MappingBit7Set": false,
+  "SelectorsRestored": true,
+  "Errors": [],
+  "Assessment": "Only identity/register reads and selector restoration verified. No fan payload writes, mapping changes, RPM samples or speed-control evidence.",
+  "RawDiagnostic": {
+    "SchemaVersion": 1,
+    "CapturedUtc": "2026-09-30T15:37:05.0229192-04:00",
+    "Plan": {
+      "Mode": "EC identity only; no fan settings",
+      "Model": "21CX",
+      "Bios": "HYCN42WW",
+      "Ports": "4E/4F",
+      "ModuleSha256": "b3896a1cab0d808fca31fe2ebcae045d59dac690da87b17c858bb8da357eb45e",
+      "AddressReads": [
+        "2000",
+        "2001",
+        "1060 only after 5570/5571 identity"
+      ],
+      "SelectorWrites": "Indirect selectors 2E/2F, address selector 10/11 only; never write target data selector 12",
+      "Restoration": "Save/read back selectors 10,11,2E; restore in finally; read back original values",
+      "RequiresAdministrator": true,
+      "AutomaticElevation": false,
+      "HardwareProtocolVerified": false
+    },
+    "IsAdministrator": true,
+    "DeviceOpenAttempted": true,
+    "PawnClientInitialized": true,
+    "Result": {
+      "RawChipId": 21873,
+      "Mapping1060": 0,
+      "SelectorsRestored": true,
+      "Errors": []
+    },
+    "Errors": []
+  }
+}

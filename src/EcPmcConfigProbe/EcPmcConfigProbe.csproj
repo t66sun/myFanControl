@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><RuntimeIdentifier>win-x64</RuntimeIdentifier><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+<ItemGroup>
+<Compile Include="../EcIdentityProbe/IdentityReader.cs" Link="IdentityReader.cs" />
+<Compile Include="../EcFeedbackProbe/LowFeedbackReader.cs" Link="LowFeedbackReader.cs" />
+<EmbeddedResource Include="../../research/upstream/LibreHardwareMonitor/LibreHardwareMonitorLib/Resources/PawnIo/LpcIO.bin" LogicalName="LpcIO.bin" />
+<EmbeddedResource Include="../../artifacts/pawn-modules/Pmc2Status.bin" LogicalName="Pmc2Status.bin" />
+<EmbeddedResource Include="../../artifacts/pawn-modules/Pmc2Query.bin" LogicalName="Pmc2Query.bin" />
+<EmbeddedResource Include="../../artifacts/pawn-modules/Pmc2Control.bin" LogicalName="Pmc2Control.bin" />
+<Compile Include="../FanControl.Core/Pmc2QueryReader.cs" Link="Pmc2QueryReader.cs" />
+<None Include="../EcIdentityProbe/PawnIO-Modules-LGPL-2.1.txt;../EcIdentityProbe/THIRD-PARTY-NOTICES.txt" Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+</ItemGroup></Project>

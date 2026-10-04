@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "performedBy": "root",
+  "binarySha256": "f2e78b63cf37488a86022cf6f6402abb776e6a13aa0078b56d8e6ab7249b0f84",
+  "fixedPort": "0x6C",
+  "writesToPmc": false,
+  "exactConfigGateMocksPassed": true,
+  "driverRefusalMockPassed": true,
+  "configurationInjectedFaultsPassed": 62,
+  "ordinaryExitCode": 2,
+  "ordinaryDeviceOpenAttempted": false,
+  "adminLaunchCount": 1,
+  "adminLaunchOutcome": "Windows reported operation canceled by user; no child PID; unified session 25255 terminal",
+  "adminHardwareRunVerified": false,
+  "adminOutputExists": false,
+  "actualSignedModulePortCapability": "unknown",
+  "automaticRetry": false
+}

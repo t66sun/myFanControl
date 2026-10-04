@@ -1,0 +1,66 @@
+{
+  "NoHardwareMain": {
+    "amxSha256": "d55b8f38ef2c02aad7188ddd277dd98529a9fcad990342d446878e4a884af5b5",
+    "binSha256": "da2b4ed4fc5405e06fedd2a08dfefb533bb81bef7a13b58e11b5b66ca62ddadc",
+    "nativeImports": [],
+    "publics": {},
+    "fileVersion": 11,
+    "cellBits": 64,
+    "flags": 0,
+    "bytes": 636,
+    "runtimeLoadVerified": false
+  },
+  "NoHardwareNative": {
+    "amxSha256": "781aea5aac2b761deda705fc38e3a78cc8a81166e87ea2161d36a18c80b333c5",
+    "binSha256": "190ddb35d081ae6b7b9ba80d25fcff457afbfce5a78bbaa9fd442d0c7d1c4660",
+    "nativeImports": [
+      "get_arch",
+      "debug_print"
+    ],
+    "publics": {},
+    "fileVersion": 11,
+    "cellBits": 64,
+    "flags": 0,
+    "bytes": 1300,
+    "runtimeLoadVerified": true
+  },
+  "Pmc2Status": {
+    "amxSha256": "b904a662e981ee17ff9a79cc84110a927571afcc54dc7493ab00742717e32e72",
+    "binSha256": "74c4eb71035dc956b711466fbd97a4fc11fb43178b7c5bd013fa9a3f40006972",
+    "nativeImports": [
+      "io_in_byte",
+      "get_arch",
+      "debug_print"
+    ],
+    "publics": {
+      "ioctl_read_status": 16
+    },
+    "fileVersion": 11,
+    "cellBits": 64,
+    "flags": 0,
+    "bytes": 1676,
+    "runtimeLoadVerified": true
+  },
+  "Pmc2Query": {
+    "amxSha256": "fce4978d79ec59f4cedbac753e6ae01ade906d3fa96a95a67032f7922da09423",
+    "binSha256": "9386e0242c9412809f29f3962814163d4941696765a63d4284ab58ee85aea56b",
+    "nativeImports": [
+      "io_in_byte",
+      "io_out_byte",
+      "get_arch",
+      "debug_print"
+    ],
+    "publics": {
+      "ioctl_query_command": 784,
+      "ioctl_query_parameter": 1216,
+      "ioctl_read_data": 400,
+      "ioctl_read_status": 16
+    },
+    "fileVersion": 11,
+    "cellBits": 64,
+    "flags": 0,
+    "bytes": 3076,
+    "runtimeLoadVerified": true,
+    "runtimeEvidence": "artifacts/diagnostics/pawnio-dev-load-20261002-162724-448/pmc2-query.json"
+  }
+}

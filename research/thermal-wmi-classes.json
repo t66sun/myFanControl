@@ -1,0 +1,185 @@
+[
+  {
+    "Class": "LENOVO_UTILITY_EVENT",
+    "Methods": []
+  },
+  {
+    "Class": "KernelThermalPolicyChange",
+    "Methods": []
+  },
+  {
+    "Class": "LENOVO_SR_EVENT",
+    "Methods": []
+  },
+  {
+    "Class": "KernelThermalConstraintChange",
+    "Methods": []
+  },
+  {
+    "Class": "LENOVO_UTILITY_DATA",
+    "Methods": [
+      "GetIfSupportOrVersion"
+    ]
+  },
+  {
+    "Class": "ACPITrace",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiCsdDependency",
+    "Methods": []
+  },
+  {
+    "Class": "AcpiGenAddr",
+    "Methods": []
+  },
+  {
+    "Class": "MSAcpiInfo",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiCsd",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiTsd",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_BIOSElement",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_SetBiosSetting",
+    "Methods": [
+      "SetBiosSetting"
+    ]
+  },
+  {
+    "Class": "Lenovo_DiscardBiosSettings",
+    "Methods": [
+      "DiscardBiosSettings"
+    ]
+  },
+  {
+    "Class": "Lenovo_BiosSetting",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_SaveBiosSettings",
+    "Methods": [
+      "SaveBiosSettings"
+    ]
+  },
+  {
+    "Class": "Lenovo_SetBiosPassword",
+    "Methods": [
+      "SetBiosPassword"
+    ]
+  },
+  {
+    "Class": "Lenovo_GetBiosSelections",
+    "Methods": [
+      "GetBiosSelections"
+    ]
+  },
+  {
+    "Class": "Lenovo_BiosPasswordSettings",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_LoadDefaultSettings",
+    "Methods": [
+      "LoadDefaultSettings"
+    ]
+  },
+  {
+    "Class": "ProcessorAcpiCst",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_AssetTagElement",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_AssetTagWrite",
+    "Methods": [
+      "AssetTagWrite"
+    ]
+  },
+  {
+    "Class": "Lenovo_AssetTag",
+    "Methods": []
+  },
+  {
+    "Class": "AcpiControlStatus",
+    "Methods": []
+  },
+  {
+    "Class": "LENOVO_SR_DATA",
+    "Methods": [
+      "GetDataValue",
+      "StartECMonitor",
+      "StopECMonitor",
+      "GetCapability",
+      "Reserved1",
+      "Reserved2"
+    ]
+  },
+  {
+    "Class": "ProcessorAcpiXpss",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiTssState",
+    "Methods": []
+  },
+  {
+    "Class": "MSNdis_80211_NumberOfAntennas",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_SystemElement",
+    "Methods": []
+  },
+  {
+    "Class": "Lenovo_BatteryInformation",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiCstState",
+    "Methods": []
+  },
+  {
+    "Class": "AcpiPct",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiTsdDependency",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiXpssState",
+    "Methods": []
+  },
+  {
+    "Class": "ProcessorAcpiTss",
+    "Methods": []
+  },
+  {
+    "Class": "AcpiPssState",
+    "Methods": []
+  },
+  {
+    "Class": "AcpiPss",
+    "Methods": []
+  },
+  {
+    "Class": "MSAcpi",
+    "Methods": []
+  },
+  {
+    "Class": "MSAcpi_ThermalZoneTemperature",
+    "Methods": []
+  }
+]

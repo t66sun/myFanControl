@@ -1,0 +1,101 @@
+{
+  "SchemaVersion": 1,
+  "Scope": "Firmware MMC mode switching and restoration only; physical RPM control unverified",
+  "CapturedUtc": "2026-09-30T12:02:57.9767149Z",
+  "Model": "21CX",
+  "Bios": "HYCN42WW",
+  "DriverName": "AcpiVpc.sys",
+  "DriverSha256": "f589bb88137ded8bfea1f2f741b51ef7f0bd27a4be51a48978b91d0c29e936fe",
+  "DriverBytes": 51760,
+  "Ioctl": "0x8310213C",
+  "AcpiMethod": "DYTC",
+  "Query": {
+    "available": true,
+    "protocol": 1342177537,
+    "functionCapabilities": 6641,
+    "modeCapabilities": 12,
+    "state": 134294273,
+    "mmcMode": 2,
+    "errors": [],
+    "modeName": "性能",
+    "fullSpeedAdvertised": false
+  },
+  "RoundTrip": {
+    "SchemaVersion": 1,
+    "Model": "21CX",
+    "Bios": "HYCN42WW",
+    "CapturedUtc": "2026-09-30T12:02:57.9767149Z",
+    "WritesAttempted": true,
+    "TargetVerified": true,
+    "OriginalRestored": true,
+    "Passed": true,
+    "Events": [
+      {
+        "TimeUtc": "2026-09-30T12:02:51.8279123Z",
+        "Name": "Protocol",
+        "Raw": "0x50000101"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:51.8398852Z",
+        "Name": "FunctionCapabilities",
+        "Raw": "0x19F10001"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:51.8406139Z",
+        "Name": "ModeCapabilities",
+        "Raw": "0x000C0001"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:51.8413454Z",
+        "Name": "BeforeState",
+        "Raw": "0x08012B01"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:51.8417591Z",
+        "Name": "BeforeMmc",
+        "Raw": "0x00020001"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:51.861275Z",
+        "Name": "SetTargetResponse",
+        "Raw": "0x08013B01"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:54.8866384Z",
+        "Name": "TargetState",
+        "Raw": "0x08013B01"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:54.8888437Z",
+        "Name": "TargetMmc",
+        "Raw": "0x00030001"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:54.9163932Z",
+        "Name": "RestoreResponse",
+        "Raw": "0x08012B01"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:57.9238596Z",
+        "Name": "RestoredState",
+        "Raw": "0x08012B01"
+      },
+      {
+        "TimeUtc": "2026-09-30T12:02:57.9263278Z",
+        "Name": "RestoredMmc",
+        "Raw": "0x00020001"
+      }
+    ],
+    "Errors": []
+  },
+  "Verification": {
+    "Owner": "Primary agent",
+    "ReleaseBuild": "0 errors, 0 warnings",
+    "SelfContainedPublish": true,
+    "PostRestoreProbeSamples": 2,
+    "CpuTemperatureAvailable": false,
+    "Ui": "Actual query and temperature JSON rendered at 700x520 and 560x380; layout checked and minimum-size image inspected",
+    "DesktopInteractionVerified": false,
+    "RpmVerified": false
+  }
+}

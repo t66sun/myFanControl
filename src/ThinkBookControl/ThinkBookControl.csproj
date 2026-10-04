@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>ThinkBookControl</AssemblyName>
+    <RootNamespace>ThinkBookControl</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+    <ProjectReference Include="../FanControl.Core/FanControl.Core.csproj" />
+    <Using Include="System.IO" />
+    <PackageReference Include="LibreHardwareMonitorLib" Version="0.9.6" />
+    <Compile Include="../EcIdentityProbe/IdentityReader.cs" Link="EcIdentityProbe/IdentityReader.cs" />
+    <Compile Include="../EcIdentityProbe/PawnSelectorIo.cs" Link="EcIdentityProbe/PawnSelectorIo.cs" />
+    <Compile Include="../EcFeedbackProbe/LowFeedbackReader.cs" Link="EcFeedbackProbe/LowFeedbackReader.cs" />
+    <Compile Include="../EcPmcConfigProbe/FanOverrideBaselineReader.cs" Link="Control/FanOverrideBaselineReader.cs" />
+    <EmbeddedResource Include="../../research/upstream/LibreHardwareMonitor/LibreHardwareMonitorLib/Resources/PawnIo/LpcIO.bin" LogicalName="LpcIO.bin" />
+    <None Include="../../licenses/*" Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Include="../EcIdentityProbe/PawnIO-Modules-LGPL-2.1.txt"
+          Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <None Update="PawnIO-THIRD-PARTY-NOTICES.txt"
+          Link="licenses/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

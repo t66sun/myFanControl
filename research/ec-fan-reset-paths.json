@@ -1,0 +1,54 @@
+{
+  "candidateSha256": "73e7dce2a408fd8aae851450259f58e270a1482306e80523e0f45ac19c8a558c",
+  "hardwareAccess": false,
+  "bankMappingRuntimeVerified": false,
+  "hostInvocationKnown": false,
+  "automaticControlRestorationProven": false,
+  "routines": [
+    {
+      "offset": "0C656",
+      "endExclusive": "0C68E",
+      "raw": "e4 90 18 04 f0 90 88 00 f0 a3 f0 90 88 04 f0 90 88 06 f0 90 88 58 f0 90 88 08 f0 90 88 18 f0 90 88 59 f0 90 88 19 f0 90 88 1a f0 90 88 0a f0 90 88 0c f0 90 88 0e f0 22",
+      "zeroWrites": [
+        "1804",
+        "8800",
+        "8801",
+        "8804",
+        "8806",
+        "8858",
+        "8808",
+        "8818",
+        "8859",
+        "8819",
+        "881A",
+        "880A",
+        "880C",
+        "880E"
+      ],
+      "immediateCallPatternCandidates": []
+    },
+    {
+      "offset": "0C68E",
+      "endExclusive": "0C6C6",
+      "raw": "e4 90 18 05 f0 90 88 02 f0 a3 f0 90 88 05 f0 90 88 07 f0 90 88 5a f0 90 88 09 f0 90 88 fc f0 90 88 5b f0 90 88 fd f0 90 88 fe f0 90 88 0b f0 90 88 0d f0 90 88 0f f0 22",
+      "zeroWrites": [
+        "1805",
+        "8802",
+        "8803",
+        "8805",
+        "8807",
+        "885A",
+        "8809",
+        "88FC",
+        "885B",
+        "88FD",
+        "88FE",
+        "880B",
+        "880D",
+        "880F"
+      ],
+      "immediateCallPatternCandidates": []
+    }
+  ],
+  "interpretation": "These clear output, feedback, targets, RPM/PWM overrides and other fields. Absence of immediate call patterns does not exclude indirect/banked callers. Do not expose these as a host reset or automatic-control command."
+}

@@ -1,0 +1,16 @@
+{
+  "moduleSha256": "9923190650130520ce81f2a27d1626e11174e722f2e095904f932b9589b97bce",
+  "bytes": 628,
+  "nativeImports": [],
+  "publicFunctions": [],
+  "mainEntry": 16,
+  "mainInstructions": [
+    "PROC",
+    "CONST_PRI 0",
+    "RETN"
+  ],
+  "hardwareAccess": false,
+  "signatureValid": false,
+  "runtimeLoadVerified": false,
+  "purpose": "After user-authorized developer-driver setup, test module signature bypass without any port I/O."
+}

@@ -1,0 +1,17 @@
+{
+  "SchemaVersion": 1,
+  "CheckedUtc": "2026-09-30T19:47:10.2348628+00:00",
+  "PublishedDllSha256": "a392d445d03f11122c5a3cd26924273ee5afdce4204968598a277044db612558",
+  "MockInjectedFailuresPassed": 846,
+  "NonAdministratorExitCode": 2,
+  "NonAdministratorDeviceOpenAttempted": false,
+  "NonAdministratorSamples": 0,
+  "NonAdministratorReportSha256": "83b1cd4a4bc2ec9df08464a9cd4c7b385b84218755aea4580291892605c90b55",
+  "ExistingOutputExitCode": 3,
+  "ExistingOutputPreserved": true,
+  "ArbitraryAddressExitCode": 64,
+  "AdministratorRunExecuted": false,
+  "PhysicalRpmVerified": false,
+  "ControlVerified": false,
+  "NuGetVulnerabilityMetadataVerified": false
+}

@@ -1,0 +1,141 @@
+{
+  "source": "C:\\Windows\\System32\\LNBITSSvc.exe",
+  "sha256": "02fc61298e7c24c48fd6db6be74b7239a77933621ed062da64d30fe811067e06",
+  "strings": [
+    {
+      "fileOffset": "0x16ad70",
+      "encoding": "utf16",
+      "text": "LaunchDetached thread threw std::exception: %hs"
+    },
+    {
+      "fileOffset": "0x16adf0",
+      "encoding": "utf16",
+      "text": "LaunchDetached thread threw unknown exception"
+    },
+    {
+      "fileOffset": "0x16ae70",
+      "encoding": "utf16",
+      "text": "LaunchDetached(%ls) alloc failed"
+    },
+    {
+      "fileOffset": "0x16aec0",
+      "encoding": "utf16",
+      "text": "LaunchDetached(%ls) _beginthreadex failed, errno=%d, gle=%lu"
+    },
+    {
+      "fileOffset": "0x16af60",
+      "encoding": "utf16",
+      "text": "LaunchDetached start thread: %ls"
+    },
+    {
+      "fileOffset": "0x16b0f0",
+      "encoding": "utf16",
+      "text": "Driver uninstall, and reset cooling boost mode fail!  "
+    },
+    {
+      "fileOffset": "0x16b5b0",
+      "encoding": "utf16",
+      "text": "OS shutdown cooling boost stop "
+    },
+    {
+      "fileOffset": "0x16b600",
+      "encoding": "utf16",
+      "text": "System power event, cooling boost stop %x"
+    },
+    {
+      "fileOffset": "0x16ff38",
+      "encoding": "utf16",
+      "text": "IFC Event Not FOUND"
+    },
+    {
+      "fileOffset": "0x170068",
+      "encoding": "utf16",
+      "text": "IFC wait objects ok"
+    },
+    {
+      "fileOffset": "0x1700a0",
+      "encoding": "utf16",
+      "text": "IFC wait objects wait ret %x error %x"
+    },
+    {
+      "fileOffset": "0x170100",
+      "encoding": "utf16",
+      "text": "IFC thread set mode off"
+    },
+    {
+      "fileOffset": "0x170180",
+      "encoding": "utf16",
+      "text": "IFC install error"
+    },
+    {
+      "fileOffset": "0x1701b0",
+      "encoding": "utf16",
+      "text": "IFC install success"
+    },
+    {
+      "fileOffset": "0x1701e0",
+      "encoding": "utf16",
+      "text": "IFC unInstall error"
+    },
+    {
+      "fileOffset": "0x170210",
+      "encoding": "utf16",
+      "text": "IFC unInstall success"
+    },
+    {
+      "fileOffset": "0x1702b8",
+      "encoding": "utf16",
+      "text": "IFC unInit success!"
+    },
+    {
+      "fileOffset": "0x1702e8",
+      "encoding": "utf16",
+      "text": "IFC set status %x"
+    },
+    {
+      "fileOffset": "0x170318",
+      "encoding": "utf16",
+      "text": "IFC dytc error %x"
+    },
+    {
+      "fileOffset": "0x170348",
+      "encoding": "utf16",
+      "text": "IFC set error %x"
+    },
+    {
+      "fileOffset": "0x172d50",
+      "encoding": "utf16",
+      "text": "MMC Set Intelligent Cooling Mode"
+    },
+    {
+      "fileOffset": "0x173e80",
+      "encoding": "utf16",
+      "text": "ifc uninstall idle task error"
+    },
+    {
+      "fileOffset": "0x173ed0",
+      "encoding": "utf16",
+      "text": "ifc uninstall idle task success"
+    },
+    {
+      "fileOffset": "0x1741c0",
+      "encoding": "utf16",
+      "text": "ModeManager initlize support IFC"
+    },
+    {
+      "fileOffset": "0x174210",
+      "encoding": "utf16",
+      "text": "ModeManager initlize do not support IFC"
+    },
+    {
+      "fileOffset": "0x174ea0",
+      "encoding": "utf16",
+      "text": "ModeManager install support IFC"
+    },
+    {
+      "fileOffset": "0x174ef0",
+      "encoding": "utf16",
+      "text": "ModeManager install do not support IFC"
+    }
+  ]
+}

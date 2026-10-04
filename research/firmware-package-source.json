@@ -1,0 +1,10 @@
+{
+  "SourcePage": "https://think.lenovo.com.cn/support/driver/driverdetail.aspx?DEditid=134391&driverID=undefined&treeid=undefined",
+  "PackageUrlWithoutToken": "https://newdriverdl.lenovo.com.cn/newlenovo/alldriversupload/105996/BIOS-HYCN42WW.exe",
+  "Version": "HYCN42WW",
+  "Bytes": 12540352,
+  "Sha256": "56C4624D9184DF90EF81E27FF66589844DF7BE4423FA2998D527AC9171A3FD3D",
+  "AuthenticodeStatus": "Valid",
+  "Signer": "CN=Lenovo, OU=G29, O=Lenovo, L=Morrisville, S=North Carolina, C=US",
+  "Purpose": "Static analysis only; updater not executed"
+}

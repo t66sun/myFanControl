@@ -1,0 +1,462 @@
+{
+  "schema_version": 1,
+  "source": "artifacts\\diagnostics\\ec-feedback-admin.json",
+  "source_sha256": "ede7c824f5d6b00e0a177c8e9bcd8c90bfea47799ba054d241e8f9f3ad0c0518",
+  "sample_count": 20,
+  "all_identity_mapping_restore_checks_passed": true,
+  "mode_evidence": null,
+  "continuous_short_capture": true,
+  "long_gaps": [],
+  "segment_count": 1,
+  "phases": {
+    "baseline": {
+      "sample_count": 20,
+      "low_repeated_equal_count": 20,
+      "high_repeated_equal_count": 0,
+      "channel_words": [
+        [
+          4303,
+          4329
+        ],
+        [
+          4303,
+          4329
+        ]
+      ],
+      "target_bytes": [
+        [
+          43
+        ],
+        [
+          43
+        ]
+      ],
+      "matches_target_times_100_within_100": 20
+    }
+  },
+  "physical_rpm_verified": false,
+  "arbitrary_speed_control_verified": false,
+  "assessment": "Validated raw transport and observations only. Phase changes support feedback identification but do not verify arbitrary control.",
+  "rows": [
+    {
+      "started_utc": "2026-09-30T20:03:33.9594732+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4303
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:34.4916805+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:35.0287001+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:35.570002+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:36.095612+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:36.6380216+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:37.1780449+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:37.7065404+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4303
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:38.2453425+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:38.7735709+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:39.3058771+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:39.832989+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:40.3637246+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:40.899242+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:41.4399076+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:41.9806015+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4303
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:42.5094955+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:43.0450511+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4303,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:43.5732358+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    },
+    {
+      "started_utc": "2026-09-30T20:03:44.1042821+00:00",
+      "segment_id": 0,
+      "phase": "baseline",
+      "low_agree": true,
+      "low_words": [
+        4329,
+        4329
+      ],
+      "low_targets": [
+        43,
+        43
+      ],
+      "low_overrides": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "high_agree": false
+    }
+  ]
+}

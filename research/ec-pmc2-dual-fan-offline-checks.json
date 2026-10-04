@@ -1,0 +1,168 @@
+{
+  "candidateSha256": "73e7dce2a408fd8aae851450259f58e270a1482306e80523e0f45ac19c8a558c",
+  "performedBy": "root",
+  "hardwareAccess": false,
+  "bankMappingRuntimeVerified": false,
+  "handlerCasesPassed": 2304,
+  "commandInitializersChecked": 2,
+  "fan1Command": "D7",
+  "fan2Command": "C7",
+  "payloadUnit": "Handler stores one raw byte; downstream target derivation remains separate",
+  "payloadBoundsCheckedByTheseHandlers": false,
+  "clearCommand": "D5/10 clears bit3 and both byte overrides; leaves PWM overrides and other flags untouched",
+  "fullAutomaticRestorationProven": false,
+  "samples": [
+    {
+      "command": "C7",
+      "payload": 0,
+      "trace": [
+        "91CF",
+        "8943",
+        "8945",
+        "8948",
+        "894B",
+        "894D",
+        "894E"
+      ],
+      "writes": [
+        [
+          "880D",
+          0
+        ]
+      ]
+    },
+    {
+      "command": "C7",
+      "payload": 34,
+      "trace": [
+        "91CF",
+        "8943",
+        "8945",
+        "8948",
+        "894B",
+        "894D",
+        "894E"
+      ],
+      "writes": [
+        [
+          "880D",
+          34
+        ]
+      ]
+    },
+    {
+      "command": "C7",
+      "payload": 75,
+      "trace": [
+        "91CF",
+        "8943",
+        "8945",
+        "8948",
+        "894B",
+        "894D",
+        "894E"
+      ],
+      "writes": [
+        [
+          "880D",
+          75
+        ]
+      ]
+    },
+    {
+      "command": "C7",
+      "payload": 255,
+      "trace": [
+        "91CF",
+        "8943",
+        "8945",
+        "8948",
+        "894B",
+        "894D",
+        "894E"
+      ],
+      "writes": [
+        [
+          "880D",
+          255
+        ]
+      ]
+    },
+    {
+      "command": "D7",
+      "payload": 0,
+      "trace": [
+        "91E4",
+        "8E8E",
+        "8E90",
+        "8E93",
+        "8E96",
+        "8E98",
+        "8E99"
+      ],
+      "writes": [
+        [
+          "880C",
+          0
+        ]
+      ]
+    },
+    {
+      "command": "D7",
+      "payload": 34,
+      "trace": [
+        "91E4",
+        "8E8E",
+        "8E90",
+        "8E93",
+        "8E96",
+        "8E98",
+        "8E99"
+      ],
+      "writes": [
+        [
+          "880C",
+          34
+        ]
+      ]
+    },
+    {
+      "command": "D7",
+      "payload": 75,
+      "trace": [
+        "91E4",
+        "8E8E",
+        "8E90",
+        "8E93",
+        "8E96",
+        "8E98",
+        "8E99"
+      ],
+      "writes": [
+        [
+          "880C",
+          75
+        ]
+      ]
+    },
+    {
+      "command": "D7",
+      "payload": 255,
+      "trace": [
+        "91E4",
+        "8E8E",
+        "8E90",
+        "8E93",
+        "8E96",
+        "8E98",
+        "8E99"
+      ],
+      "writes": [
+        [
+          "880C",
+          255
+        ]
+      ]
+    }
+  ]
+}

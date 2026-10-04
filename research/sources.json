@@ -1,0 +1,83 @@
+{
+  "researched_on": "2026-09-30",
+  "repositories": [
+    {
+      "path": "upstream/nbfc",
+      "url": "https://github.com/hirschmann/nbfc",
+      "commit": "fc9fb970155607d9ebc994f9e99c8ee09121e628",
+      "checkout": "shallow"
+    },
+    {
+      "path": "upstream/LibreHardwareMonitor",
+      "url": "https://github.com/LibreHardwareMonitor/LibreHardwareMonitor",
+      "commit": "677a3a56abde9adff5abdb42db3a7638c9137572",
+      "checkout": "shallow"
+    },
+    {
+      "path": "upstream/TPFanCtrl2",
+      "url": "https://github.com/Shuzhengz/TPFanCtrl2",
+      "commit": "3ab21234f6921ab1ea9615a54f1f6cc4e845eade",
+      "checkout": "shallow"
+    },
+    {
+      "path": "upstream/ThinkBookFanControl-source",
+      "url": "https://github.com/lhzlhz419/ThinkBookFanControl",
+      "commit": "1ba0d01b00d01e827b83ed756c1468d6fcc31cf6",
+      "checkout": "shallow, partial, sparse; vendor lib directory excluded"
+    },
+    {
+      "path": "upstream/thinkbook16p-fan-control",
+      "url": "https://github.com/onurosen/thinkbook16p-fan-control",
+      "commit": "46b870112552e03854ce257094f5f7a62a471c32",
+      "checkout": "shallow; source research only; binaries not executed"
+    },
+    {
+      "path": "upstream/Thinkbook14PAutoFanController",
+      "url": "https://github.com/markgoo/Thinkbook14PAutoFanController",
+      "commit": "e3c0814c2b0e4ac3ddfbe5d8ce2c9e0dc98dbbdb",
+      "checkout": "shallow; source research only; binaries not executed"
+    },
+    {
+      "path": "upstream/PawnIO.Modules",
+      "url": "https://github.com/namazso/PawnIO.Modules",
+      "commit": "52a7e536dff3e53c96917a28caac5e0fa6510696",
+      "checkout": "shallow; source review only; modules not executed"
+    },
+    {
+      "path": "upstream/system76-ec",
+      "url": "https://github.com/system76/ec",
+      "commit": "8faf1c2c16e54dd1ea0b605de7bd5684f5e77931",
+      "checkout": "shallow; source only; submodules not initialized; no builds or hardware execution"
+    },
+    {
+      "path": "upstream/zenbook-q410-powerfix",
+      "url": "https://github.com/hz12opensource/zenbook-q410-powerfix",
+      "commit": "ff0870853cfdd52dd858727d609f2d8a07a46a24",
+      "checkout": "shallow; source only; no builds, firmware, power or hardware execution"
+    },
+    {
+      "path": "upstream/PawnIO",
+      "url": "https://github.com/namazso/PawnIO",
+      "commit": "9d52965895588b0ffa3703b72eec75ba19f4ccc0",
+      "checkout": "shallow",
+      "purpose": "Offline AMX container and opcode analysis; not built, loaded or installed"
+    },
+    {
+      "path": "upstream/PawnPP",
+      "url": "https://github.com/namazso/PawnPP",
+      "commit": "8caadf22f4296a545d0c40346914616e252ffe4f",
+      "checkout": "shallow",
+      "purpose": "Offline AMX container and opcode analysis; not built, loaded or installed"
+    }
+  ],
+  "hardware": {
+    "manufacturer": "LENOVO",
+    "machine_type": "21CX",
+    "model": "ThinkBook 14 G4+ IAP",
+    "cpu": "Intel Core i5-12500H",
+    "bios": "HYCN42WW",
+    "bios_date": "2023-01-14",
+    "os": "Windows 11 (user supplied)"
+  },
+  "control_verified": false
+}

@@ -1,0 +1,175 @@
+[
+  {
+    "Class": "LENOVO_UTILITY_EVENT",
+    "Methods": [],
+    "Properties": [
+      "SECURITY_DESCRIPTOR",
+      "TIME_CREATED",
+      "Active",
+      "InstanceName",
+      "PressTypeDataVal"
+    ]
+  },
+  {
+    "Class": "LENOVO_SR_EVENT",
+    "Methods": [],
+    "Properties": [
+      "SECURITY_DESCRIPTOR",
+      "TIME_CREATED",
+      "Active",
+      "InstanceName",
+      "PostSystemStatus"
+    ]
+  },
+  {
+    "Class": "LENOVO_UTILITY_DATA",
+    "Methods": [
+      "GetIfSupportOrVersion"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_BIOSElement",
+    "Methods": [],
+    "Properties": []
+  },
+  {
+    "Class": "Lenovo_SetBiosSetting",
+    "Methods": [
+      "SetBiosSetting"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_DiscardBiosSettings",
+    "Methods": [
+      "DiscardBiosSettings"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_BiosSetting",
+    "Methods": [],
+    "Properties": [
+      "Active",
+      "CurrentSetting",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_SaveBiosSettings",
+    "Methods": [
+      "SaveBiosSettings"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_SetBiosPassword",
+    "Methods": [
+      "SetBiosPassword"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_GetBiosSelections",
+    "Methods": [
+      "GetBiosSelections"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_BiosPasswordSettings",
+    "Methods": [],
+    "Properties": [
+      "Active",
+      "InstanceName",
+      "MaxLength",
+      "MinLength",
+      "PasswordMode",
+      "PasswordState",
+      "SupportedEncodings",
+      "SupportedKeyboard"
+    ]
+  },
+  {
+    "Class": "Lenovo_LoadDefaultSettings",
+    "Methods": [
+      "LoadDefaultSettings"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_AssetTagElement",
+    "Methods": [],
+    "Properties": []
+  },
+  {
+    "Class": "Lenovo_AssetTagWrite",
+    "Methods": [
+      "AssetTagWrite"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_AssetTag",
+    "Methods": [],
+    "Properties": [
+      "Active",
+      "CurrentSetting",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "LENOVO_SR_DATA",
+    "Methods": [
+      "GetDataValue",
+      "StartECMonitor",
+      "StopECMonitor",
+      "GetCapability",
+      "Reserved1",
+      "Reserved2"
+    ],
+    "Properties": [
+      "Active",
+      "InstanceName"
+    ]
+  },
+  {
+    "Class": "Lenovo_SystemElement",
+    "Methods": [],
+    "Properties": []
+  },
+  {
+    "Class": "Lenovo_BatteryInformation",
+    "Methods": [],
+    "Properties": [
+      "Active",
+      "CurrentSetting",
+      "InstanceName"
+    ]
+  }
+]

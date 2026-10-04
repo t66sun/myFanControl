@@ -1,0 +1,50 @@
+[
+  {
+    "path": "artifacts\\drivers\\PawnIO-2.1.0\\extracted\\05wnIO.sys",
+    "sha256": "2b663b621004c1646726aafffd0e2feffa468f6c6b8053ffb7f6995c436d797c",
+    "size": 640600,
+    "machine": "0xaa64",
+    "unrestrictedMarkerOffset": -1,
+    "unrestrictedMarkerPresent": false,
+    "pdbPaths": [
+      "PawnIO_unsigned.pdb"
+    ],
+    "certificateTableSize": 26200
+  },
+  {
+    "path": "artifacts\\drivers\\PawnIO-2.1.0\\extracted\\09wnIO.sys",
+    "sha256": "ca9ebc5c815cc92814cf2fbd1c1ce7206ac0982931e4acf7b29ce5733f9e3898",
+    "size": 630120,
+    "machine": "0xaa64",
+    "unrestrictedMarkerOffset": -1,
+    "unrestrictedMarkerPresent": false,
+    "pdbPaths": [
+      "PawnIO_unsigned.pdb"
+    ],
+    "certificateTableSize": 15720
+  },
+  {
+    "path": "artifacts\\drivers\\PawnIO-2.1.0\\extracted\\17wnIO.sys",
+    "sha256": "f92de04e5a02256e86ffa1b4252fe669282198b7329227f40e51bca9267d133d",
+    "size": 136496,
+    "machine": "0x8664",
+    "unrestrictedMarkerOffset": -1,
+    "unrestrictedMarkerPresent": false,
+    "pdbPaths": [
+      "PawnIO_unsigned.pdb"
+    ],
+    "certificateTableSize": 21808
+  },
+  {
+    "path": "artifacts\\drivers\\PawnIO-2.1.0\\extracted\\21wnIO.sys",
+    "sha256": "ca9ebc5c815cc92814cf2fbd1c1ce7206ac0982931e4acf7b29ce5733f9e3898",
+    "size": 630120,
+    "machine": "0xaa64",
+    "unrestrictedMarkerOffset": -1,
+    "unrestrictedMarkerPresent": false,
+    "pdbPaths": [
+      "PawnIO_unsigned.pdb"
+    ],
+    "certificateTableSize": 15720
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "Source": "https://constexpr.org/innoextract/",
+  "Url": "https://constexpr.org/innoextract/files/innoextract-1.9-windows.zip",
+  "Version": "1.9",
+  "PublishedMd5": "72d0d0dd874b6236eaa44411f4470ee1",
+  "Sha256": "6989342C9B026A00A72A38F23B62A8E6A22CC5DE69805CF47D68AC2FEC993065",
+  "SignatureVerified": false,
+  "Use": "Unpack as data without executing BIOS updater"
+}

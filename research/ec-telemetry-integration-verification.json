@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "performedBy": "root",
+  "applicationDllSha256": "b805b4c7f469b3310c1c18efe6c013ac5688bfe1f365a76a66906384721aaff0",
+  "mockCheckDllSha256": "44e1b8949b5de6e219e1245ec463fe5b35d632ead4689792d420314042142ed3",
+  "moduleSha256": "b3896a1cab0d808fca31fe2ebcae045d59dac690da87b17c858bb8da357eb45e",
+  "ordinaryProbeSha256": "361cb29839135bec5a678eafd141e0a8b305f07085153aec49fbad225b56f90d",
+  "buildSucceeded": true,
+  "lowFeedbackMocksPassed": true,
+  "legacyFeedbackInjectedFaultCount": 846,
+  "legacyFeedbackMocksPassed": true,
+  "ordinaryGatePassed": true,
+  "ordinaryExitCode": 2,
+  "layoutVerifiedClientSizes": [
+    [
+      684,
+      580
+    ],
+    [
+      544,
+      540
+    ]
+  ],
+  "sensorViewportMinimumPixels": 65,
+  "rootViewedMinimumScreenshot": true,
+  "adminApplicationProbeStatus": "completed once; exit 0; session 82433 terminal",
+  "adminApplicationProbeVerified": true,
+  "manualFanControlVerified": false,
+  "physicalRpmCalibrated": false,
+  "nugetVulnerabilityMetadataAvailable": false,
+  "adminApplicationExitCode": 0,
+  "adminApplicationProbeSha256": "af81ec187efe96445c670b41b4027580fede4c2ebdd984fc026cb57169ba324f",
+  "adminApplicationSamples": 3,
+  "adminApplicationRpm": [
+    [
+      3422,
+      3422
+    ],
+    [
+      3422,
+      3438
+    ],
+    [
+      3406,
+      3438
+    ]
+  ],
+  "rootViewedAdminMinimumScreenshot": true
+}

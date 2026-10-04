@@ -1,0 +1,83 @@
+{
+  "file": "artifacts\\firmware\\payload\\WinHYCN42WW.fd",
+  "bytes": 27212896,
+  "sha256": "d6fd2eb9cdbd49164d70eedf5a049eba8a4b8a522e63891d3a1e6c5e5b041056",
+  "prefixHex": "4d5a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c80000000000000000000000000000000000000000000000000000000000000000000000",
+  "markers": {
+    "5f465648": {
+      "label": "b'_FVH'",
+      "count": 31,
+      "firstOffsets": [
+        "0x2e0",
+        "0x5b90",
+        "0xa04db8",
+        "0xa8edc0",
+        "0xaf0db8",
+        "0xc70db8",
+        "0xce4db8",
+        "0xce60a7",
+        "0xda2db8",
+        "0x11e4db8",
+        "0x1264db8",
+        "0x12e4db8"
+      ]
+    },
+    "4859434e34325757": {
+      "label": "b'HYCN42WW'",
+      "count": 1,
+      "firstOffsets": [
+        "0xaaed9e"
+      ]
+    },
+    "48594543": {
+      "label": "b'HYEC'",
+      "count": 1,
+      "firstOffsets": [
+        "0x9ecde2"
+      ]
+    },
+    "495445": {
+      "label": "b'ITE'",
+      "count": 3,
+      "firstOffsets": [
+        "0x9e4de0",
+        "0x12fb8df",
+        "0x16fb8df"
+      ]
+    },
+    "4954353537": {
+      "label": "b'IT557'",
+      "count": 0,
+      "firstOffsets": []
+    },
+    "4954383538": {
+      "label": "b'IT858'",
+      "count": 0,
+      "firstOffsets": []
+    },
+    "4954383232": {
+      "label": "b'IT822'",
+      "count": 0,
+      "firstOffsets": []
+    },
+    "46414e": {
+      "label": "b'FAN'",
+      "count": 0,
+      "firstOffsets": []
+    },
+    "66616e": {
+      "label": "b'fan'",
+      "count": 0,
+      "firstOffsets": []
+    },
+    "5aa5f00f": {
+      "label": "b'Z\\xa5\\xf0\\x0f'",
+      "count": 3,
+      "firstOffsets": [
+        "0x1e4da0",
+        "0x136b5e6",
+        "0x176b5e6"
+      ]
+    }
+  }
+}

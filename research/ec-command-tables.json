@@ -1,0 +1,238 @@
+{
+  "scope": "Static candidate control flow, no hardware calls. Physical-to-code bank mapping remains unverified.",
+  "sha256": "73e7dce2a408fd8aae851450259f58e270a1482306e80523e0f45ac19c8a558c",
+  "sma2_command_table": {
+    "entries": [
+      {
+        "offset": "0xd64a",
+        "selector": "0x20",
+        "target": "0xd687",
+        "raw": "d6 87 20"
+      },
+      {
+        "offset": "0xd64d",
+        "selector": "0x21",
+        "target": "0xd6af",
+        "raw": "d6 af 21"
+      },
+      {
+        "offset": "0xd650",
+        "selector": "0x22",
+        "target": "0xd6d9",
+        "raw": "d6 d9 22"
+      },
+      {
+        "offset": "0xd653",
+        "selector": "0x23",
+        "target": "0xd6f0",
+        "raw": "d6 f0 23"
+      },
+      {
+        "offset": "0xd656",
+        "selector": "0x24",
+        "target": "0xd70f",
+        "raw": "d7 0f 24"
+      },
+      {
+        "offset": "0xd659",
+        "selector": "0x25",
+        "target": "0xd726",
+        "raw": "d7 26 25"
+      },
+      {
+        "offset": "0xd65c",
+        "selector": "0x26",
+        "target": "0xd75b",
+        "raw": "d7 5b 26"
+      },
+      {
+        "offset": "0xd65f",
+        "selector": "0x27",
+        "target": "0xd77a",
+        "raw": "d7 7a 27"
+      },
+      {
+        "offset": "0xd662",
+        "selector": "0x28",
+        "target": "0xd799",
+        "raw": "d7 99 28"
+      },
+      {
+        "offset": "0xd665",
+        "selector": "0x30",
+        "target": "0xd7b8",
+        "raw": "d7 b8 30"
+      },
+      {
+        "offset": "0xd668",
+        "selector": "0x31",
+        "target": "0xd885",
+        "raw": "d8 85 31"
+      },
+      {
+        "offset": "0xd66b",
+        "selector": "0x32",
+        "target": "0xd8d6",
+        "raw": "d8 d6 32"
+      },
+      {
+        "offset": "0xd66e",
+        "selector": "0x33",
+        "target": "0xd8fc",
+        "raw": "d8 fc 33"
+      },
+      {
+        "offset": "0xd671",
+        "selector": "0x50",
+        "target": "0xdae7",
+        "raw": "da e7 50"
+      },
+      {
+        "offset": "0xd674",
+        "selector": "0x60",
+        "target": "0xd913",
+        "raw": "d9 13 60"
+      },
+      {
+        "offset": "0xd677",
+        "selector": "0x80",
+        "target": "0xda3c",
+        "raw": "da 3c 80"
+      },
+      {
+        "offset": "0xd67a",
+        "selector": "0x86",
+        "target": "0xdaa9",
+        "raw": "da a9 86"
+      },
+      {
+        "offset": "0xd67d",
+        "selector": "0x90",
+        "target": "0xdab1",
+        "raw": "da b1 90"
+      },
+      {
+        "offset": "0xd680",
+        "selector": "0x91",
+        "target": "0xdad3",
+        "raw": "da d3 91"
+      }
+    ],
+    "default_target": "0xdae1",
+    "end_offset": "0xd687"
+  },
+  "sma2_60_subcommands": {
+    "entries": [
+      {
+        "offset": "0xd91a",
+        "selector": "0xa0",
+        "target": "0xd933",
+        "raw": "d9 33 a0"
+      },
+      {
+        "offset": "0xd91d",
+        "selector": "0xa1",
+        "target": "0xd94d",
+        "raw": "d9 4d a1"
+      },
+      {
+        "offset": "0xd920",
+        "selector": "0xa2",
+        "target": "0xd96b",
+        "raw": "d9 6b a2"
+      },
+      {
+        "offset": "0xd923",
+        "selector": "0xa3",
+        "target": "0xd986",
+        "raw": "d9 86 a3"
+      },
+      {
+        "offset": "0xd926",
+        "selector": "0xa4",
+        "target": "0xd9b7",
+        "raw": "d9 b7 a4"
+      },
+      {
+        "offset": "0xd929",
+        "selector": "0xa5",
+        "target": "0xd9f4",
+        "raw": "d9 f4 a5"
+      },
+      {
+        "offset": "0xd92c",
+        "selector": "0xa6",
+        "target": "0xda08",
+        "raw": "da 08 a6"
+      }
+    ],
+    "default_target": "0xda25",
+    "end_offset": "0xd933"
+  },
+  "vpc_command_table": {
+    "entries": [
+      {
+        "offset": "0x104d2",
+        "selector": "0x10",
+        "target": "0x84f4",
+        "raw": "84 f4 10"
+      },
+      {
+        "offset": "0x104d5",
+        "selector": "0x11",
+        "target": "0x8501",
+        "raw": "85 01 11"
+      },
+      {
+        "offset": "0x104d8",
+        "selector": "0x12",
+        "target": "0x850a",
+        "raw": "85 0a 12"
+      },
+      {
+        "offset": "0x104db",
+        "selector": "0x13",
+        "target": "0x8510",
+        "raw": "85 10 13"
+      },
+      {
+        "offset": "0x104de",
+        "selector": "0x1a",
+        "target": "0x851a",
+        "raw": "85 1a 1a"
+      },
+      {
+        "offset": "0x104e1",
+        "selector": "0x1b",
+        "target": "0x8526",
+        "raw": "85 26 1b"
+      },
+      {
+        "offset": "0x104e4",
+        "selector": "0x1c",
+        "target": "0x8534",
+        "raw": "85 34 1c"
+      },
+      {
+        "offset": "0x104e7",
+        "selector": "0x2e",
+        "target": "0x856d",
+        "raw": "85 6d 2e"
+      },
+      {
+        "offset": "0x104ea",
+        "selector": "0x2f",
+        "target": "0x8575",
+        "raw": "85 75 2f"
+      },
+      {
+        "offset": "0x104ed",
+        "selector": "0x31",
+        "target": "0x8581",
+        "raw": "85 81 31"
+      }
+    ],
+    "default_target": "0x858b",
+    "end_offset": "0x104f4"
+  }
+}

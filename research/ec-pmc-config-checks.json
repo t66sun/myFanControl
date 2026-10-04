@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "performedBy": "root",
+  "dllSha256": "17d651cd475f7279cac5022e93de32d4ecbef8661dc99d68177db4c3adff668c",
+  "mockChecksPassed": true,
+  "injectedBeforeAfterFaults": 62,
+  "ordinaryExit": 2,
+  "ordinaryNoDeviceAccess": true,
+  "collisionExit": 3,
+  "collisionPreservesEvidence": true,
+  "badArgumentExit": 64,
+  "adminStatus": "completed once; unified session 88064 terminal",
+  "manualFanWrites": false,
+  "hostPmcCommands": false,
+  "nugetVulnerabilityAuditAvailable": false,
+  "adminExitCode": 0,
+  "adminRawSha256": "959f77e9cffca491982e64fad37eee495e0bb346a83abb5ab9b890a054e0484e",
+  "adminAllIdentityMappingRestoreChecksPassed": true,
+  "originalLdnHex": "0xFE",
+  "pmc1": {
+    "activeRaw": 1,
+    "descriptor0": "0x62",
+    "descriptor1": "0x66"
+  },
+  "pmc2": {
+    "activeRaw": 1,
+    "descriptor0": "0x68",
+    "descriptor1": "0x6C"
+  }
+}

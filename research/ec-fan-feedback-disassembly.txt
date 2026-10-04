@@ -1,0 +1,336 @@
+
+Candidate bank-0 range 0xc46e-0xc4e2; raw bytes retained
+0C46E 90 18 1f  MOV     DPTR, #0x181F
+0C471 e0        MOVX    A, @DPTR
+0C472 ff        MOV     R7, A
+0C473 90 18 1e  MOV     DPTR, #0x181E
+0C476 e0        MOVX    A, @DPTR
+0C477 fd        MOV     R5, A
+0C478 ef        MOV     A, R7
+0C479 70 03     JNZ     0xC47E
+0C47B ed        MOV     A, R5
+0C47C 60 22     JZ      0xC4A0
+0C47E 12 cb 45  LCALL   0xCB45
+0C481 90 88 00  MOV     DPTR, #0x8800
+0C484 ee        MOV     A, R6
+0C485 f0        MOVX    @DPTR, A
+0C486 a3        INC     DPTR
+0C487 ef        MOV     A, R7
+0C488 f0        MOVX    @DPTR, A
+0C489 d3        SETB    C
+0C48A 90 88 01  MOV     DPTR, #0x8801
+0C48D e0        MOVX    A, @DPTR
+0C48E 94 4c     SUBB    A, #immed
+0C490 90 88 00  MOV     DPTR, #0x8800
+0C493 e0        MOVX    A, @DPTR
+0C494 94 1d     SUBB    A, #immed
+0C496 40 0f     JC      0xC4A7
+0C498 74 1d     MOV     A, #immed
+0C49A f0        MOVX    @DPTR, A
+0C49B a3        INC     DPTR
+0C49C 74 4c     MOV     A, #immed
+0C49E f0        MOVX    @DPTR, A
+0C49F 22        RET     
+0C4A0 e4        CLR     A
+0C4A1 90 88 00  MOV     DPTR, #0x8800
+0C4A4 f0        MOVX    @DPTR, A
+0C4A5 a3        INC     DPTR
+0C4A6 f0        MOVX    @DPTR, A
+0C4A7 22        RET     
+0C4A8 90 18 21  MOV     DPTR, #0x1821
+0C4AB e0        MOVX    A, @DPTR
+0C4AC ff        MOV     R7, A
+0C4AD 90 18 20  MOV     DPTR, #0x1820
+0C4B0 e0        MOVX    A, @DPTR
+0C4B1 fd        MOV     R5, A
+0C4B2 ef        MOV     A, R7
+0C4B3 70 03     JNZ     0xC4B8
+0C4B5 ed        MOV     A, R5
+0C4B6 60 22     JZ      0xC4DA
+0C4B8 12 cb 45  LCALL   0xCB45
+0C4BB 90 88 02  MOV     DPTR, #0x8802
+0C4BE ee        MOV     A, R6
+0C4BF f0        MOVX    @DPTR, A
+0C4C0 a3        INC     DPTR
+0C4C1 ef        MOV     A, R7
+0C4C2 f0        MOVX    @DPTR, A
+0C4C3 d3        SETB    C
+0C4C4 90 88 03  MOV     DPTR, #0x8803
+0C4C7 e0        MOVX    A, @DPTR
+0C4C8 94 4c     SUBB    A, #immed
+0C4CA 90 88 02  MOV     DPTR, #0x8802
+0C4CD e0        MOVX    A, @DPTR
+0C4CE 94 1d     SUBB    A, #immed
+0C4D0 40 0f     JC      0xC4E1
+0C4D2 74 1d     MOV     A, #immed
+0C4D4 f0        MOVX    @DPTR, A
+0C4D5 a3        INC     DPTR
+0C4D6 74 4c     MOV     A, #immed
+0C4D8 f0        MOVX    @DPTR, A
+0C4D9 22        RET     
+0C4DA e4        CLR     A
+0C4DB 90 88 02  MOV     DPTR, #0x8802
+0C4DE f0        MOVX    @DPTR, A
+0C4DF a3        INC     DPTR
+0C4E0 f0        MOVX    @DPTR, A
+0C4E1 22        RET     
+
+Candidate bank-0 range 0xcb45-0xcb67; raw bytes retained
+0CB45 ef        MOV     A, R7
+0CB46 fe        MOV     R6, A
+0CB47 7c 00     MOV     R4, #immed
+0CB49 e4        CLR     A
+0CB4A 2d        ADD     A, R5
+0CB4B f5 6c     MOV     direct, A
+0CB4D ec        MOV     A, R4
+0CB4E 3e        ADDC    A, R6
+0CB4F f5 6b     MOV     direct, A
+0CB51 ae 6b     MOV     R6, direct
+0CB53 af 6c     MOV     R7, direct
+0CB55 cb        XCH     A, R3
+0CB56 ef        MOV     A, R7
+0CB57 cb        XCH     A, R3
+0CB58 ca        XCH     A, R2
+0CB59 ee        MOV     A, R6
+0CB5A ca        XCH     A, R2
+0CB5B e4        CLR     A
+0CB5C f9        MOV     R1, A
+0CB5D f8        MOV     R0, A
+0CB5E 7f da     MOV     R7, #immed
+0CB60 7e e6     MOV     R6, #immed
+0CB62 7d 20     MOV     R5, #immed
+0CB64 02 7d ec  LJMP    0x7DEC
+
+Candidate bank-0 range 0xc4e2-0xc59c; raw bytes retained
+0C4E2 90 88 0e  MOV     DPTR, #0x880E
+0C4E5 e0        MOVX    A, @DPTR
+0C4E6 60 16     JZ      0xC4FE
+0C4E8 e0        MOVX    A, @DPTR
+0C4E9 c3        CLR     C
+0C4EA 94 7f     SUBB    A, #immed
+0C4EC 40 07     JC      0xC4F5
+0C4EE 90 18 04  MOV     DPTR, #0x1804
+0C4F1 74 7f     MOV     A, #immed
+0C4F3 f0        MOVX    @DPTR, A
+0C4F4 22        RET     
+0C4F5 90 88 0e  MOV     DPTR, #0x880E
+0C4F8 e0        MOVX    A, @DPTR
+0C4F9 90 18 04  MOV     DPTR, #0x1804
+0C4FC f0        MOVX    @DPTR, A
+0C4FD 22        RET     
+0C4FE 90 88 00  MOV     DPTR, #0x8800
+0C501 e0        MOVX    A, @DPTR
+0C502 70 02     JNZ     0xC506
+0C504 a3        INC     DPTR
+0C505 e0        MOVX    A, @DPTR
+0C506 70 0f     JNZ     0xC517
+0C508 90 88 12  MOV     DPTR, #0x8812
+0C50B f0        MOVX    @DPTR, A
+0C50C a3        INC     DPTR
+0C50D 74 0a     MOV     A, #immed
+0C50F f0        MOVX    @DPTR, A
+0C510 90 18 04  MOV     DPTR, #0x1804
+0C513 74 29     MOV     A, #immed
+0C515 f0        MOVX    @DPTR, A
+0C516 22        RET     
+0C517 90 88 04  MOV     DPTR, #0x8804
+0C51A e0        MOVX    A, @DPTR
+0C51B 90 88 01  MOV     DPTR, #0x8801
+0C51E 12 cb a5  LCALL   0xCBA5
+0C521 90 88 00  MOV     DPTR, #0x8800
+0C524 e0        MOVX    A, @DPTR
+0C525 9e        SUBB    A, R6
+0C526 50 31     JNC     0xC559
+0C528 90 18 04  MOV     DPTR, #0x1804
+0C52B e0        MOVX    A, @DPTR
+0C52C c3        CLR     C
+0C52D 94 7f     SUBB    A, #immed
+0C52F 50 6a     JNC     0xC59B
+0C531 90 88 5c  MOV     DPTR, #0x885C
+0C534 e0        MOVX    A, @DPTR
+0C535 04        INC     A
+0C536 f0        MOVX    @DPTR, A
+0C537 90 88 0c  MOV     DPTR, #0x880C
+0C53A e0        MOVX    A, @DPTR
+0C53B 94 00     SUBB    A, #immed
+0C53D 40 04     JC      0xC543
+0C53F 7f 05     MOV     R7, #immed
+0C541 80 02     SJMP    0xC545
+0C543 7f 0a     MOV     R7, #immed
+0C545 90 88 5c  MOV     DPTR, #0x885C
+0C548 e0        MOVX    A, @DPTR
+0C549 c3        CLR     C
+0C54A 9f        SUBB    A, R7
+0C54B 40 4e     JC      0xC59B
+0C54D 90 18 04  MOV     DPTR, #0x1804
+0C550 e0        MOVX    A, @DPTR
+0C551 04        INC     A
+0C552 f0        MOVX    @DPTR, A
+0C553 e4        CLR     A
+0C554 90 88 5c  MOV     DPTR, #0x885C
+0C557 f0        MOVX    @DPTR, A
+0C558 22        RET     
+0C559 90 88 04  MOV     DPTR, #0x8804
+0C55C e0        MOVX    A, @DPTR
+0C55D 90 88 01  MOV     DPTR, #0x8801
+0C560 12 cb f0  LCALL   0xCBF0
+0C563 90 88 00  MOV     DPTR, #0x8800
+0C566 e0        MOVX    A, @DPTR
+0C567 9e        SUBB    A, R6
+0C568 40 31     JC      0xC59B
+0C56A 90 18 04  MOV     DPTR, #0x1804
+0C56D e0        MOVX    A, @DPTR
+0C56E d3        SETB    C
+0C56F 94 00     SUBB    A, #immed
+0C571 40 28     JC      0xC59B
+0C573 90 88 5d  MOV     DPTR, #0x885D
+0C576 e0        MOVX    A, @DPTR
+0C577 04        INC     A
+0C578 f0        MOVX    @DPTR, A
+0C579 90 88 0c  MOV     DPTR, #0x880C
+0C57C e0        MOVX    A, @DPTR
+0C57D d3        SETB    C
+0C57E 94 00     SUBB    A, #immed
+0C580 40 04     JC      0xC586
+0C582 7f 05     MOV     R7, #immed
+0C584 80 02     SJMP    0xC588
+0C586 7f 0a     MOV     R7, #immed
+0C588 90 88 5d  MOV     DPTR, #0x885D
+0C58B e0        MOVX    A, @DPTR
+0C58C c3        CLR     C
+0C58D 9f        SUBB    A, R7
+0C58E 40 0b     JC      0xC59B
+0C590 90 18 04  MOV     DPTR, #0x1804
+0C593 e0        MOVX    A, @DPTR
+0C594 14        DEC     A
+0C595 f0        MOVX    @DPTR, A
+0C596 e4        CLR     A
+0C597 90 88 5d  MOV     DPTR, #0x885D
+0C59A f0        MOVX    @DPTR, A
+0C59B 22        RET     
+
+Candidate bank-0 range 0xc5a8-0xc656; raw bytes retained
+0C5A8 90 18 05  MOV     DPTR, #0x1805
+0C5AB 74 7f     MOV     A, #immed
+0C5AD f0        MOVX    @DPTR, A
+0C5AE 22        RET     
+0C5AF 90 88 0f  MOV     DPTR, #0x880F
+0C5B2 e0        MOVX    A, @DPTR
+0C5B3 90 18 05  MOV     DPTR, #0x1805
+0C5B6 f0        MOVX    @DPTR, A
+0C5B7 22        RET     
+0C5B8 90 88 02  MOV     DPTR, #0x8802
+0C5BB e0        MOVX    A, @DPTR
+0C5BC 70 02     JNZ     0xC5C0
+0C5BE a3        INC     DPTR
+0C5BF e0        MOVX    A, @DPTR
+0C5C0 70 0f     JNZ     0xC5D1
+0C5C2 90 88 14  MOV     DPTR, #0x8814
+0C5C5 f0        MOVX    @DPTR, A
+0C5C6 a3        INC     DPTR
+0C5C7 74 0a     MOV     A, #immed
+0C5C9 f0        MOVX    @DPTR, A
+0C5CA 90 18 05  MOV     DPTR, #0x1805
+0C5CD 74 29     MOV     A, #immed
+0C5CF f0        MOVX    @DPTR, A
+0C5D0 22        RET     
+0C5D1 90 88 05  MOV     DPTR, #0x8805
+0C5D4 e0        MOVX    A, @DPTR
+0C5D5 90 88 03  MOV     DPTR, #0x8803
+0C5D8 12 cb a5  LCALL   0xCBA5
+0C5DB 90 88 02  MOV     DPTR, #0x8802
+0C5DE e0        MOVX    A, @DPTR
+0C5DF 9e        SUBB    A, R6
+0C5E0 50 31     JNC     0xC613
+0C5E2 90 18 05  MOV     DPTR, #0x1805
+0C5E5 e0        MOVX    A, @DPTR
+0C5E6 c3        CLR     C
+0C5E7 94 7f     SUBB    A, #immed
+0C5E9 50 6a     JNC     0xC655
+0C5EB 90 88 5e  MOV     DPTR, #0x885E
+0C5EE e0        MOVX    A, @DPTR
+0C5EF 04        INC     A
+0C5F0 f0        MOVX    @DPTR, A
+0C5F1 90 88 0d  MOV     DPTR, #0x880D
+0C5F4 e0        MOVX    A, @DPTR
+0C5F5 94 00     SUBB    A, #immed
+0C5F7 40 04     JC      0xC5FD
+0C5F9 7f 05     MOV     R7, #immed
+0C5FB 80 02     SJMP    0xC5FF
+0C5FD 7f 0a     MOV     R7, #immed
+0C5FF 90 88 5e  MOV     DPTR, #0x885E
+0C602 e0        MOVX    A, @DPTR
+0C603 c3        CLR     C
+0C604 9f        SUBB    A, R7
+0C605 40 4e     JC      0xC655
+0C607 90 18 05  MOV     DPTR, #0x1805
+0C60A e0        MOVX    A, @DPTR
+0C60B 04        INC     A
+0C60C f0        MOVX    @DPTR, A
+0C60D e4        CLR     A
+0C60E 90 88 5e  MOV     DPTR, #0x885E
+0C611 f0        MOVX    @DPTR, A
+0C612 22        RET     
+0C613 90 88 05  MOV     DPTR, #0x8805
+0C616 e0        MOVX    A, @DPTR
+0C617 90 88 03  MOV     DPTR, #0x8803
+0C61A 12 cb f0  LCALL   0xCBF0
+0C61D 90 88 02  MOV     DPTR, #0x8802
+0C620 e0        MOVX    A, @DPTR
+0C621 9e        SUBB    A, R6
+0C622 40 31     JC      0xC655
+0C624 90 18 05  MOV     DPTR, #0x1805
+0C627 e0        MOVX    A, @DPTR
+0C628 d3        SETB    C
+0C629 94 00     SUBB    A, #immed
+0C62B 40 28     JC      0xC655
+0C62D 90 88 5f  MOV     DPTR, #0x885F
+0C630 e0        MOVX    A, @DPTR
+0C631 04        INC     A
+0C632 f0        MOVX    @DPTR, A
+0C633 90 88 0d  MOV     DPTR, #0x880D
+0C636 e0        MOVX    A, @DPTR
+0C637 d3        SETB    C
+0C638 94 00     SUBB    A, #immed
+0C63A 40 04     JC      0xC640
+0C63C 7f 05     MOV     R7, #immed
+0C63E 80 02     SJMP    0xC642
+0C640 7f 0a     MOV     R7, #immed
+0C642 90 88 5f  MOV     DPTR, #0x885F
+0C645 e0        MOVX    A, @DPTR
+0C646 c3        CLR     C
+0C647 9f        SUBB    A, R7
+0C648 40 0b     JC      0xC655
+0C64A 90 18 05  MOV     DPTR, #0x1805
+0C64D e0        MOVX    A, @DPTR
+0C64E 14        DEC     A
+0C64F f0        MOVX    @DPTR, A
+0C650 e4        CLR     A
+0C651 90 88 5f  MOV     DPTR, #0x885F
+0C654 f0        MOVX    @DPTR, A
+0C655 22        RET     
+
+Candidate bank-0 range 0xc446-0xc46e; raw bytes retained
+0C446 90 88 0d  MOV     DPTR, #0x880D
+0C449 e0        MOVX    A, @DPTR
+0C44A 60 21     JZ      0xC46D
+0C44C e0        MOVX    A, @DPTR
+0C44D c3        CLR     C
+0C44E 94 0f     SUBB    A, #immed
+0C450 50 03     JNC     0xC455
+0C452 e4        CLR     A
+0C453 80 14     SJMP    0xC469
+0C455 90 88 0d  MOV     DPTR, #0x880D
+0C458 e0        MOVX    A, @DPTR
+0C459 d3        SETB    C
+0C45A 94 4b     SUBB    A, #immed
+0C45C 40 07     JC      0xC465
+0C45E 90 88 05  MOV     DPTR, #0x8805
+0C461 74 4b     MOV     A, #immed
+0C463 f0        MOVX    @DPTR, A
+0C464 22        RET     
+0C465 90 88 0d  MOV     DPTR, #0x880D
+0C468 e0        MOVX    A, @DPTR
+0C469 90 88 05  MOV     DPTR, #0x8805
+0C46C f0        MOVX    @DPTR, A
+0C46D 22        RET     

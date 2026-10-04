@@ -1,0 +1,57 @@
+{
+  "SchemaVersion": 1,
+  "DriverSha256": "f589bb88137ded8bfea1f2f741b51ef7f0bd27a4be51a48978b91d0c29e936fe",
+  "Experiment": {
+    "SchemaVersion": 1,
+    "Model": "21CX",
+    "Bios": "HYCN42WW",
+    "CapturedUtc": "2026-09-30T12:36:24.9509152Z",
+    "WritesAttempted": true,
+    "TargetVerified": true,
+    "OriginalStatesRestored": true,
+    "Passed": true,
+    "RpmVerified": false,
+    "Events": [
+      {
+        "CapturedUtc": "2026-09-30T12:36:18.8256677Z",
+        "Name": "BeforeFanMode",
+        "Raw": "0x00000000"
+      },
+      {
+        "CapturedUtc": "2026-09-30T12:36:18.8390915Z",
+        "Name": "BeforeDytcState",
+        "Raw": "0x08012B01"
+      },
+      {
+        "CapturedUtc": "2026-09-30T12:36:21.891327Z",
+        "Name": "TargetFanMode",
+        "Raw": "0x00000001"
+      },
+      {
+        "CapturedUtc": "2026-09-30T12:36:21.8928679Z",
+        "Name": "TargetDytcState",
+        "Raw": "0x08012B01"
+      },
+      {
+        "CapturedUtc": "2026-09-30T12:36:24.9321083Z",
+        "Name": "RestoredFanMode",
+        "Raw": "0x00000000"
+      },
+      {
+        "CapturedUtc": "2026-09-30T12:36:24.9338822Z",
+        "Name": "RestoredDytcState",
+        "Raw": "0x08012B01"
+      }
+    ],
+    "Errors": []
+  },
+  "PhysicalRpmVerified": false,
+  "PrimaryAgentChecked": true,
+  "CurrentAssessment": {
+    "FanControlVerified": false,
+    "InterfaceRetired": true,
+    "HistoricalExperimentLabelsAreSemanticEvidence": false,
+    "Reason": "EC VPC command table lacks 0x22/0x2B. Its default path clears VCMD without changing VDAT; old roundtrip may be mailbox echo. Bank/runtime mapping remains unverified.",
+    "Evidence": "ec-command-tables.json"
+  }
+}

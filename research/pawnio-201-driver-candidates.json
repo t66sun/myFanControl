@@ -1,0 +1,86 @@
+[
+  {
+    "file": "05wnIO.sys",
+    "size": 600864,
+    "sha256": "815b457d490d4f18ffd2d7e98669f195940ab76e418f0f066e8c9e0746eac216",
+    "machine": "0xaa64",
+    "signatureBytes": 17184,
+    "signatureVerificationImports": [
+      "BCryptHashData",
+      "BCryptImportKeyPair",
+      "BCryptDestroyHash",
+      "BCryptCloseAlgorithmProvider",
+      "BCryptFinishHash",
+      "BCryptOpenAlgorithmProvider",
+      "BCryptVerifySignature",
+      "BCryptGetProperty",
+      "BCryptCreateHash",
+      "BCryptDestroyKey"
+    ],
+    "unrestrictedText": []
+  },
+  {
+    "file": "07wnIO.sys",
+    "size": 598288,
+    "sha256": "3fd426de9bbff3cb5a8ab167f61e17ce7181bc1353ab37b618deced006af639c",
+    "machine": "0xaa64",
+    "signatureBytes": 6928,
+    "signatureVerificationImports": [
+      "BCryptHashData",
+      "BCryptImportKeyPair",
+      "BCryptDestroyHash",
+      "BCryptCloseAlgorithmProvider",
+      "BCryptFinishHash",
+      "BCryptOpenAlgorithmProvider",
+      "BCryptVerifySignature",
+      "BCryptGetProperty",
+      "BCryptCreateHash",
+      "BCryptDestroyKey"
+    ],
+    "unrestrictedText": [
+      "[PawnIO] Signature check result: %X"
+    ]
+  },
+  {
+    "file": "13wnIO.sys",
+    "size": 85344,
+    "sha256": "e19f274b9f3c917445bff19a80bbe2ee34a54995e62be50073122b20d86af900",
+    "machine": "0x8664",
+    "signatureBytes": 12640,
+    "signatureVerificationImports": [
+      "BCryptFinishHash",
+      "BCryptHashData",
+      "BCryptCreateHash",
+      "BCryptVerifySignature",
+      "BCryptDestroyKey",
+      "BCryptImportKeyPair",
+      "BCryptCloseAlgorithmProvider",
+      "BCryptGetProperty",
+      "BCryptDestroyHash",
+      "BCryptOpenAlgorithmProvider"
+    ],
+    "unrestrictedText": []
+  },
+  {
+    "file": "15wnIO.sys",
+    "size": 75536,
+    "sha256": "ac670293a260e48d4199a950ec6ead52d0b6a6444b5f80920b6c27792fc69cd1",
+    "machine": "0x8664",
+    "signatureBytes": 2320,
+    "signatureVerificationImports": [
+      "BCryptFinishHash",
+      "BCryptHashData",
+      "BCryptCreateHash",
+      "BCryptVerifySignature",
+      "BCryptDestroyKey",
+      "BCryptImportKeyPair",
+      "BCryptCloseAlgorithmProvider",
+      "BCryptGetProperty",
+      "BCryptDestroyHash",
+      "BCryptOpenAlgorithmProvider"
+    ],
+    "unrestrictedText": [
+      "[PawnIO] Signature check result: %X"
+    ]
+  }
+]

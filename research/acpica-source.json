@@ -1,0 +1,39 @@
+{
+  "tag": "20260408",
+  "asset": {
+    "url": "https://api.github.com/repos/open-acpica/acpica/releases/assets/391711875",
+    "id": 391711875,
+    "node_id": "RA_kwDOACEr5s4XWQyD",
+    "name": "iasl-win-20260408.zip",
+    "label": null,
+    "uploader": {
+      "login": "SaketADumbre",
+      "id": 97769119,
+      "node_id": "U_kgDOBdPWnw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/97769119?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/SaketADumbre",
+      "html_url": "https://github.com/SaketADumbre",
+      "followers_url": "https://api.github.com/users/SaketADumbre/followers",
+      "following_url": "https://api.github.com/users/SaketADumbre/following{/other_user}",
+      "gists_url": "https://api.github.com/users/SaketADumbre/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/SaketADumbre/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/SaketADumbre/subscriptions",
+      "organizations_url": "https://api.github.com/users/SaketADumbre/orgs",
+      "repos_url": "https://api.github.com/users/SaketADumbre/repos",
+      "events_url": "https://api.github.com/users/SaketADumbre/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/SaketADumbre/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "content_type": "application/x-zip-compressed",
+    "state": "uploaded",
+    "size": 1377409,
+    "digest": "sha256:121f5e4f30b1df63d09052294e4a605d4dee2dfb9599fa24af4ac6015df02b70",
+    "download_count": 264145,
+    "created_at": "2026-04-08T16:53:24Z",
+    "updated_at": "2026-04-08T16:53:25Z",
+    "browser_download_url": "https://github.com/open-acpica/acpica/releases/download/20260408/iasl-win-20260408.zip"
+  }
+}

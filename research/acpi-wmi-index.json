@@ -1,0 +1,547 @@
+{
+  "schemaVersion": 1,
+  "scope": "Literal _WDG buffers in the exported DSDT and 20 SSDTs; no WMI execution",
+  "buffers": [
+    {
+      "file": "DSDT.dsl",
+      "line": 68323,
+      "bytes": 60,
+      "sha256": "574205a5dc4c223468c9d48d6694edae0aa7cf8039acfdc55ea94eee739ee23c"
+    },
+    {
+      "file": "DSDT.dsl",
+      "line": 68524,
+      "bytes": 40,
+      "sha256": "dc3ad8208537a41a9b8e533198adb2c0f0328df90ea9c83d6f1b96423b45a230"
+    },
+    {
+      "file": "DSDT.dsl",
+      "line": 79759,
+      "bytes": 40,
+      "sha256": "f6798ad72fa18b473135d5f291f56c0d552e419ad03d18b0e4d3fe9e04ea2547"
+    },
+    {
+      "file": "DSDT.dsl",
+      "line": 79963,
+      "bytes": 60,
+      "sha256": "e76e80bcece3590225a17c8ba05e89c5afb96adfd770a7b1bf063ff57bc8ceb8"
+    },
+    {
+      "file": "DSDT.dsl",
+      "line": 80579,
+      "bytes": 60,
+      "sha256": "a78aeaeaf24d225b9f25646426993139eec3b6cd06a2c4af73ffe729764edcd5"
+    },
+    {
+      "file": "ssdt7.dsl",
+      "line": 30,
+      "bytes": 180,
+      "sha256": "bf57042f75474a8d29a4731ef2e0780a129ea5e969421006d9b1fd42a3827302"
+    },
+    {
+      "file": "ssdt8.dsl",
+      "line": 30,
+      "bytes": 60,
+      "sha256": "9df7e6e79a991ae2129a464b0b507e84a8b4a2a0811fb9b5935f5ed7eba1b525"
+    }
+  ],
+  "entries": [
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 68323,
+      "offset": 0,
+      "guid": "2BC49DEF-7B15-4F05-8BB7-EE37B9547C0B",
+      "objectId": "DE",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 2,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMDE",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 68334,
+          "text": "Method (WMDE, 3, NotSerialized)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 68323,
+      "offset": 20,
+      "guid": "A6FEA33E-DABF-46F5-BFC8-460D961BEC9F",
+      "objectId": null,
+      "notificationId": 208,
+      "instanceCount": 1,
+      "flags": 8,
+      "isMethod": false,
+      "isEvent": true,
+      "handler": null,
+      "handlerCandidates": []
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 68323,
+      "offset": 40,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "CC",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQCC",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 68370,
+          "text": "Name (WQCC, Buffer (0x0482)"
+        },
+        {
+          "file": "DSDT.dsl",
+          "line": 68544,
+          "text": "Name (WQCC, Buffer (0x02F1)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 68524,
+      "offset": 0,
+      "guid": "1F13AB7F-6220-4210-8F8E-8BB5E71EE969",
+      "objectId": "TE",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 2,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMTE",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 68532,
+          "text": "Method (WMTE, 3, NotSerialized)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 68524,
+      "offset": 20,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "CC",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQCC",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 68370,
+          "text": "Name (WQCC, Buffer (0x0482)"
+        },
+        {
+          "file": "DSDT.dsl",
+          "line": 68544,
+          "text": "Name (WQCC, Buffer (0x02F1)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 79759,
+      "offset": 0,
+      "guid": "C3A03776-51AC-49AA-AD0F-F2F7D62C3F3C",
+      "objectId": "AD",
+      "notificationId": null,
+      "instanceCount": 6,
+      "flags": 5,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQAD",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 79811,
+          "text": "Method (WQAD, 1, NotSerialized)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 79759,
+      "offset": 20,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "BD",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQBD",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 79872,
+          "text": "Name (WQBD, Buffer (0x0275)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 79963,
+      "offset": 0,
+      "guid": "CE6C0974-0407-4F50-88BA-4FC3B6559AD8",
+      "objectId": "SK",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 2,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMSK",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 79974,
+          "text": "Method (WMSK, 3, NotSerialized)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 79963,
+      "offset": 20,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "DA",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQDA",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 80065,
+          "text": "Name (WQDA, Buffer (0x0422)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 79963,
+      "offset": 40,
+      "guid": "8FC0DE0C-B4E4-43FD-B0F3-8871711C1294",
+      "objectId": null,
+      "notificationId": 208,
+      "instanceCount": 1,
+      "flags": 8,
+      "isMethod": false,
+      "isEvent": true,
+      "handler": null,
+      "handlerCandidates": []
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 80579,
+      "offset": 0,
+      "guid": "77E614ED-F19E-46D6-A613-A8669FEE1FF0",
+      "objectId": "SR",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 2,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMSR",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 80590,
+          "text": "Method (WMSR, 3, NotSerialized)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 80579,
+      "offset": 20,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "DF",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQDF",
+      "handlerCandidates": [
+        {
+          "file": "DSDT.dsl",
+          "line": 80620,
+          "text": "Name (WQDF, Buffer (0x05AE)"
+        }
+      ]
+    },
+    {
+      "file": "DSDT.dsl",
+      "bufferLine": 80579,
+      "offset": 40,
+      "guid": "95D1DF76-D6C0-4E16-9193-7B2A849F3DF2",
+      "objectId": null,
+      "notificationId": 208,
+      "instanceCount": 1,
+      "flags": 8,
+      "isMethod": false,
+      "isEvent": true,
+      "handler": null,
+      "handlerCandidates": []
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 0,
+      "guid": "51F5230E-9677-46CD-A1CF-C0B23EE34DB7",
+      "objectId": "A0",
+      "notificationId": null,
+      "instanceCount": 43,
+      "flags": 5,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQA0",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 377,
+          "text": "Method (WQA0, 1, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 20,
+      "guid": "98479A64-33F5-4E33-A707-8E251EBBC3A1",
+      "objectId": "A1",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA1",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 399,
+          "text": "Method (WMA1, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 40,
+      "guid": "6A4B54EF-A5ED-4D33-9455-B0D9B48DF4B3",
+      "objectId": "A2",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA2",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 423,
+          "text": "Method (WMA2, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 60,
+      "guid": "74F1EBB6-927A-4C7D-95DF-698E21E80EB5",
+      "objectId": "A3",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA3",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 437,
+          "text": "Method (WMA3, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 80,
+      "guid": "7EEF04FF-4328-447C-B5BB-D449925D538D",
+      "objectId": "A4",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA4",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 451,
+          "text": "Method (WMA4, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 100,
+      "guid": "8ADB159E-1E32-455C-BC93-308A7ED98246",
+      "objectId": "A5",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 1,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQA5",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 465,
+          "text": "Method (WQA5, 1, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 120,
+      "guid": "2651D9FD-911C-4B69-B94E-D0DED5963BD7",
+      "objectId": "A6",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA6",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 476,
+          "text": "Method (WMA6, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 140,
+      "guid": "7364651A-132F-4FE7-ADAA-40C6C7EE2E3B",
+      "objectId": "A7",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMA7",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 490,
+          "text": "Method (WMA7, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt7.dsl",
+      "bufferLine": 30,
+      "offset": 160,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "BA",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQBA",
+      "handlerCandidates": [
+        {
+          "file": "ssdt7.dsl",
+          "line": 98,
+          "text": "Name (WQBA, Buffer (0x089D)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt8.dsl",
+      "bufferLine": 30,
+      "offset": 0,
+      "guid": "F9AEC85F-4CBD-4668-B242-D261F1300FFE",
+      "objectId": "B0",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 5,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQB0",
+      "handlerCandidates": [
+        {
+          "file": "ssdt8.dsl",
+          "line": 193,
+          "text": "Method (WQB0, 1, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt8.dsl",
+      "bufferLine": 30,
+      "offset": 20,
+      "guid": "B574A36A-955A-406C-AFBE-63FB365732F8",
+      "objectId": "B1",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 6,
+      "isMethod": true,
+      "isEvent": false,
+      "handler": "WMB1",
+      "handlerCandidates": [
+        {
+          "file": "ssdt8.dsl",
+          "line": 214,
+          "text": "Method (WMB1, 3, Serialized)"
+        }
+      ]
+    },
+    {
+      "file": "ssdt8.dsl",
+      "bufferLine": 30,
+      "offset": 40,
+      "guid": "05901221-D566-11D1-B2F0-00A0C9062910",
+      "objectId": "BB",
+      "notificationId": null,
+      "instanceCount": 1,
+      "flags": 0,
+      "isMethod": false,
+      "isEvent": false,
+      "handler": "WQBB",
+      "handlerCandidates": [
+        {
+          "file": "ssdt8.dsl",
+          "line": 64,
+          "text": "Name (WQBB, Buffer (0x03EA)"
+        }
+      ]
+    }
+  ],
+  "knownGuidMatches": {
+    "GameZone": [],
+    "16pGen4UndocumentedFan": [],
+    "OtherMethod": []
+  }
+}

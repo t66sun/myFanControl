@@ -1,0 +1,1250 @@
+{
+  "source": "C:\\Windows\\System32\\drivers\\AcpiVpc.sys",
+  "sha256": "f589bb88137ded8bfea1f2f741b51ef7f0bd27a4be51a48978b91d0c29e936fe",
+  "assumptions": "Static equality branch plus fall-through of length guards; instruction trace requires human review. No commands executed.",
+  "coverage": "All 39 IOCTL constants found in the dispatch routine. Internal selector branches are not symbolically evaluated; traces are candidates.",
+  "entries": [
+    {
+      "ioctl": "0x83102114",
+      "comparisonRva": "0x10EB2",
+      "equalityPathRva": "0x114E5",
+      "calls": [
+        {
+          "rva": "0x2388",
+          "methodNameCandidates": []
+        },
+        {
+          "rva": "0x15B0",
+          "methodNameCandidates": [
+            "MHPF"
+          ]
+        }
+      ],
+      "trace": [
+        "114E5: cmp ebx, 4",
+        "114E8: jb 0x140011abd",
+        "114EE: cmp r13d, r12d",
+        "114F1: jb 0x140011abd",
+        "114F7: call 0x140002388",
+        "114FC: test eax, eax",
+        "114FE: je 0x1400112f6",
+        "11504: movups xmm0, xmmword ptr [rsi]",
+        "11507: lea rdx, [rsp + 0x70]",
+        "1150C: mov rcx, r14",
+        "1150F: movups xmmword ptr [rsp + 0x70], xmm0",
+        "11514: movups xmm1, xmmword ptr [rsi + 0x10]",
+        "11518: movups xmmword ptr [rbp - 0x80], xmm1",
+        "1151C: mov eax, dword ptr [rsi + 0x20]",
+        "1151F: mov dword ptr [rbp - 0x70], eax",
+        "11522: mov al, byte ptr [rsi + 0x24]",
+        "11525: mov byte ptr [rbp - 0x6c], al",
+        "11528: call 0x1400015b0"
+      ]
+    },
+    {
+      "ioctl": "0x831020E4",
+      "comparisonRva": "0x10EC5",
+      "equalityPathRva": "0x11211",
+      "calls": [
+        {
+          "rva": "0xF210",
+          "methodNameCandidates": [
+            "DBSL"
+          ]
+        }
+      ],
+      "trace": [
+        "11211: cmp ebx, 4",
+        "11214: jb 0x140011abd",
+        "1121A: mov eax, dword ptr [rsi]",
+        "1121C: mov dword ptr [rsp + 0x38], eax",
+        "11220: mov dword ptr [r14 + 0x178], eax",
+        "11227: cmp dword ptr [rsp + 0x38], 0x14",
+        "1122C: ja 0x140011ac2",
+        "11232: cmp r13d, dword ptr [rsp + 0x38]",
+        "11237: jb 0x140011abd",
+        "1123D: mov rcx, r14",
+        "11240: call 0x14000f210"
+      ]
+    },
+    {
+      "ioctl": "0x831020C0",
+      "comparisonRva": "0x10ED3",
+      "equalityPathRva": "0x11148",
+      "calls": [
+        {
+          "rva": "0x10D10",
+          "methodNameCandidates": []
+        },
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "11148: cmp ebx, 0xc",
+        "1114B: jb 0x140011abd",
+        "11151: mov ecx, dword ptr [rsi]",
+        "11153: cmp ecx, 7",
+        "11156: jg 0x1400111ac",
+        "11158: je 0x1400111a5",
+        "1115A: test ecx, ecx",
+        "1115C: je 0x14001119e",
+        "1115E: sub ecx, r12d",
+        "11161: je 0x140011197",
+        "11163: sub ecx, r12d",
+        "11166: je 0x140011190",
+        "11168: sub ecx, r12d",
+        "1116B: je 0x140011189",
+        "1116D: sub ecx, 2",
+        "11170: je 0x140011182",
+        "11172: cmp ecx, r12d",
+        "11175: jne 0x140010fa8",
+        "1117B: mov byte ptr [rsp + 0x30], 0x22",
+        "11180: jmp 0x1400111ea",
+        "111EA: lfence ",
+        "111ED: mov al, byte ptr [rsi + 8]",
+        "111F0: lea rdx, [rsp + 0x30]",
+        "111F5: mov byte ptr [rsp + 0x31], al",
+        "111F9: mov rcx, r14",
+        "111FC: mov rax, qword ptr [r15 + 0xb8]",
+        "11203: or byte ptr [rax + 3], r12b",
+        "11207: call 0x140010d10",
+        "1120C: jmp 0x140010fca",
+        "10FCA: mov edi, eax",
+        "10FCC: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x831020C4",
+      "comparisonRva": "0x10EDF",
+      "equalityPathRva": "0x10FF2",
+      "calls": [
+        {
+          "rva": "0x10D10",
+          "methodNameCandidates": []
+        },
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "10FF2: cmp ebx, 4",
+        "10FF5: jb 0x140011abd",
+        "10FFB: mov ecx, dword ptr [rsi]",
+        "10FFD: cmp ecx, 0xa",
+        "11000: jg 0x140011097",
+        "11006: je 0x140011090",
+        "1100C: test ecx, ecx",
+        "1100E: je 0x140011089",
+        "11010: sub ecx, r12d",
+        "11013: je 0x140011082",
+        "11015: sub ecx, r12d",
+        "11018: je 0x140011078",
+        "1101A: sub ecx, r12d",
+        "1101D: je 0x14001106e",
+        "1101F: sub ecx, r12d",
+        "11022: je 0x140011064",
+        "11024: sub ecx, r12d",
+        "11027: je 0x14001105a",
+        "11029: sub ecx, r12d",
+        "1102C: je 0x140011050",
+        "1102E: sub ecx, r12d",
+        "11031: je 0x140011046",
+        "11033: cmp ecx, r12d",
+        "11036: jne 0x140010fa8",
+        "1103C: mov byte ptr [rsp + 0x30], 0x1f",
+        "11041: jmp 0x140011105",
+        "11105: cmp r13d, 4",
+        "11109: jb 0x140011abd",
+        "1110F: lfence ",
+        "11112: mov rax, qword ptr [r15 + 0xb8]",
+        "11119: lea rdx, [rsp + 0x30]",
+        "1111E: mov rcx, r14",
+        "11121: or byte ptr [rax + 3], r12b",
+        "11125: call 0x140010d10",
+        "1112A: mov edi, eax",
+        "1112C: test eax, eax",
+        "1112E: js 0x140011ac2",
+        "11134: movzx eax, byte ptr [rsp + 0x31]",
+        "11139: mov dword ptr [rsi], eax",
+        "1113B: mov qword ptr [r15 + 0x38], 4",
+        "11143: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x831020D0",
+      "comparisonRva": "0x10EFC",
+      "equalityPathRva": "0x10FD1",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "10FD1: mov edx, 2",
+        "10FD6: cmp ebx, edx",
+        "10FD8: jb 0x140011abd",
+        "10FDE: cmp r13d, r12d",
+        "10FE1: jb 0x140011abd",
+        "10FE7: mov al, byte ptr [rsi]",
+        "10FE9: mov byte ptr [rsp + 0x34], al",
+        "10FED: jmp 0x140010f5b",
+        "10F5B: mov qword ptr [r15 + 0x38], r12",
+        "10F5F: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x831020D4",
+      "comparisonRva": "0x10F08",
+      "equalityPathRva": "0x10FA2",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "10FA2: cmp dword ptr [rdx + 0x10], 0x10",
+        "10FA6: jae 0x140010fb2",
+        "10FA8: mov edi, 0xc000000d",
+        "10FAD: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x831020D8",
+      "comparisonRva": "0x10F14",
+      "equalityPathRva": "0x10F8C",
+      "calls": [
+        {
+          "rva": "0x240C",
+          "methodNameCandidates": [
+            "EVET"
+          ]
+        }
+      ],
+      "trace": [
+        "10F8C: cmp dword ptr [rdx + 0x10], 0x10",
+        "10F90: jb 0x140010fa8",
+        "10F92: mov rax, qword ptr [r15 + 0x18]",
+        "10F96: mov dword ptr [rax + 4], r8d",
+        "10F9A: mov r8d, 2",
+        "10FA0: jmp 0x140010fbd",
+        "10FBD: mov rcx, qword ptr [rsp + 0x48]",
+        "10FC2: mov rdx, r15",
+        "10FC5: call 0x14000240c"
+      ]
+    },
+    {
+      "ioctl": "0x831020DC",
+      "comparisonRva": "0x10F1C",
+      "equalityPathRva": "0x10F64",
+      "calls": [
+        {
+          "rva": "0xF0E0",
+          "methodNameCandidates": [
+            "_CFG"
+          ]
+        }
+      ],
+      "trace": [
+        "10F64: cmp r13d, 4",
+        "10F68: jb 0x140011abd",
+        "10F6E: mov rcx, r14",
+        "10F71: call 0x14000f0e0"
+      ]
+    },
+    {
+      "ioctl": "0x831020E0",
+      "comparisonRva": "0x10F24",
+      "equalityPathRva": "0x10F2C",
+      "calls": [
+        {
+          "rva": "0xFC5C",
+          "methodNameCandidates": [
+            "APPC"
+          ]
+        }
+      ],
+      "trace": [
+        "10F2C: cmp ebx, r12d",
+        "10F2F: jb 0x140011abd",
+        "10F35: cmp r13d, r12d",
+        "10F38: jb 0x140011abd",
+        "10F3E: mov al, byte ptr [rsi]",
+        "10F40: lea rdx, [rsp + 0x34]",
+        "10F45: mov rcx, r14",
+        "10F48: mov byte ptr [rsp + 0x34], al",
+        "10F4C: call 0x14000fc5c"
+      ]
+    },
+    {
+      "ioctl": "0x831020E8",
+      "comparisonRva": "0x11273",
+      "equalityPathRva": "0x11493",
+      "calls": [
+        {
+          "rva": "0xF3FC",
+          "methodNameCandidates": [
+            "HALS"
+          ]
+        }
+      ],
+      "trace": [
+        "11493: cmp ebx, r12d",
+        "11496: jb 0x140011abd",
+        "1149C: cmp r13d, r12d",
+        "1149F: jb 0x140011abd",
+        "114A5: mov al, byte ptr [rsi]",
+        "114A7: mov edx, 2",
+        "114AC: mov byte ptr [rsp + 0x34], al",
+        "114B0: mov rcx, r14",
+        "114B3: cmp al, dl",
+        "114B5: jne 0x1400114d2",
+        "114B7: call 0x14000f3fc"
+      ]
+    },
+    {
+      "ioctl": "0x831020F0",
+      "comparisonRva": "0x1127F",
+      "equalityPathRva": "0x11469",
+      "calls": [
+        {
+          "rva": "0xFD84",
+          "methodNameCandidates": [
+            "BASL"
+          ]
+        }
+      ],
+      "trace": [
+        "11469: cmp ebx, 4",
+        "1146C: jb 0x140011abd",
+        "11472: cmp r13d, r12d",
+        "11475: jb 0x140011abd",
+        "1147B: mov eax, dword ptr [rsi]",
+        "1147D: lea rdx, [rsp + 0x50]",
+        "11482: mov rcx, r14",
+        "11485: mov dword ptr [rsp + 0x50], eax",
+        "11489: call 0x14000fd84"
+      ]
+    },
+    {
+      "ioctl": "0x831020F4",
+      "comparisonRva": "0x1128B",
+      "equalityPathRva": "0x1143F",
+      "calls": [
+        {
+          "rva": "0xFA60",
+          "methodNameCandidates": [
+            "STHT"
+          ]
+        }
+      ],
+      "trace": [
+        "1143F: cmp ebx, 4",
+        "11442: jb 0x140011abd",
+        "11448: cmp r13d, r12d",
+        "1144B: jb 0x140011abd",
+        "11451: mov eax, dword ptr [rsi]",
+        "11453: lea rdx, [rsp + 0x38]",
+        "11458: mov rcx, r14",
+        "1145B: mov dword ptr [rsp + 0x38], eax",
+        "1145F: call 0x14000fa60"
+      ]
+    },
+    {
+      "ioctl": "0x831020F8",
+      "comparisonRva": "0x11297",
+      "equalityPathRva": "0x113F5",
+      "calls": [
+        {
+          "rva": "0x2258",
+          "methodNameCandidates": [
+            "GBMD"
+          ]
+        }
+      ],
+      "trace": [
+        "113F5: cmp ebx, r12d",
+        "113F8: jb 0x140011abd",
+        "113FE: cmp r13d, 4",
+        "11402: jb 0x140011abd",
+        "11408: mov al, byte ptr [rsi]",
+        "1140A: mov rcx, r14",
+        "1140D: mov byte ptr [rsp + 0x34], al",
+        "11411: cmp al, 0xff",
+        "11413: jne 0x140011430",
+        "11415: call 0x140002258"
+      ]
+    },
+    {
+      "ioctl": "0x83102100",
+      "comparisonRva": "0x112A3",
+      "equalityPathRva": "0x113B8",
+      "calls": [
+        {
+          "rva": "0xFF7C",
+          "methodNameCandidates": [
+            "SBSL"
+          ]
+        }
+      ],
+      "trace": [
+        "113B8: cmp ebx, r12d",
+        "113BB: jb 0x140011abd",
+        "113C1: cmp r13d, r12d",
+        "113C4: jb 0x140011abd",
+        "113CA: mov al, byte ptr [rsi]",
+        "113CC: lea rdx, [rsp + 0x34]",
+        "113D1: mov rcx, r14",
+        "113D4: mov byte ptr [rsp + 0x34], al",
+        "113D8: call 0x14000ff7c"
+      ]
+    },
+    {
+      "ioctl": "0x83102104",
+      "comparisonRva": "0x112AF",
+      "equalityPathRva": "0x1138E",
+      "calls": [
+        {
+          "rva": "0x10078",
+          "methodNameCandidates": [
+            "SHDC"
+          ]
+        }
+      ],
+      "trace": [
+        "1138E: cmp ebx, r12d",
+        "11391: jb 0x140011abd",
+        "11397: cmp r13d, r12d",
+        "1139A: jb 0x140011abd",
+        "113A0: mov al, byte ptr [rsi]",
+        "113A2: lea rdx, [rsp + 0x34]",
+        "113A7: mov rcx, r14",
+        "113AA: mov byte ptr [rsp + 0x34], al",
+        "113AE: call 0x140010078"
+      ]
+    },
+    {
+      "ioctl": "0x83102108",
+      "comparisonRva": "0x112BB",
+      "equalityPathRva": "0x11364",
+      "calls": [
+        {
+          "rva": "0x10178",
+          "methodNameCandidates": [
+            "SVCR"
+          ]
+        }
+      ],
+      "trace": [
+        "11364: cmp ebx, r12d",
+        "11367: jb 0x140011abd",
+        "1136D: cmp r13d, r12d",
+        "11370: jb 0x140011abd",
+        "11376: mov al, byte ptr [rsi]",
+        "11378: lea rdx, [rsp + 0x34]",
+        "1137D: mov rcx, r14",
+        "11380: mov byte ptr [rsp + 0x34], al",
+        "11384: call 0x140010178"
+      ]
+    },
+    {
+      "ioctl": "0x8310210C",
+      "comparisonRva": "0x112C7",
+      "equalityPathRva": "0x11328",
+      "calls": [
+        {
+          "rva": "0xF52C",
+          "methodNameCandidates": [
+            "HASL"
+          ]
+        }
+      ],
+      "trace": [
+        "11328: cmp ebx, r12d",
+        "1132B: jb 0x140011abd",
+        "11331: mov al, byte ptr [rsi]",
+        "11333: lea rdx, [rsp + 0x34]",
+        "11338: mov rcx, r14",
+        "1133B: mov byte ptr [rsp + 0x34], al",
+        "1133F: call 0x14000f52c"
+      ]
+    },
+    {
+      "ioctl": "0x83102110",
+      "comparisonRva": "0x112CF",
+      "equalityPathRva": "0x112DB",
+      "calls": [
+        {
+          "rva": "0x2388",
+          "methodNameCandidates": []
+        },
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "112DB: cmp ebx, 4",
+        "112DE: jb 0x140011abd",
+        "112E4: cmp r13d, r12d",
+        "112E7: jb 0x140011abd",
+        "112ED: call 0x140002388",
+        "112F2: test eax, eax",
+        "112F4: jne 0x140011300",
+        "112F6: mov edi, 0xc0000022",
+        "112FB: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x8310213C",
+      "comparisonRva": "0x11565",
+      "equalityPathRva": "0x11846",
+      "calls": [
+        {
+          "rva": "0x1260",
+          "methodNameCandidates": [
+            "DYTC"
+          ]
+        }
+      ],
+      "trace": [
+        "11846: mov dword ptr [rsp + 0x40], r8d",
+        "1184B: cmp r13d, 4",
+        "1184F: jb 0x140011abd",
+        "11855: cmp ebx, 4",
+        "11858: jb 0x140011abd",
+        "1185E: mov eax, dword ptr [rsi]",
+        "11860: lea r8, [rsp + 0x40]",
+        "11865: lea rdx, [rsp + 0x48]",
+        "1186A: mov dword ptr [rsp + 0x48], eax",
+        "1186E: mov rcx, r14",
+        "11871: call 0x140001260"
+      ]
+    },
+    {
+      "ioctl": "0x83102118",
+      "comparisonRva": "0x11573",
+      "equalityPathRva": "0x117E5",
+      "calls": [
+        {
+          "rva": "0x2388",
+          "methodNameCandidates": []
+        },
+        {
+          "rva": "0x1390",
+          "methodNameCandidates": [
+            "MHIF"
+          ]
+        }
+      ],
+      "trace": [
+        "117E5: cmp ebx, 4",
+        "117E8: jb 0x140011abd",
+        "117EE: cmp r13d, r12d",
+        "117F1: jb 0x140011abd",
+        "117F7: call 0x140002388",
+        "117FC: test eax, eax",
+        "117FE: je 0x1400112f6",
+        "11804: mov eax, dword ptr [rsi]",
+        "11806: lea r8, [rsp + 0x60]",
+        "1180B: lea rdx, [rsp + 0x38]",
+        "11810: mov dword ptr [rsp + 0x38], eax",
+        "11814: mov rcx, r14",
+        "11817: call 0x140001390"
+      ]
+    },
+    {
+      "ioctl": "0x8310211C",
+      "comparisonRva": "0x1157F",
+      "equalityPathRva": "0x117CB",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "117CB: mov dword ptr [rip - 0x4352], r8d",
+        "117D2: mov dword ptr [rip - 0x4355], r8d",
+        "117D9: mov dword ptr [rip - 0x4358], r8d",
+        "117E0: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x83102120",
+      "comparisonRva": "0x1158B",
+      "equalityPathRva": "0x11791",
+      "calls": [
+        {
+          "rva": "0x1718",
+          "methodNameCandidates": [
+            "GBID"
+          ]
+        }
+      ],
+      "trace": [
+        "11791: cmp r13d, 0x14",
+        "11795: jb 0x140011abd",
+        "1179B: lea rdx, [rbp - 0x68]",
+        "1179F: mov rcx, r14",
+        "117A2: call 0x140001718"
+      ]
+    },
+    {
+      "ioctl": "0x83102124",
+      "comparisonRva": "0x11597",
+      "equalityPathRva": "0x11718",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "11718: cmp r13d, 4",
+        "1171C: jb 0x140011abd",
+        "11722: cmp ecx, 0x831020c8",
+        "11728: jne 0x14001172f",
+        "1172A: mov r12, r8",
+        "1172D: jmp 0x140011746",
+        "11746: lea rbx, [r14 + 0xa0]",
+        "1174D: mov qword ptr [rsp + 0x20], r8",
+        "11752: mov rcx, rbx",
+        "11755: xor r9d, r9d",
+        "11758: xor edx, edx",
+        "1175A: call qword ptr [rip - 0xd6a8]",
+        "11760: mov eax, dword ptr [r14 + r12*4 + 0xec]",
+        "11768: mov dword ptr [rsi], eax",
+        "1176A: mov dword ptr [r14 + r12*4 + 0xec], 0",
+        "11776: mov rcx, qword ptr [r14 + r12*8 + 0x58]",
+        "1177B: call qword ptr [rip - 0xd6a9]",
+        "11781: xor edx, edx",
+        "11783: mov rcx, rbx",
+        "11786: call qword ptr [rip - 0xd74c]",
+        "1178C: jmp 0x14001113b",
+        "1113B: mov qword ptr [r15 + 0x38], 4",
+        "11143: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x83102128",
+      "comparisonRva": "0x115A0",
+      "equalityPathRva": "0x116FB",
+      "calls": [
+        {
+          "rva": "0x240C",
+          "methodNameCandidates": [
+            "EVET"
+          ]
+        }
+      ],
+      "trace": [
+        "116FB: cmp dword ptr [rdx + 0x10], 0x10",
+        "116FF: jb 0x140010fa8",
+        "11705: mov rax, qword ptr [r15 + 0x18]",
+        "11709: mov dword ptr [rax + 4], r8d",
+        "1170D: mov r8d, 3",
+        "11713: jmp 0x140010fbd",
+        "10FBD: mov rcx, qword ptr [rsp + 0x48]",
+        "10FC2: mov rdx, r15",
+        "10FC5: call 0x14000240c"
+      ]
+    },
+    {
+      "ioctl": "0x8310212C",
+      "comparisonRva": "0x115AC",
+      "equalityPathRva": "0x116C0",
+      "calls": [
+        {
+          "rva": "0x1844",
+          "methodNameCandidates": [
+            "SMTF"
+          ]
+        }
+      ],
+      "trace": [
+        "116C0: mov dword ptr [rsp + 0x40], r8d",
+        "116C5: cmp r13d, 4",
+        "116C9: jb 0x140011abd",
+        "116CF: cmp ebx, 4",
+        "116D2: jb 0x140011abd",
+        "116D8: lea rdx, [rsp + 0x40]",
+        "116DD: mov rcx, r14",
+        "116E0: call 0x140001844"
+      ]
+    },
+    {
+      "ioctl": "0x83102130",
+      "comparisonRva": "0x115B8",
+      "equalityPathRva": "0x1168F",
+      "calls": [
+        {
+          "rva": "0x197C",
+          "methodNameCandidates": [
+            "MHQI"
+          ]
+        }
+      ],
+      "trace": [
+        "1168F: cmp r13d, 4",
+        "11693: jb 0x140011abd",
+        "11699: cmp ebx, 4",
+        "1169C: jb 0x140011abd",
+        "116A2: mov rcx, r14",
+        "116A5: call 0x14000197c"
+      ]
+    },
+    {
+      "ioctl": "0x83102134",
+      "comparisonRva": "0x115C4",
+      "equalityPathRva": "0x11650",
+      "calls": [
+        {
+          "rva": "0x197C",
+          "methodNameCandidates": [
+            "MHQI"
+          ]
+        }
+      ],
+      "trace": [
+        "11650: cmp ebx, 4",
+        "11653: jb 0x140011abd",
+        "11659: mov rcx, r14",
+        "1165C: call 0x14000197c"
+      ]
+    },
+    {
+      "ioctl": "0x83102138",
+      "comparisonRva": "0x115D0",
+      "equalityPathRva": "0x115DC",
+      "calls": [
+        {
+          "rva": "0x1AAC",
+          "methodNameCandidates": [
+            "GSBI"
+          ]
+        }
+      ],
+      "trace": [
+        "115DC: cmp ebx, 4",
+        "115DF: jb 0x140011abd",
+        "115E5: cmp r13d, 0x53",
+        "115E9: jb 0x140011abd",
+        "115EF: mov eax, dword ptr [rsi]",
+        "115F1: lea rdx, [rbp - 0x50]",
+        "115F5: mov rcx, r14",
+        "115F8: mov dword ptr [r14 + 0x174], eax",
+        "115FF: call 0x140001aac"
+      ]
+    },
+    {
+      "ioctl": "0x831020C8",
+      "comparisonRva": "0x11722",
+      "equalityPathRva": "0x1172A",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "1172A: mov r12, r8",
+        "1172D: jmp 0x140011746",
+        "11746: lea rbx, [r14 + 0xa0]",
+        "1174D: mov qword ptr [rsp + 0x20], r8",
+        "11752: mov rcx, rbx",
+        "11755: xor r9d, r9d",
+        "11758: xor edx, edx",
+        "1175A: call qword ptr [rip - 0xd6a8]",
+        "11760: mov eax, dword ptr [r14 + r12*4 + 0xec]",
+        "11768: mov dword ptr [rsi], eax",
+        "1176A: mov dword ptr [r14 + r12*4 + 0xec], 0",
+        "11776: mov rcx, qword ptr [r14 + r12*8 + 0x58]",
+        "1177B: call qword ptr [rip - 0xd6a9]",
+        "11781: xor edx, edx",
+        "11783: mov rcx, rbx",
+        "11786: call qword ptr [rip - 0xd74c]",
+        "1178C: jmp 0x14001113b",
+        "1113B: mov qword ptr [r15 + 0x38], 4",
+        "11143: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x831020CC",
+      "comparisonRva": "0x1172F",
+      "equalityPathRva": "0x11746",
+      "calls": [
+        {
+          "rva": "0x2BD0",
+          "methodNameCandidates": []
+        }
+      ],
+      "trace": [
+        "11746: lea rbx, [r14 + 0xa0]",
+        "1174D: mov qword ptr [rsp + 0x20], r8",
+        "11752: mov rcx, rbx",
+        "11755: xor r9d, r9d",
+        "11758: xor edx, edx",
+        "1175A: call qword ptr [rip - 0xd6a8]",
+        "11760: mov eax, dword ptr [r14 + r12*4 + 0xec]",
+        "11768: mov dword ptr [rsi], eax",
+        "1176A: mov dword ptr [r14 + r12*4 + 0xec], 0",
+        "11776: mov rcx, qword ptr [r14 + r12*8 + 0x58]",
+        "1177B: call qword ptr [rip - 0xd6a9]",
+        "11781: xor edx, edx",
+        "11783: mov rcx, rbx",
+        "11786: call qword ptr [rip - 0xd74c]",
+        "1178C: jmp 0x14001113b",
+        "1113B: mov qword ptr [r15 + 0x38], 4",
+        "11143: jmp 0x140011ac2",
+        "11AC2: mov rcx, qword ptr [rsp + 0x58]",
+        "11AC7: mov r8d, 0x20",
+        "11ACD: mov rdx, r15",
+        "11AD0: call qword ptr [rip - 0xda3e]",
+        "11AD6: cmp edi, 0x103",
+        "11ADC: je 0x140011aed",
+        "11ADE: xor edx, edx",
+        "11AE0: mov dword ptr [r15 + 0x30], edi",
+        "11AE4: mov rcx, r15",
+        "11AE7: call qword ptr [rip - 0xd9f5]",
+        "11AED: mov eax, edi",
+        "11AEF: mov rcx, qword ptr [rbp + 0x10]",
+        "11AF3: xor rcx, rsp",
+        "11AF6: call 0x140002bd0",
+        "11AFB: mov rbx, qword ptr [rsp + 0x170]",
+        "11B03: add rsp, 0x120",
+        "11B0A: pop r15",
+        "11B0C: pop r14",
+        "11B0E: pop r13",
+        "11B10: pop r12",
+        "11B12: pop rdi",
+        "11B13: pop rsi",
+        "11B14: pop rbp",
+        "11B15: ret "
+      ]
+    },
+    {
+      "ioctl": "0x83102140",
+      "comparisonRva": "0x1187B",
+      "equalityPathRva": "0x11A86",
+      "calls": [
+        {
+          "rva": "0x1BF4",
+          "methodNameCandidates": [
+            "ITHC"
+          ]
+        }
+      ],
+      "trace": [
+        "11A86: mov dword ptr [rsp + 0x40], r8d",
+        "11A8B: cmp r13d, 4",
+        "11A8F: jb 0x140011abd",
+        "11A91: cmp ebx, 4",
+        "11A94: jb 0x140011abd",
+        "11A96: mov eax, dword ptr [rsi]",
+        "11A98: lea r8, [rsp + 0x40]",
+        "11A9D: lea rdx, [rsp + 0x48]",
+        "11AA2: mov dword ptr [rsp + 0x48], eax",
+        "11AA6: mov rcx, r14",
+        "11AA9: call 0x140001bf4"
+      ]
+    },
+    {
+      "ioctl": "0x83102144",
+      "comparisonRva": "0x11887",
+      "equalityPathRva": "0x11A5C",
+      "calls": [
+        {
+          "rva": "0x1E54",
+          "methodNameCandidates": [
+            "KBLC"
+          ]
+        }
+      ],
+      "trace": [
+        "11A5C: mov dword ptr [rsp + 0x40], r8d",
+        "11A61: cmp r13d, 4",
+        "11A65: jb 0x140011abd",
+        "11A67: cmp ebx, 4",
+        "11A6A: jb 0x140011abd",
+        "11A6C: mov eax, dword ptr [rsi]",
+        "11A6E: lea r8, [rsp + 0x40]",
+        "11A73: lea rdx, [rsp + 0x48]",
+        "11A78: mov dword ptr [rsp + 0x48], eax",
+        "11A7C: mov rcx, r14",
+        "11A7F: call 0x140001e54"
+      ]
+    },
+    {
+      "ioctl": "0x83102148",
+      "comparisonRva": "0x11893",
+      "equalityPathRva": "0x11A2E",
+      "calls": [
+        {
+          "rva": "0x1000",
+          "methodNameCandidates": [
+            "BTMC"
+          ]
+        }
+      ],
+      "trace": [
+        "11A2E: mov dword ptr [rsp + 0x40], r8d",
+        "11A33: cmp r13d, 4",
+        "11A37: jb 0x140011abd",
+        "11A3D: cmp ebx, 4",
+        "11A40: jb 0x140011abd",
+        "11A42: mov eax, dword ptr [rsi]",
+        "11A44: lea r8, [rsp + 0x40]",
+        "11A49: lea rdx, [rsp + 0x48]",
+        "11A4E: mov dword ptr [rsp + 0x48], eax",
+        "11A52: mov rcx, r14",
+        "11A55: call 0x140001000"
+      ]
+    },
+    {
+      "ioctl": "0x8310214C",
+      "comparisonRva": "0x1189F",
+      "equalityPathRva": "0x119F9",
+      "calls": [
+        {
+          "rva": "0x2128",
+          "methodNameCandidates": [
+            "BSIF"
+          ]
+        }
+      ],
+      "trace": [
+        "119F9: mov dword ptr [rsp + 0x40], r8d",
+        "119FE: cmp r13d, 4",
+        "11A02: jb 0x140011abd",
+        "11A08: cmp ebx, 4",
+        "11A0B: jb 0x140011abd",
+        "11A11: mov eax, dword ptr [rsi]",
+        "11A13: lea r8, [rsp + 0x40]",
+        "11A18: lea rdx, [rsp + 0x48]",
+        "11A1D: mov dword ptr [rsp + 0x48], eax",
+        "11A21: mov rcx, r14",
+        "11A24: call 0x140002128"
+      ]
+    },
+    {
+      "ioctl": "0x83102150",
+      "comparisonRva": "0x118AB",
+      "equalityPathRva": "0x119C4",
+      "calls": [
+        {
+          "rva": "0x1130",
+          "methodNameCandidates": [
+            "BNMC"
+          ]
+        }
+      ],
+      "trace": [
+        "119C4: mov dword ptr [rsp + 0x40], r8d",
+        "119C9: cmp r13d, 4",
+        "119CD: jb 0x140011abd",
+        "119D3: cmp ebx, 4",
+        "119D6: jb 0x140011abd",
+        "119DC: mov eax, dword ptr [rsi]",
+        "119DE: lea r8, [rsp + 0x40]",
+        "119E3: lea rdx, [rsp + 0x48]",
+        "119E8: mov dword ptr [rsp + 0x48], eax",
+        "119EC: mov rcx, r14",
+        "119EF: call 0x140001130"
+      ]
+    },
+    {
+      "ioctl": "0x83102154",
+      "comparisonRva": "0x118B7",
+      "equalityPathRva": "0x1198F",
+      "calls": [
+        {
+          "rva": "0x1F84",
+          "methodNameCandidates": [
+            "KBLR"
+          ]
+        }
+      ],
+      "trace": [
+        "1198F: mov dword ptr [rsp + 0x40], r8d",
+        "11994: cmp r13d, 4",
+        "11998: jb 0x140011abd",
+        "1199E: cmp ebx, 4",
+        "119A1: jb 0x140011abd",
+        "119A7: mov eax, dword ptr [rsi]",
+        "119A9: lea r8, [rsp + 0x40]",
+        "119AE: lea rdx, [rsp + 0x48]",
+        "119B3: mov dword ptr [rsp + 0x48], eax",
+        "119B7: mov rcx, r14",
+        "119BA: call 0x140001f84"
+      ]
+    },
+    {
+      "ioctl": "0x83102158",
+      "comparisonRva": "0x118C3",
+      "equalityPathRva": "0x1195A",
+      "calls": [
+        {
+          "rva": "0x1D24",
+          "methodNameCandidates": [
+            "KBLA"
+          ]
+        }
+      ],
+      "trace": [
+        "1195A: mov dword ptr [rsp + 0x40], r8d",
+        "1195F: cmp r13d, 4",
+        "11963: jb 0x140011abd",
+        "11969: cmp ebx, 4",
+        "1196C: jb 0x140011abd",
+        "11972: mov eax, dword ptr [rsi]",
+        "11974: lea r8, [rsp + 0x40]",
+        "11979: lea rdx, [rsp + 0x48]",
+        "1197E: mov dword ptr [rsp + 0x48], eax",
+        "11982: mov rcx, r14",
+        "11985: call 0x140001d24"
+      ]
+    },
+    {
+      "ioctl": "0x83102574",
+      "comparisonRva": "0x118CF",
+      "equalityPathRva": "0x1191F",
+      "calls": [
+        {
+          "rva": "0xF79C",
+          "methodNameCandidates": [
+            "MHTT"
+          ]
+        }
+      ],
+      "trace": [
+        "1191F: mov eax, r8d",
+        "11922: cmp ebx, 4",
+        "11925: jb 0x140011929",
+        "11927: mov eax, dword ptr [rsi]",
+        "11929: lea rdx, [rsp + 0x38]",
+        "1192E: mov dword ptr [rsp + 0x38], eax",
+        "11932: mov rcx, r14",
+        "11935: call 0x14000f79c"
+      ]
+    },
+    {
+      "ioctl": "0x83102580",
+      "comparisonRva": "0x118D7",
+      "equalityPathRva": "0x118E3",
+      "calls": [
+        {
+          "rva": "0xF664",
+          "methodNameCandidates": [
+            "MHCT"
+          ]
+        }
+      ],
+      "trace": [
+        "118E3: cmp ebx, 4",
+        "118E6: jb 0x140011abd",
+        "118EC: mov eax, dword ptr [rsi]",
+        "118EE: lea rdx, [rsp + 0x38]",
+        "118F3: mov rcx, r14",
+        "118F6: mov dword ptr [rsp + 0x38], eax",
+        "118FA: call 0x14000f664"
+      ]
+    }
+  ]
+}
