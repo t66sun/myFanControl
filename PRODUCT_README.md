@@ -66,7 +66,7 @@ v0.1.2：现有离线 UI 回归通过，覆盖默认 960×760、最小 800×640 
 - 历史 UI 窗口/托盘通过：`artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/window-product.json`。X 隐藏 12 秒后两路目标仍为 3600/3800 RPM，EC 反馈 3575/3763 RPM；托盘恢复显示与真正退出均通过，退出后 C/D/E/F 覆盖为零。
 - 总报告 `artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/report.json` 的 Succeeded / ControlVerified / WindowVerified 均 true，Error=null。用户决定本轮先交付，真实 Modern Standby 睡眠唤醒验收延期，作为后续首项工作。
 
-历史视觉美化版的离线回归、十张截图、27 项策略与发布记录位于 `artifacts/diagnostics/ui-style-v2`。当前发布包为 `artifacts/publish/myFanControl-compact`，旧版睡眠记录不能代替延期的新版睡眠验收。具体包哈希、构建警告和后续睡眠命令见 [HANDOFF.md](HANDOFF.md)。
+历史视觉美化版的离线回归、十张截图、27 项策略与发布记录位于 `artifacts/diagnostics/ui-style-v2`。当前发布包位于 `artifacts/publish/myFanControl-v0-1-3`，旧版睡眠记录不能代替延期的新版睡眠验收。具体包哈希、构建警告和后续睡眠命令见 [HANDOFF.md](HANDOFF.md)。
 
 2026-10-03 旧版基准包已有以下记录：
 

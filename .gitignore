@@ -5,3 +5,6 @@ research/upstream/
 **/obj/
 **/__pycache__/
 *.py[cod]
+/release/*
+!/release/.gitkeep
+/research/**/artifacts/

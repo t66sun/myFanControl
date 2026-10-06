@@ -35,7 +35,7 @@ v0.1.3 的离线 UI 回归与 27 项控制策略检查通过，截图与日志�
 & .\scripts\Build.ps1
 & .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new
 & .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new-fd -FrameworkDependent
-& .\scripts\Package-Release.ps1 -Version 0.1.3 -SelfContainedDirectory myFanControl-new -FrameworkDependentDirectory myFanControl-new-fd
+& .\scripts\Package-Release.ps1 -Version '<新版本>' -SelfContainedDirectory myFanControl-new -FrameworkDependentDirectory myFanControl-new-fd
 ```
 
 发布脚本要求目标目录尚不存在，并自动恢复依赖。默认生成自包含包，`-FrameworkDependent` 生成不含 .NET 的轻量包。两个变体都将桌面与后端合并到同一根目录，只复用哈希相同的文件，遇到不同哈希冲突会停止。打包脚本同时生成两个 ZIP 和含两行校验值的 `SHA256SUMS.txt`；这是后续版本的固定交付标准。历史 `Build.ps1 -Publish` 仅生成桌面预览包。
@@ -59,7 +59,7 @@ LibreHardwareMonitor 使用 MPL-2.0；具体第三方许可证见上游仓库及
 
 ## 已验证的固件模式通道
 
-本机 21CX / HYCN42WW 已实测通过 EnergyDrv / DYTC 完成性能 → 安静 → 性能的往返，恢复后状态回读与初始一致。桌面预览仍仅查询，任意 RPM/百分比调速和自动曲线尚未验证。
+本机 21CX / HYCN42WW 已实测通过 EnergyDrv / DYTC 完成性能 → 安静 → 性能的往返，恢复后状态回读与初始一致。当前产品支持经验证的两路 RPM 手动目标和自动曲线；适用机型与未完成的新版实机验收见 [HANDOFF.md](HANDOFF.md)。
 
 ```powershell
 # 只查询，不改变模式
