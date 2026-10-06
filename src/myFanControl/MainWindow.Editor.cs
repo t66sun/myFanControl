@@ -10,11 +10,12 @@ public partial class MainWindow
 {
     private readonly ObservableCollection<CurveNode>[] _nodes = [new(), new()];
     private bool _editorReady, _editorChanging, _uiBusy;
-    private string _savedCurve1 = DefaultCurve, _savedCurve2 = DefaultCurve, _savedManual1 = "3600", _savedManual2 = "3600";
+    private string _savedCurve1 = DefaultCurve, _savedCurve2 = DefaultCurve, _savedManual1 = "3600", _savedManual2 = "3600", _savedDelaySeconds = "0";
     private CurvePreset? _selectedPreset;
     private int SelectedFan => Fan2Choice?.IsChecked == true ? 1 : 0;
     private bool CurveDirty => Fan1CurveBox.Text != _savedCurve1 || Fan2CurveBox.Text != _savedCurve2;
     private bool ManualDirty => Fan1RpmBox.Text != _savedManual1 || Fan2RpmBox.Text != _savedManual2;
+    private bool DelayDirty => IncreaseDelayBox.Text != _savedDelaySeconds;
     private static string SerializeNodes(IEnumerable<CurveNode> nodes)
     {
         string text = string.Join(';', nodes.Select(n => n.Temperature + ":" + n.Rpm));
@@ -41,6 +42,7 @@ public partial class MainWindow
     {
         _savedCurve1 = _settingsFan1Curve; _savedCurve2 = _settingsFan2Curve;
         _savedManual1 = _settingsFan1Rpm.ToString(CultureInfo.InvariantCulture); _savedManual2 = _settingsFan2Rpm.ToString(CultureInfo.InvariantCulture);
+        _savedDelaySeconds = _settingsIncreaseDelaySeconds.ToString(CultureInfo.InvariantCulture);
         UpdateEditorState();
     }
     private bool ValidateNodes(int fan)
@@ -76,15 +78,17 @@ public partial class MainWindow
         CurveGraph.Fan1 = valid1 ? ParseCurve(Fan1CurveBox.Text).Points : []; CurveGraph.Fan2 = valid2 ? ParseCurve(Fan2CurveBox.Text).Points : [];
         CurveGraph.SelectedFan = SelectedFan; CurveGraph.InvalidateVisual();
         bool manualValid = ValidateManual(out _, out _); ManualValidationText.Text = manualValid ? "" : "请输入 1500～7500 之间、100 的倍数的整数 RPM。";
+        bool delayValid = TryParseIncreaseDelay(IncreaseDelayBox.Text, out int delaySeconds);
+        IncreaseDelayValidationText.Text = delayValid ? "" : "升速延迟需为 0～10 秒的整数。";
         bool manualTab = EditorTabs.SelectedIndex == 1;
         ApplyButton.Content = _uiBusy ? "正在处理…" : manualTab ? "应用手动转速" : "应用自动曲线";
-        ApplyButton.IsEnabled = !_uiBusy && (manualTab ? manualValid : curvesValid);
-        SavePresetButton.IsEnabled = SaveAsPresetButton.IsEnabled = !_uiBusy && curvesValid;
+        ApplyButton.IsEnabled = !_uiBusy && (manualTab ? manualValid : curvesValid && delayValid);
+        SavePresetButton.IsEnabled = SaveAsPresetButton.IsEnabled = !_uiBusy && curvesValid && delayValid;
         RenamePresetButton.IsEnabled = DeletePresetButton.IsEnabled = !_uiBusy && _selectedPreset is not null && _selectedPreset.Name != "默认曲线";
         AddNodeButton.IsEnabled = !_uiBusy && curvesValid;
         RemoveNodeButton.IsEnabled = !_uiBusy && _nodes[SelectedFan].Count > 2;
-        bool sameApplied = manualTab ? _controlMode == ControlMode.Manual && manualValid && _fan1Applied?.Rpm == int.Parse(Fan1RpmBox.Text, CultureInfo.InvariantCulture) && _fan2Applied?.Rpm == int.Parse(Fan2RpmBox.Text, CultureInfo.InvariantCulture) : _controlMode == ControlMode.Curve && Fan1CurveBox.Text == _activeFan1Curve && Fan2CurveBox.Text == _activeFan2Curve;
-        DraftStatusText.Text = (CurveDirty || ManualDirty ? "● 未保存修改" : "修改已保存") + (sameApplied ? " · 当前配置已启用" : " · 当前输入尚未应用");
+        bool sameApplied = manualTab ? _controlMode == ControlMode.Manual && manualValid && _fan1Applied?.Rpm == int.Parse(Fan1RpmBox.Text, CultureInfo.InvariantCulture) && _fan2Applied?.Rpm == int.Parse(Fan2RpmBox.Text, CultureInfo.InvariantCulture) : _controlMode == ControlMode.Curve && Fan1CurveBox.Text == _activeFan1Curve && Fan2CurveBox.Text == _activeFan2Curve && delayValid && delaySeconds == _activeIncreaseDelaySeconds;
+        DraftStatusText.Text = (CurveDirty || ManualDirty || DelayDirty ? "● 未保存修改" : "修改已保存") + (sameApplied ? " · 当前配置已启用" : " · 当前输入尚未应用");
     }
     private void SetUiBusy(bool busy)
     {
@@ -98,6 +102,7 @@ public partial class MainWindow
     }
     private void OnEditorTabChanged(object sender, SelectionChangedEventArgs e) { if (ReferenceEquals(e.Source, EditorTabs)) UpdateEditorState(); }
     private void OnManualDraftChanged(object sender, TextChangedEventArgs e) => UpdateEditorState();
+    private void OnIncreaseDelayChanged(object sender, TextChangedEventArgs e) => UpdateEditorState();
     private void OnNodeBeginningEdit(object sender, DataGridBeginningEditEventArgs e) { if (e.Column.DisplayIndex == 1 && ReferenceEquals(e.Row.Item, _nodes[SelectedFan].LastOrDefault())) e.Cancel = true; }
     private void OnNodeCellEditEnding(object sender, DataGridCellEditEndingEventArgs e) => Dispatcher.BeginInvoke(new Action(UpdateEditorState));
     private void OnSelectedFanChanged(object sender, RoutedEventArgs e) { if (!_editorReady) return; NodeGrid.ItemsSource = _nodes[SelectedFan]; CurveGraph.SelectedNode = -1; UpdateEditorState(); }
@@ -134,15 +139,15 @@ public partial class MainWindow
     private void OnSaveAsPresetClick(object sender, RoutedEventArgs e) => SavePreset(true);
     private bool SavePreset(bool saveAs)
     {
-        if (!ValidateNodes(0) || !ValidateNodes(1)) return false;
+        if (!ValidateNodes(0) || !ValidateNodes(1) || !TryParseIncreaseDelay(IncreaseDelayBox.Text, out int delaySeconds)) return false;
         string? name = !saveAs && _selectedPreset is not null && _selectedPreset.Name != "默认曲线" ? _selectedPreset.Name : PromptPresetName("保存双路曲线预设", "");
         if (name is null) return false;
         var existing = _curvePresets.Find(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
         if (existing is not null && MessageBox.Show(this, $"覆盖预设“{existing.Name}”？", "确认覆盖", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return false;
-        var old = _curvePresets.ToList(); string old1 = _settingsFan1Curve, old2 = _settingsFan2Curve;
+        var old = _curvePresets.ToList(); string old1 = _settingsFan1Curve, old2 = _settingsFan2Curve; int oldDelay = _settingsIncreaseDelaySeconds;
         if (existing is not null) _curvePresets.Remove(existing);
-        _curvePresets.Add(new(name, Fan1CurveBox.Text, Fan2CurveBox.Text)); _settingsFan1Curve = Fan1CurveBox.Text; _settingsFan2Curve = Fan2CurveBox.Text;
-        if (!SaveControlSettings()) { _curvePresets = old; _settingsFan1Curve = old1; _settingsFan2Curve = old2; return false; }
+        _curvePresets.Add(new(name, Fan1CurveBox.Text, Fan2CurveBox.Text)); _settingsFan1Curve = Fan1CurveBox.Text; _settingsFan2Curve = Fan2CurveBox.Text; _settingsIncreaseDelaySeconds = delaySeconds;
+        if (!SaveControlSettings()) { _curvePresets = old; _settingsFan1Curve = old1; _settingsFan2Curve = old2; _settingsIncreaseDelaySeconds = oldDelay; return false; }
         MarkEditorSaved(); RefreshPresets(name); return true;
     }
     private void OnRenamePresetClick(object sender, RoutedEventArgs e)
@@ -171,8 +176,8 @@ public partial class MainWindow
     }
     private bool ConfirmDiscardUnsavedChanges()
     {
-        if (!_editorReady || (!CurveDirty && !ManualDirty)) return true;
-        var content = new StackPanel { Margin = new Thickness(20) }; content.Children.Add(new TextBlock { Text = "存在未保存修改。曲线将保存为命名预设；手动参数只保存为下次输入，不启用控制。", TextWrapping = TextWrapping.Wrap, MaxWidth = 390, Margin = new Thickness(0, 0, 0, 18) });
+        if (!_editorReady || (!CurveDirty && !ManualDirty && !DelayDirty)) return true;
+        var content = new StackPanel { Margin = new Thickness(20) }; content.Children.Add(new TextBlock { Text = "存在未保存修改。曲线将保存为命名预设；手动参数和升速延迟保存为下次输入，不启用控制。", TextWrapping = TextWrapping.Wrap, MaxWidth = 390, Margin = new Thickness(0, 0, 0, 18) });
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right }; int result = 0;
         var dialog = new Window { Owner = this, Resources = Resources, Background = (System.Windows.Media.Brush)FindResource("Canvas"), Foreground = (System.Windows.Media.Brush)FindResource("Ink"), FontSize = 13, FontFamily = new System.Windows.Media.FontFamily("Segoe UI, Microsoft YaHei UI"), Title = "处理未保存修改", Content = content, Width = 440, SizeToContent = SizeToContent.Height, ResizeMode = ResizeMode.NoResize, WindowStartupLocation = WindowStartupLocation.CenterOwner };
         foreach (var choice in new[] { ("保存", 1), ("放弃", 2), ("取消", 0) }) { var button = new Button { Content = choice.Item1, IsCancel = choice.Item2 == 0, MinHeight = 32, Padding = new Thickness(12, 7, 12, 7), Margin = new Thickness(8, 0, 0, 0) }; if (choice.Item2 == 1) button.Style = (Style)FindResource("PrimaryButton"); button.Click += (_, _) => { result = choice.Item2; dialog.DialogResult = result != 0; }; buttons.Children.Add(button); } content.Children.Add(buttons); dialog.ShowDialog();
@@ -180,11 +185,12 @@ public partial class MainWindow
         if (result == 1)
         {
             if (!ValidateManual(out int rpm1, out int rpm2)) { MessageBox.Show(this, "手动参数无效，请修正后保存，或选择放弃。", "无法保存"); return false; }
+            if (!TryParseIncreaseDelay(IncreaseDelayBox.Text, out int delaySeconds)) { MessageBox.Show(this, "升速延迟需为 0～10 秒的整数。", "无法保存"); return false; }
             if (CurveDirty && !SavePreset(true)) return false;
-            int old1 = _settingsFan1Rpm, old2 = _settingsFan2Rpm; _settingsFan1Rpm = rpm1; _settingsFan2Rpm = rpm2;
-            if (!SaveControlSettings()) { _settingsFan1Rpm = old1; _settingsFan2Rpm = old2; return false; } MarkEditorSaved(); return true;
+            int old1 = _settingsFan1Rpm, old2 = _settingsFan2Rpm, oldDelay = _settingsIncreaseDelaySeconds; _settingsFan1Rpm = rpm1; _settingsFan2Rpm = rpm2; _settingsIncreaseDelaySeconds = delaySeconds;
+            if (!SaveControlSettings()) { _settingsFan1Rpm = old1; _settingsFan2Rpm = old2; _settingsIncreaseDelaySeconds = oldDelay; return false; } MarkEditorSaved(); return true;
         }
-        _editorChanging = true; LoadNodes(0, _savedCurve1); LoadNodes(1, _savedCurve2); Fan1RpmBox.Text = _savedManual1; Fan2RpmBox.Text = _savedManual2; _editorChanging = false; UpdateEditorState(); return true;
+        _editorChanging = true; LoadNodes(0, _savedCurve1); LoadNodes(1, _savedCurve2); Fan1RpmBox.Text = _savedManual1; Fan2RpmBox.Text = _savedManual2; IncreaseDelayBox.Text = _savedDelaySeconds; _editorChanging = false; UpdateEditorState(); return true;
     }
 }
 

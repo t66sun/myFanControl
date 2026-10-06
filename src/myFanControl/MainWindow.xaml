@@ -87,6 +87,12 @@
                                     <WrapPanel><Button x:Name="AddNodeButton" Content="增加节点" Click="OnAddNodeClick"/><Button x:Name="RemoveNodeButton" Content="删除所选" ToolTip="删除选中的节点；至少保留两个节点" Click="OnRemoveNodeClick"/></WrapPanel>
                                 </StackPanel>
                             </Grid>
+                            <WrapPanel Margin="0,12,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="升速延迟（秒）" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="IncreaseDelayBox" Text="0" Width="56" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="自动曲线升速延迟秒数"/>
+                                <TextBlock Text="0–10 · 降速及 90°C 高温保护不延迟" Style="{StaticResource Caption}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            </WrapPanel>
+                            <TextBlock x:Name="IncreaseDelayValidationText" Style="{StaticResource InlineError}" Margin="0,4,0,0"/>
                             <TextBlock x:Name="CurveValidationText" Style="{StaticResource InlineError}" Margin="0,8,0,0"/>
                         </StackPanel>
                     </TabItem>

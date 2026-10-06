@@ -223,7 +223,22 @@ internal static class Program
         using var saved = JsonDocument.Parse(File.ReadAllText(legacyPath));
         foreach (string property in new[] { "Fan1Rpm", "Fan2Rpm", "Fan1Curve", "Fan2Curve" })
             Require(saved.RootElement.TryGetProperty(property, out _), $"Saved settings lost {property}.");
+        Require(Box(legacy, "IncreaseDelayBox").Text == "0" && saved.RootElement.GetProperty("IncreaseDelaySeconds").GetInt32() == 0,
+            "Legacy settings did not default to an immediate fan increase.");
         legacy.Hide();
+
+        string delayPath = Path.Combine(Path.GetDirectoryName(settingsPath)!, "delay.json");
+        File.WriteAllText(delayPath, JsonSerializer.Serialize(new { Fan1Rpm = 3600, Fan2Rpm = 3600,
+            Fan1Curve = "40:2500;90:7500", Fan2Curve = "40:2500;90:7500", IncreaseDelaySeconds = 1 }));
+        var delayed = new MainWindow(delayPath); DetachLoadedHandler(delayed); Invoke(delayed, "InitializeControlUi");
+        Require(Box(delayed, "IncreaseDelayBox").Text == "1", "Saved heating delay was not loaded.");
+        delayed.Hide();
+        File.WriteAllText(delayPath, JsonSerializer.Serialize(new { Fan1Rpm = 3600, Fan2Rpm = 3600,
+            Fan1Curve = "40:2500;90:7500", Fan2Curve = "40:2500;90:7500", IncreaseDelaySeconds = 11 }));
+        var invalidDelay = new MainWindow(delayPath); DetachLoadedHandler(invalidDelay); Invoke(invalidDelay, "InitializeControlUi");
+        Require(Box(invalidDelay, "IncreaseDelayBox").Text == "0" && Text(invalidDelay, "SettingsStatusText").Text.Contains("升速延迟无效"),
+            "Invalid saved delay was not isolated from valid control settings.");
+        invalidDelay.Hide();
 
         var badPath = Path.Combine(Path.GetDirectoryName(settingsPath)!, "missing-directory", "settings.json");
         var failing = new MainWindow(badPath); DetachLoadedHandler(failing); Invoke(failing, "InitializeControlUi");
@@ -240,6 +255,13 @@ internal static class Program
         var graph = window.FindName("CurveGraph")!;
         Invoke(window, "UpdateEditorState");
         Require(((Button)window.FindName("ApplyButton")!).IsEnabled, "Valid default curves should be applicable.");
+        Box(window, "IncreaseDelayBox").Text = "11";
+        Require(!((Button)window.FindName("ApplyButton")!).IsEnabled && Text(window, "IncreaseDelayValidationText").Text.Contains("0～10"),
+            "Invalid heating delay did not block applying the curve.");
+        Box(window, "IncreaseDelayBox").Text = "1";
+        Require(((Button)window.FindName("ApplyButton")!).IsEnabled && Text(window, "DraftStatusText").Text.Contains("未保存"),
+            "A valid heating delay did not become an applicable draft.");
+        Box(window, "IncreaseDelayBox").Text = "0";
         Require(Box(window, "Fan1CurveBox").Text == "40:2500;60:3500;75:5000;90:7500", "Default curve changed.");
         var nodes = (IList)grid.ItemsSource!;
         Require(nodes.Count == 4, "Default curve should contain four editable nodes.");

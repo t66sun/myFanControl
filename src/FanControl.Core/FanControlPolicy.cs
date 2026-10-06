@@ -40,35 +40,36 @@ public sealed class FanCurve
 }
 
 public enum ControlAction { Hold, RequestRpm, RestoreFirmwareAutomatic }
-public enum DecisionReason { InitialSample, Heating, Cooling, AtTarget, CoolingHysteresis, CoolingRateLimit, WriteInterval, HighTemperature, SensorMissing, SensorInvalid, StaleSample, FutureSample, InvalidHistory }
+public enum DecisionReason { InitialSample, Heating, Cooling, AtTarget, CoolingHysteresis, CoolingRateLimit, WriteInterval, HighTemperature, SensorMissing, SensorInvalid, StaleSample, FutureSample, InvalidHistory, HeatingDelay }
 public sealed record TemperatureFrame(DateTimeOffset CapturedAtUtc, IReadOnlyDictionary<string,double?> Values);
 /// <summary>Last successfully applied command, not the last proposed command.</summary>
 public sealed record AppliedControl(int Rpm, double TemperatureCelsius, DateTimeOffset AppliedAtUtc);
 public sealed record ControlDecision(ControlAction Action, int? RequestedRpm, double? TemperatureCelsius, DecisionReason Reason);
 
-/// <summary>No driver, device, settings writes, or mutable control state.</summary>
+/// <summary>No driver, device, or settings writes. Tracks a pending RPM increase.</summary>
 public sealed class FanControlPolicy
 {
     private readonly FanCurve curve;
     private readonly string[] requiredSensors;
-    private readonly TimeSpan maximumAge, minimumInterval;
+    private readonly TimeSpan maximumAge, minimumInterval, heatingDelay;
     private readonly double coolingHysteresis, overheat;
     private readonly int coolingRpmPerSecond;
+    private DateTimeOffset? heatingSince;
     public FanControlPolicy(FanCurve curve,IEnumerable<string> requiredSensors,TimeSpan maximumAge,TimeSpan minimumInterval,
-        double coolingHysteresis,double overheat,int coolingRpmPerSecond)
+        double coolingHysteresis,double overheat,int coolingRpmPerSecond,TimeSpan heatingDelay=default)
     {
         this.requiredSensors=requiredSensors.ToArray();
         if(this.requiredSensors.Length==0 || this.requiredSensors.Any(string.IsNullOrWhiteSpace) || this.requiredSensors.Distinct(StringComparer.Ordinal).Count()!=this.requiredSensors.Length)
             throw new ArgumentException("Required sensors must be nonempty and unique");
-        if(maximumAge<=TimeSpan.Zero || minimumInterval<=TimeSpan.Zero || coolingRpmPerSecond<=0 || !double.IsFinite(coolingHysteresis) || coolingHysteresis<0 || coolingHysteresis>30)
+        if(maximumAge<=TimeSpan.Zero || minimumInterval<=TimeSpan.Zero || heatingDelay<TimeSpan.Zero || heatingDelay>TimeSpan.FromSeconds(10) || coolingRpmPerSecond<=0 || !double.IsFinite(coolingHysteresis) || coolingHysteresis<0 || coolingHysteresis>30)
             throw new ArgumentException("Invalid timing or cooling parameters");
         if(!FanCurve.ValidTemperature(overheat) || overheat<curve.Points[^1].Celsius)throw new ArgumentException("Invalid high-temperature threshold");
-        this.curve=curve;this.maximumAge=maximumAge;this.minimumInterval=minimumInterval;
+        this.curve=curve;this.maximumAge=maximumAge;this.minimumInterval=minimumInterval;this.heatingDelay=heatingDelay;
         this.coolingHysteresis=coolingHysteresis;this.overheat=overheat;this.coolingRpmPerSecond=coolingRpmPerSecond;
     }
     public ControlDecision Evaluate(TemperatureFrame frame,DateTimeOffset now,AppliedControl? applied)
     {
-        static ControlDecision Restore(DecisionReason reason)=>new(ControlAction.RestoreFirmwareAutomatic,null,null,reason);
+        ControlDecision Restore(DecisionReason reason) { heatingSince=null; return new(ControlAction.RestoreFirmwareAutomatic,null,null,reason); }
         if(frame.CapturedAtUtc>now)return Restore(DecisionReason.FutureSample);
         if(now-frame.CapturedAtUtc>maximumAge)return Restore(DecisionReason.StaleSample);
         double temperature=double.NegativeInfinity;
@@ -82,8 +83,14 @@ public sealed class FanControlPolicy
             return Restore(DecisionReason.InvalidHistory);
         int target=temperature>=overheat?curve.Limits.Maximum:curve.Evaluate(temperature);
         bool high=temperature>=overheat;
-        if(applied is null)return new(ControlAction.RequestRpm,target,temperature,high?DecisionReason.HighTemperature:DecisionReason.InitialSample);
+        if(applied is null) { heatingSince=null; return new(ControlAction.RequestRpm,target,temperature,high?DecisionReason.HighTemperature:DecisionReason.InitialSample); }
+        if(high || target<=applied.Rpm)heatingSince=null;
         if(target==applied.Rpm)return new(ControlAction.Hold,null,temperature,high?DecisionReason.HighTemperature:DecisionReason.AtTarget);
+        if(target>applied.Rpm && heatingDelay>TimeSpan.Zero && !high)
+        {
+            if(heatingSince is null || heatingSince>now)heatingSince=now;
+            if(now-heatingSince<heatingDelay)return new(ControlAction.Hold,null,temperature,DecisionReason.HeatingDelay);
+        }
         if(!high && now-applied.AppliedAtUtc<minimumInterval)return new(ControlAction.Hold,null,temperature,DecisionReason.WriteInterval);
         if(target<applied.Rpm)
         {
