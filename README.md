@@ -8,6 +8,8 @@
 
 下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `myFanControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `myFanControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
 
+v0.1.3 另有本地 Windows 安装向导 `artifacts/releases/myFanControl-v0.1.3-win-x64-setup.exe`，使用同版自包含 ZIP 构建，提供中英文安装页、开始菜单快捷方式、可选桌面快捷方式及卸载入口；仍需预先安装 PawnIO。构建命令：`& scripts/Build-ReleaseInstaller.ps1 -Version 0.1.3`（需 Inno Setup 7 的 `ISCC.exe`，默认位于 `.tools/innosetup/`，也可传 `-IsccPath`）。安装向导是本地成品，尚未上传到 GitHub Release；安装前请先在旧版托盘选择“恢复固件并退出”。
+
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
 本地只保留最新发行版的自包含与轻量两种包：`artifacts/publish/myFanControl-v0-1-3`、`myFanControl-v0-1-3-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。

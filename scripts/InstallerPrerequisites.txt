@@ -1,0 +1,11 @@
+myFanControl 安装前须知
+
+此安装程序使用已发布的自包含 Windows x64 包，无需另装 .NET。
+目前仅验证 ThinkBook 14 G4+ IAP / 21CX、BIOS HYCN42WW、Windows 11。
+电脑须已安装 PawnIO 2.2 正式签名驱动；本安装程序不安装驱动。
+
+安装或卸载前，请在旧版托盘菜单选择“恢复固件并退出”，确认程序已退出。
+安装程序不会删除已有的 control-settings.json。升级后请核对配置和控制状态。
+
+Before installing or uninstalling, choose "Restore firmware and exit" from the old app's tray menu.
+This installer does not install PawnIO or remove control-settings.json.

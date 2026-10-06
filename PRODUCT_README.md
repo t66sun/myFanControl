@@ -10,6 +10,8 @@
 
 下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `myFanControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
+本地另提供 v0.1.3 自包含安装向导 `artifacts/releases/myFanControl-v0.1.3-win-x64-setup.exe`。向导不会安装 PawnIO 驱动，也不会删除个人 `control-settings.json`；升级前请在旧版托盘选择“恢复固件并退出”。此安装程序尚未上传到 GitHub Release。
+
 保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地只保留最新版本的两种包：`myFanControl-v0-1-3` 与 `myFanControl-v0-1-3-framework-dependent`。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 
 界面采用中文浅色 Windows 工具样式，默认 960×760，最小 800×640。顶部显示 CPU/GPU 温度、两路实际 RPM、已应用目标和当前模式；主要操作页脚固定，设备信息、完整传感器和诊断错误在折叠详情中。
