@@ -75,6 +75,7 @@ internal static class Program
         VerifySensorPresentation(window, fans, ec, thermal, vpc, errors);
         VerifyCompatibilityAndSettings(window, settingsPath);
         VerifyEditor(window, settingsPath);
+        VerifyThemeColor(window, settingsPath, privateRoot);
         VerifyAppliedSummary(window);
 
         InitializeTray(window);
@@ -158,6 +159,51 @@ internal static class Program
     }
 
     private static TemperatureSnapshot fixture = null!;
+
+    private static void VerifyThemeColor(MainWindow window, string settingsPath, string privateRoot)
+    {
+        var originalControl = GetField(window, "_controlClient");
+        var originalMode = GetField(window, "_controlMode");
+        string manual = Box(window, "Fan1RpmBox").Text;
+        Box(window, "Fan1RpmBox").Text = "unfinished";
+        Require((bool)Invoke(window, "SaveThemeColor", "#7C3AED")!, "Custom theme could not be saved.");
+        Require(((SolidColorBrush)((Button)window.FindName("ApplyButton")!).Background).Color == Color.FromRgb(124, 58, 237),
+            "Changing the theme did not update the existing button resource.");
+        Require(Box(window, "Fan1RpmBox").Text == "unfinished", "Theme selection overwrote the manual draft.");
+        using (var saved = JsonDocument.Parse(File.ReadAllText(settingsPath)))
+        {
+            Require(saved.RootElement.GetProperty("ThemeColor").GetString() == "#7C3AED", "Custom theme was not persisted.");
+            Require(saved.RootElement.GetProperty("Fan1Rpm").GetInt32() == (int)GetField(window, "_settingsFan1Rpm")!,
+                "Theme persistence saved an unfinished control draft.");
+        }
+        var reloaded = new MainWindow(settingsPath); DetachLoadedHandler(reloaded); Invoke(reloaded, "InitializeControlUi");
+        Require((string)GetField(reloaded, "_themeColor")! == "#7C3AED", "Custom theme was not restored on reload.");
+        reloaded.Hide();
+        foreach (var (color, foreground) in new[] { ("#FFFFFF", Colors.Black), ("#FFFF00", Colors.Black), ("#000000", Colors.White) })
+        {
+            Require((bool)Invoke(window, "SaveThemeColor", color)!, "Edge theme could not be saved.");
+            Require(((SolidColorBrush)window.FindResource("AccentForeground")).Color == foreground, "Theme foreground is unreadable.");
+            Require(((SolidColorBrush)window.FindResource("AccentInk")).Color != Colors.White, "White theme hid chart/focus strokes.");
+        }
+        Click(window, "ResetThemeColorButton");
+        Require((string)GetField(window, "_themeColor")! == "#0F766E", "Reset did not restore the default theme.");
+        Require(ReferenceEquals(originalControl, GetField(window, "_controlClient")) && Equals(originalMode, GetField(window, "_controlMode")),
+            "Changing theme touched the control backend or mode.");
+        Box(window, "Fan1RpmBox").Text = manual;
+
+        var failing = new MainWindow(Path.Combine(privateRoot, "missing-theme-directory", "settings.json"));
+        DetachLoadedHandler(failing); Invoke(failing, "InitializeControlUi");
+        Require(!(bool)Invoke(failing, "SaveThemeColor", "#7C3AED")! && (string)GetField(failing, "_themeColor")! == "#0F766E",
+            "Failed theme save changed the active theme.");
+        failing.Hide();
+        string invalidThemePath = Path.Combine(privateRoot, "invalid-theme.json");
+        File.WriteAllText(invalidThemePath, JsonSerializer.Serialize(new { Fan1Rpm = 4200, Fan2Rpm = 4400,
+            Fan1Curve = "40:2500;90:7500", Fan2Curve = "40:2500;90:7500", ThemeColor = "not-a-color" }));
+        var invalidTheme = new MainWindow(invalidThemePath); DetachLoadedHandler(invalidTheme); Invoke(invalidTheme, "InitializeControlUi");
+        Require((string)GetField(invalidTheme, "_themeColor")! == "#0F766E" && Box(invalidTheme, "Fan1RpmBox").Text == "4200" &&
+            Text(invalidTheme, "SettingsStatusText").Text.Contains("主题色无效"), "Invalid theme discarded valid control settings or lacked feedback.");
+        invalidTheme.Hide();
+    }
 
     private static void VerifyCompatibilityAndSettings(MainWindow window, string settingsPath)
     {
@@ -565,7 +611,7 @@ internal static class Program
             var top = (FrameworkElement)window.FindName("CpuTemperatureText")!;
             var nodeGrid = (DataGrid)window.FindName("NodeGrid")!;
             Console.WriteLine($"{size.Name} NodeGrid {nodeGrid.ActualWidth:F0}px columns: {string.Join(" / ", nodeGrid.Columns.Select(column => column.ActualWidth.ToString("F0")))}px");
-            foreach (var name in LegacyDetailNames.Concat(new[] { "CpuTemperatureText", "GpuTemperatureText", "Fan1ActualText", "Fan2ActualText", "Fan1TargetText", "Fan2TargetText", "ControlModeText", "CurveGraph", "NodeGrid", "PresetPicker", "ApplyButton", "RestoreButton" }))
+            foreach (var name in LegacyDetailNames.Concat(new[] { "CpuTemperatureText", "GpuTemperatureText", "Fan1ActualText", "Fan2ActualText", "Fan1TargetText", "Fan2TargetText", "ControlModeText", "ThemeColorButton", "ResetThemeColorButton", "CurveGraph", "NodeGrid", "PresetPicker", "ApplyButton", "RestoreButton" }))
             {
                 var element = (FrameworkElement)window.FindName(name)!;
                 if (element.Visibility == Visibility.Collapsed) continue;
@@ -594,6 +640,13 @@ internal static class Program
             {
                 SaveVisualScreenshot(root, root.RenderSize, window.Background ?? Brushes.White,
                     Path.Combine(output, $"ui-{size.Name}-{(int)(dpi / 96 * 100)}.png"), dpi);
+            }
+            if (size.Name == "default")
+            {
+                Require((bool)Invoke(window, "SaveThemeColor", "#7C3AED")!, "Could not apply screenshot theme.");
+                window.UpdateLayout();
+                SaveMainScreenshot(window, output, "ui-theme-purple-100.png");
+                Click(window, "ResetThemeColorButton"); window.UpdateLayout();
             }
         }
     }

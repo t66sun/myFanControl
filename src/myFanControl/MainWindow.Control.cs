@@ -43,9 +43,10 @@ public partial class MainWindow
         if (_controlUiInitialized) return;
         _controlUiInitialized = true;
         LoadControlSettings();
+        ApplyThemeColor();
         InitializeEditorUi();
         SuspendResumeObserved += OnPowerModeChanged;
-        SetControlStatus("当前由固件控制；控制功能不会在启动时自动启用。");
+        SetControlStatus(string.Empty);
     }
 
     internal async Task ApplyManualAsync(int fan1, int fan2)
@@ -453,6 +454,11 @@ public partial class MainWindow
                 }
                 catch (Exception exception) { rejected.Add($"预设 {preset?.Name}：{exception.Message}"); }
             }
+            if (saved.ThemeColor is { } theme)
+            {
+                try { _ = ParseThemeColor(theme); _themeColor = theme.ToUpperInvariant(); }
+                catch (ArgumentException) { rejected.Add("主题色无效，已使用默认色。"); }
+            }
             SettingsStatusText.Text = string.Join(Environment.NewLine, rejected);
         }
         catch (Exception exception)
@@ -468,10 +474,10 @@ public partial class MainWindow
         {
             CurvePreset[] presets = Dispatcher.CheckAccess() ? _curvePresets.ToArray()
                 : Dispatcher.Invoke(() => _curvePresets.ToArray());
-            var settings = new ControlSettings(_settingsFan1Rpm, _settingsFan2Rpm,
-                _settingsFan1Curve, _settingsFan2Curve, presets.ToList());
             lock (_settingsFileGate)
             {
+                var settings = new ControlSettings(_settingsFan1Rpm, _settingsFan2Rpm,
+                    _settingsFan1Curve, _settingsFan2Curve, presets.ToList(), _themeColor);
                 temporaryPath = _controlSettingsPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
                 File.WriteAllText(temporaryPath, JsonSerializer.Serialize(settings, SettingsJsonOptions));
                 File.Move(temporaryPath, _controlSettingsPath, overwrite: true);
@@ -562,5 +568,5 @@ public partial class MainWindow
     }
 
     private sealed record ControlSettings(int Fan1Rpm, int Fan2Rpm, string Fan1Curve, string Fan2Curve,
-        List<CurvePreset>? CurvePresets = null);
+        List<CurvePreset>? CurvePresets = null, string? ThemeColor = null);
 }

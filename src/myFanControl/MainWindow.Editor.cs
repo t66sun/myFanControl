@@ -88,7 +88,7 @@ public partial class MainWindow
     }
     private void SetUiBusy(bool busy)
     {
-        _uiBusy = busy; CurveEditorPanel.IsEnabled = ManualEditorPanel.IsEnabled = !busy; RestoreButton.IsEnabled = !busy; UpdateEditorState();
+        _uiBusy = busy; CurveEditorPanel.IsEnabled = ManualEditorPanel.IsEnabled = !busy; RestoreButton.IsEnabled = ThemeColorButton.IsEnabled = ResetThemeColorButton.IsEnabled = !busy; UpdateEditorState();
     }
     private void OnApplyClick(object sender, RoutedEventArgs e)
     {

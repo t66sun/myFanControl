@@ -1,8 +1,8 @@
-# myFanControl UI 改版
+# myFanControl
 
-2026-10-06 `v0.1.2`：浅色薄荷绿界面，四张实时读数卡片、分区曲线编辑、节点表格与固定操作栏。手动控制以双路输入卡片呈现，预设与未保存修改对话框统一配色。桌面与独立控制后端位于同一目录；自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
+2026-10-06 `v0.1.3`：增加自定义主题色，移除口号、重复标题与常驻说明文字。保留操作标签、输入范围、控制状态、逐行错误与温度保护信息。自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
 
-适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.1.2 完成离线界面、键盘、预设、草稿、托盘与模拟电源通知回归，以及 27 项控制策略检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
+适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.1.3 完成主题保存/恢复、界面、键盘、预设、草稿、托盘与模拟电源通知离线回归，以及 27 项控制策略检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
 
 每个版本交付自包含与轻量两个 ZIP，同一 `SHA256SUMS.txt` 包含两包的校验值。
 
@@ -10,9 +10,13 @@
 
 下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `myFanControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
-保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地只保留最新版本的两种包：`myFanControl-v0-1-2` 与 `myFanControl-v0-1-2-framework-dependent`。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
+保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地只保留最新版本的两种包：`myFanControl-v0-1-3` 与 `myFanControl-v0-1-3-framework-dependent`。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 
 界面采用中文浅色 Windows 工具样式，默认 960×760，最小 800×640。顶部显示 CPU/GPU 温度、两路实际 RPM、已应用目标和当前模式；主要操作页脚固定，设备信息、完整传感器和诊断错误在折叠详情中。
+
+### 主题色
+
+点击右上角“主题色”，在 Windows 颜色选择器中选择颜色并确认，即时生效且自动保存。点击“重置”恢复默认色。浅色主题自动使用深色文字；曲线和焦点保持可读。主题保存在 `control-settings.json` 的可选 `ThemeColor` 字段（`#RRGGBB`），旧配置无需修改。保存失败时保留原色并显示错误；切换主题不会保存编辑草稿或触发风扇控制。
 
 ### 自动曲线与预设
 
@@ -44,6 +48,8 @@ EXE 同目录的 `control-settings.json` 保留 `Fan1Rpm`、`Fan2Rpm`、`Fan1Cur
 本机后端使用现有 PawnIO 2.2 正式签名驱动与签名 LpcIO 模块，无需安装开发驱动。保留根目录的 `myFanControl.exe`、`EcPmcConfigProbe.exe`、共享运行时文件、`zh-Hans`/`zh-Hant` 资源和 `licenses` 子目录。两个 EXE 仍各自运行为独立进程，控制后端由桌面程序启动；精简版不再使用旧的 `control-host` 子目录。
 
 ## 验收记录
+
+v0.1.3：主题色即时更新、序列化/重载、默认重置、白/黄/黑配色、无效颜色和保存失败检查通过。确认未完成的手动输入与当前控制模式保持原状。11 张截图及日志位于 `artifacts/diagnostics/ui-theme-20261006`，包括紫色主题示例。
 
 v0.1.2：现有离线 UI 回归通过，覆盖默认 960×760、最小 800×640 与 100%/150%/200% 离线渲染、表格错误、节点操作、双路复制、预设操作、草稿提示、键盘操作、托盘及模拟电源通知。截图与日志位于 `artifacts/diagnostics/ui-refresh-20261006`。默认窗口增加曲线、节点表格及增删按钮无遮挡检查。以下均为历史报告。
 

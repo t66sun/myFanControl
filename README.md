@@ -2,7 +2,7 @@
 
 面向 ThinkBook 14 G4+ IAP（21CX）的 Windows 风扇控制软件开发项目。
 
-当前版本为 `v0.1.2` UI 改版：浅色薄荷绿界面、四张实时读数卡片、双路曲线与节点表格分区、固定操作栏，以及统一的预设与手动控制界面。保留命名预设、草稿状态和托盘运行。自包含包的桌面与独立后端共享一套 .NET 10 桌面运行时，仅保留简体/繁体中文资源。
+当前版本为 `v0.1.3`：支持自定义主题色并精简界面文案。顶部“主题色”打开 Windows 原生颜色选择器，即时更新按钮、曲线、焦点与背景，自动保存并在重启后恢复；“重置”恢复默认色。保留命名预设、草稿状态和托盘运行，自包含与轻量两个包继续交付。
 
 ## 下载与运行
 
@@ -10,9 +10,9 @@
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
-本地只保留最新发行版的自包含与轻量两种包：`artifacts/publish/myFanControl-v0-1-2`、`myFanControl-v0-1-2-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
+本地只保留最新发行版的自包含与轻量两种包：`artifacts/publish/myFanControl-v0-1-3`、`myFanControl-v0-1-3-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
 
-v0.1.2 的离线 UI 回归与 27 项控制策略检查通过，十张窗口尺寸、缩放、手动控制、错误和对话框截图位于 `artifacts/diagnostics/ui-refresh-20261006`。默认窗口的曲线和节点操作无遮挡；最小窗口通过滚动查看编辑内容，应用与恢复始终可见。真实硬件与实际睡眠本轮未重测；v0.1.1 本机报告保留用于追溯。
+v0.1.3 的离线 UI 回归与 27 项控制策略检查通过，截图与日志位于 `artifacts/diagnostics/ui-theme-20261006`。主题保存、重启恢复、默认重置、白/黄/黑配色可读性、无效颜色及保存失败已验证；切换主题不会保存未完成的转速草稿或启用控制。真实硬件与实际睡眠本轮未重测。
 
 ## 只读诊断
 
@@ -20,7 +20,7 @@ v0.1.2 的离线 UI 回归与 27 项控制策略检查通过，十张窗口尺�
 & .\scripts\Get-ThinkBookDiagnostics.ps1
 & .\scripts\Get-PawnIoAccess.ps1
 & .\scripts\Expand-AcpiTables.ps1
-& .\artifacts\publish\myFanControl-v0-1-2\myFanControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
+& .\artifacts\publish\myFanControl-v0-1-3\myFanControl.exe --probe --samples 5 --output .\artifacts\diagnostics\temperature-probe.json
 ```
 
 诊断 JSON 包括逐轮温度、风扇读数、ecFanTelemetry 原始双读字节与身份/映射/恢复检查、设备标识、错误和启动时固件模式查询。界面显示查询取得的模式；CPU 温度与 RPM 可用性分别报告。退出码：0 表示每轮都有 CPU 绝对温度读数；2 表示 CPU 温度未持续取得；3 表示输出文件写入失败；64 表示参数错误。完整的采样和清理错误仍应查看 JSON，退出码不代表控制硬件已验证。
@@ -35,7 +35,7 @@ v0.1.2 的离线 UI 回归与 27 项控制策略检查通过，十张窗口尺�
 & .\scripts\Build.ps1
 & .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new
 & .\scripts\Publish-Product.ps1 -DirectoryName myFanControl-new-fd -FrameworkDependent
-& .\scripts\Package-Release.ps1 -Version 0.1.2 -SelfContainedDirectory myFanControl-new -FrameworkDependentDirectory myFanControl-new-fd
+& .\scripts\Package-Release.ps1 -Version 0.1.3 -SelfContainedDirectory myFanControl-new -FrameworkDependentDirectory myFanControl-new-fd
 ```
 
 发布脚本要求目标目录尚不存在，并自动恢复依赖。默认生成自包含包，`-FrameworkDependent` 生成不含 .NET 的轻量包。两个变体都将桌面与后端合并到同一根目录，只复用哈希相同的文件，遇到不同哈希冲突会停止。打包脚本同时生成两个 ZIP 和含两行校验值的 `SHA256SUMS.txt`；这是后续版本的固定交付标准。历史 `Build.ps1 -Publish` 仅生成桌面预览包。

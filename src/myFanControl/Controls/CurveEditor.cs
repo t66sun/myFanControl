@@ -15,17 +15,17 @@ public sealed class CurveEditor : FrameworkElement
     private Rect Plot => new(58, 14, Math.Max(1, ActualWidth - 80), Math.Max(1, ActualHeight - 49));
     private double MinTemperature => Math.Min(20, Fan1.Concat(Fan2).Select(p => p.Celsius).DefaultIfEmpty(20).Min() - 5);
     private Point Map(CurvePoint p) => new(Plot.Left + (p.Celsius - MinTemperature) / (100 - MinTemperature) * Plot.Width, Plot.Bottom - (p.Rpm - 1500) / 6000d * Plot.Height);
-    public CurveEditor() { Focusable = true; ToolTip = "拖拽节点：1°C / 100 RPM。方向键调整所选节点。"; }
+    public CurveEditor() { Focusable = true; ToolTip = "静态温度/RPM 映射。拖拽节点：1°C / 100 RPM。方向键调整所选节点。"; }
     protected override void OnRender(DrawingContext dc)
     {
         dc.DrawRectangle((Brush)FindResource("PlotSurface"), null, new Rect(RenderSize));
         var grid = new Pen((Brush)FindResource("Line"), 1);
         for (int rpm = 1500; rpm <= 7500; rpm += 1500) { double y = Map(new(20, rpm)).Y; dc.DrawLine(grid, new(Plot.Left, y), new(Plot.Right, y)); Label(dc, rpm.ToString(), 4, y - 8); }
         foreach (int t in new[] { 20, 40, 60, 80, 100 }) { if (t < MinTemperature) continue; double x = Map(new(t, 1500)).X; dc.DrawLine(grid, new(x, Plot.Top), new(x, Plot.Bottom)); Label(dc, t + "°", x - 10, Plot.Bottom + 8); }
-        var fan1 = ((SolidColorBrush)FindResource("Accent")).Color;
+        var fan1 = ((SolidColorBrush)FindResource("AccentInk")).Color;
         var fan2 = ((SolidColorBrush)FindResource("Fan2")).Color;
         if (SelectedFan == 0) { DrawCurve(dc, Fan2, fan2, false); DrawCurve(dc, Fan1, fan1, true); } else { DrawCurve(dc, Fan1, fan1, false); DrawCurve(dc, Fan2, fan2, true); }
-        if (IsKeyboardFocused) dc.DrawRectangle(null, new Pen((Brush)FindResource("Accent"), 1), new Rect(1, 1, Math.Max(0, ActualWidth - 2), Math.Max(0, ActualHeight - 2)));
+        if (IsKeyboardFocused) dc.DrawRectangle(null, new Pen((Brush)FindResource("AccentInk"), 1), new Rect(1, 1, Math.Max(0, ActualWidth - 2), Math.Max(0, ActualHeight - 2)));
     }
     private void Label(DrawingContext dc, string text, double x, double y) => dc.DrawText(new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, (Brush)FindResource("Muted"), VisualTreeHelper.GetDpi(this).PixelsPerDip), new(x, y));
     private void DrawCurve(DrawingContext dc, IReadOnlyList<CurvePoint> points, Color color, bool selected)
