@@ -1,8 +1,16 @@
 # myFanControl 开发交接
 
-更新日期：2026-10-04。面向接手 UI 迭代、验证与后续开发的人。
+更新日期：2026-10-06。面向接手 UI 迭代、验证与后续开发的人。
 
-## 当前发行：v0.1.1 运行时精简版
+## 当前发行：v0.1.2 UI 改版
+
+新版采用浅色薄荷绿配色、四张实时指标卡片、分段标签页、曲线/节点双栏编辑、双路手动输入卡片和固定底部操作栏。修改文件为 `MainWindow.xaml`、`Styles/VisualTheme.xaml`、曲线绘制样式、两个对话框外观以及托盘提示名称；控制后端、硬件保护、配置数据格式和现有事件入口沿用原实现。曲线与表格保留鼠标和键盘编辑，非选中曲线用虚线辅助区分；表格仍保留逐行错误信息。空错误文本折叠，避免挤占编辑区域。
+
+离线 UI 与 27 项控制策略检查通过，十张截图在 `artifacts/diagnostics/ui-refresh-20261006`。覆盖默认/最小窗口、100%/150%/200% 离线渲染、手动、错误及对话框。`UiVerification` 新增默认窗口曲线、表格、风扇选择和增删节点按钮不被底部栏遮挡的检查。文本/背景对比度至少 5.47:1，输入边框对比度 3.24:1。本轮未进行真实硬件回归，实际 Modern Standby 睡眠验收仍延期。
+
+继续交付两个 ZIP：`myFanControl-v0.1.2-win-x64.zip` 与 `myFanControl-v0.1.2-win-x64-framework-dependent.zip`，后一种要求 .NET 10 Desktop Runtime x64。本地只保留最新版本两种发布目录 `myFanControl-v0-1-2`、`myFanControl-v0-1-2-framework-dependent`；新包验证后按已确认的永久清理要求删除旧本地成品。GitHub 历史发行仍按最近三版规则保留。以下交接内容与哈希属于历史版本。
+
+## 历史发行：v0.1.1 运行时精简版
 
 从 v0.1.1 起，每个 GitHub Release 固定交付两个 Windows x64 ZIP：`myFanControl-v<版本>-win-x64.zip` 为自包含包，`myFanControl-v<版本>-win-x64-framework-dependent.zip` 为不含 .NET 的轻量包。两包功能、业务 DLL、独立后端、中文资源和许可证一致；轻量包要求目标系统安装同版本 Microsoft Windows Desktop Runtime x64。v0.1.1 两包分别约 69.79 MiB 与 2.33 MiB。`scripts/Package-Release.ps1` 必须一次生成两个 ZIP 与同时覆盖两者的 `SHA256SUMS.txt`。
 

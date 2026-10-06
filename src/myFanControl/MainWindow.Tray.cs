@@ -36,7 +36,7 @@ public partial class MainWindow
         _trayIcon = new System.Windows.Forms.NotifyIcon
         {
             Icon = System.Drawing.SystemIcons.Application,
-            Text = "ThinkBook 温度与双风扇控制",
+            Text = "myFanControl · 温度与双风扇控制",
             ContextMenuStrip = _trayMenu,
             Visible = false
         };

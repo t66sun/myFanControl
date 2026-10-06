@@ -579,6 +579,17 @@ internal static class Program
                 $"Summary or footer is outside the visible window at {size.Name} size.");
             Require(footer.ActualHeight >= footer.MinHeight && footer.ActualWidth >= footer.MinWidth,
                 $"Footer action is clipped at {size.Name} size: {footer.ActualWidth}x{footer.ActualHeight}.");
+            if (size.Name == "default")
+            {
+                var editorScroll = (ScrollViewer)window.FindName("EditorScroll")!;
+                foreach (string name in new[] { "CurveGraph", "NodeGrid", "Fan1Choice", "Fan2Choice", "AddNodeButton", "RemoveNodeButton" })
+                {
+                    var element = (FrameworkElement)window.FindName(name)!;
+                    var bounds = element.TransformToAncestor(editorScroll).TransformBounds(new Rect(element.RenderSize));
+                    Require(bounds.Top >= 0 && bounds.Bottom <= editorScroll.ActualHeight - 8,
+                        $"{name} is obscured by the footer at default size: {bounds}.");
+                }
+            }
             foreach (double dpi in new[] { 96d, 144d, 192d })
             {
                 SaveVisualScreenshot(root, root.RenderSize, window.Background ?? Brushes.White,

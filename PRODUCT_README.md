@@ -1,16 +1,16 @@
-# myFanControl 精简版
+# myFanControl UI 改版
 
-2026-10-04 `v0.1.1` 精简版发布目录为 `artifacts/publish/myFanControl-compact`。保留视觉美化版的雾灰背景、蓝色主操作、统一圆角控件、表格与对话框样式，现有控制、配置、预设、托盘与退出流程保持原有行为。桌面与独立控制后端在根目录共享一套 .NET 10.0.12 自包含 WindowsDesktop 运行时，仅保留简体/繁体中文卫星资源。
+2026-10-06 `v0.1.2`：浅色薄荷绿界面，四张实时读数卡片、分区曲线编辑、节点表格与固定操作栏。手动控制以双路输入卡片呈现，预设与未保存修改对话框统一配色。桌面与独立控制后端位于同一目录；自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
 
-适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。本轮后端自检、离线 UI、27 项策略与真实控制/窗口回归已通过；实际睡眠验收按用户安排延期。下方旧 UI、美化版及 2026-10-03 报告均为对应历史版本证据。
+适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.1.2 完成离线界面、键盘、预设、草稿、托盘与模拟电源通知回归，以及 27 项控制策略检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
 
-自包含 ZIP 约 69.79 MiB，较 v0.1.0 的 109.96 MiB 减少 36.5%；不含 .NET 的轻量 ZIP 约 2.33 MiB。
+每个版本交付自包含与轻量两个 ZIP，同一 `SHA256SUMS.txt` 包含两包的校验值。
 
 ## 使用
 
 下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `myFanControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
-保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地保留 `myFanControl-compact`、`myFanControl-style-v2`、`myFanControl-ui` 最近三版；原 `myFanControl` 基准成品已清理，历史诊断仍保留。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
+保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地只保留最新版本的两种包：`myFanControl-v0-1-2` 与 `myFanControl-v0-1-2-framework-dependent`。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
 
 界面采用中文浅色 Windows 工具样式，默认 960×760，最小 800×640。顶部显示 CPU/GPU 温度、两路实际 RPM、已应用目标和当前模式；主要操作页脚固定，设备信息、完整传感器和诊断错误在折叠详情中。
 
@@ -44,6 +44,8 @@ EXE 同目录的 `control-settings.json` 保留 `Fan1Rpm`、`Fan2Rpm`、`Fan1Cur
 本机后端使用现有 PawnIO 2.2 正式签名驱动与签名 LpcIO 模块，无需安装开发驱动。保留根目录的 `myFanControl.exe`、`EcPmcConfigProbe.exe`、共享运行时文件、`zh-Hans`/`zh-Hant` 资源和 `licenses` 子目录。两个 EXE 仍各自运行为独立进程，控制后端由桌面程序启动；精简版不再使用旧的 `control-host` 子目录。
 
 ## 验收记录
+
+v0.1.2：现有离线 UI 回归通过，覆盖默认 960×760、最小 800×640 与 100%/150%/200% 离线渲染、表格错误、节点操作、双路复制、预设操作、草稿提示、键盘操作、托盘及模拟电源通知。截图与日志位于 `artifacts/diagnostics/ui-refresh-20261006`。默认窗口增加曲线、节点表格及增删按钮无遮挡检查。以下均为历史报告。
 
 精简版本轮后端自检、27 项策略与离线 UI 检查通过，十张默认/最小尺寸、手动页、校验与对话框截图位于 `artifacts/diagnostics/runtime-compact/ui`。这些缩放图仍是离线渲染，不代表实体屏幕 DPI 切换。
 
