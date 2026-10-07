@@ -12,7 +12,7 @@ v0.2.0 的两个 ZIP、安装向导和校验文件位于 `release/v0.2.0/`。安
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
-v0.2.0 发布目录为 `artifacts/publish/myFanControl-v0-2-0` 与 `myFanControl-v0-2-0-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`；旧版升速延时会迁移为两把风扇的独立参数。
+v0.2.0 发布目录为 `artifacts/publish/myFanControl-v0-2-0-final` 与 `myFanControl-v0-2-0-final-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`；旧版升速延时会迁移为两把风扇的独立参数。
 
 v0.2.0 的 57 项合成控制策略检查及离线 UI 检查通过；配置、托盘、实时曲线和多倍缩放截图位于 `artifacts/diagnostics/v0.2.0-final`。此前 v0.1.3 主题回归保留在 `artifacts/diagnostics/ui-theme-20261006`。真实硬件与实际睡眠本轮未重测。
 
