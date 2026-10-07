@@ -87,11 +87,14 @@
                                     <WrapPanel><Button x:Name="AddNodeButton" Content="增加节点" Click="OnAddNodeClick"/><Button x:Name="RemoveNodeButton" Content="删除所选" ToolTip="删除选中的节点；至少保留两个节点" Click="OnRemoveNodeClick"/></WrapPanel>
                                 </StackPanel>
                             </Grid>
-                            <WrapPanel Margin="0,12,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="升速延迟（秒）" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox x:Name="IncreaseDelayBox" Text="0" Width="56" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="自动曲线升速延迟秒数"/>
-                                <TextBlock Text="0–10 · 降速及 90°C 高温保护不延迟" Style="{StaticResource Caption}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                            <TextBlock x:Name="CurveLiveText" Text="实时位置：固件控制" Style="{StaticResource Caption}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                            <WrapPanel VerticalAlignment="Center" Margin="0,8,0,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,16,6"><TextBlock Text="升温滞回 °C" VerticalAlignment="Center" Margin="0,0,6,0"/><TextBox x:Name="HeatingHysteresisBox" Text="0" Width="56" Padding="4,3" TextAlignment="Center" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="所选风扇升温滞回摄氏度"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,16,6"><TextBlock Text="降温滞回 °C" VerticalAlignment="Center" Margin="0,0,6,0"/><TextBox x:Name="CoolingHysteresisBox" Text="2" Width="56" Padding="4,3" TextAlignment="Center" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="所选风扇降温滞回摄氏度"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,16,6"><TextBlock Text="升速延时 秒" VerticalAlignment="Center" Margin="0,0,6,0"/><TextBox x:Name="IncreaseDelayBox" Text="0" Width="56" Padding="4,3" TextAlignment="Center" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="所选风扇升速延时秒数"/></StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,6"><TextBlock Text="降速延时 秒" VerticalAlignment="Center" Margin="0,0,6,0"/><TextBox x:Name="DecreaseDelayBox" Text="0" Width="56" Padding="4,3" TextAlignment="Center" MinHeight="32" TextChanged="OnIncreaseDelayChanged" AutomationProperties.Name="所选风扇降速延时秒数"/></StackPanel>
                             </WrapPanel>
+                            <TextBlock Text="所选风扇 · 0–10；达到滞回阈值后计时，90°C 高温保护立即生效" Style="{StaticResource Caption}" TextWrapping="Wrap"/>
                             <TextBlock x:Name="IncreaseDelayValidationText" Style="{StaticResource InlineError}" Margin="0,4,0,0"/>
                             <TextBlock x:Name="CurveValidationText" Style="{StaticResource InlineError}" Margin="0,8,0,0"/>
                         </StackPanel>

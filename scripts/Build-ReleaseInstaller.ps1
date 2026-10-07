@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.1.3',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.2.0',
     [string]$IsccPath
 )
 $ErrorActionPreference='Stop'

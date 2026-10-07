@@ -1,8 +1,8 @@
 # myFanControl
 
-2026-10-06 `v0.1.3`：增加自定义主题色，移除口号、重复标题与常驻说明文字。保留操作标签、输入范围、控制状态、逐行错误与温度保护信息。自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
+2026-10-07 `v0.2.0`：新增 CPU/GPU 数字温度托盘图标、每扇风扇独立的温度滞回和升降速延时，以及曲线实时目标标记。本版仅本地交付。自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
 
-适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.1.3 完成主题保存/恢复、界面、键盘、预设、草稿、托盘与模拟电源通知离线回归，以及 27 项控制策略检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
+适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.2.0 已通过 51 项合成控制策略检查和离线 UI、配置、托盘、模拟电源通知检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
 
 每个版本交付自包含与轻量两个 ZIP，同一 `SHA256SUMS.txt` 包含两包的校验值。
 
@@ -10,9 +10,9 @@
 
 下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `myFanControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
-本地另提供 v0.1.3 自包含安装向导 `artifacts/releases/myFanControl-v0.1.3-win-x64-setup.exe`。向导不会安装 PawnIO 驱动，也不会删除个人 `control-settings.json`；升级前请在旧版托盘选择“恢复固件并退出”。此安装程序尚未上传到 GitHub Release。
+v0.2.0 的自包含 ZIP、轻量 ZIP、安装向导和统一校验文件位于 `release/v0.2.0/`。向导不安装 PawnIO 驱动，保留个人 `control-settings.json`；升级前请在旧版托盘选择“恢复固件并退出”。安装程序未签名。本版未上传到 GitHub Release，GitHub 最新版仍为 v0.1.3。
 
-保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。本地只保留最新版本的两种包：`myFanControl-v0-1-3` 与 `myFanControl-v0-1-3-framework-dependent`。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。
+保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。窗口打开或隐藏时，CPU/GPU 数字图标均保持显示；悬停显示一位小数，双击打开窗口，两者共享托盘菜单。图标可能位于 Windows 的隐藏图标区，可在系统设置中调整。读数失效显示 `--`。
 
 界面采用中文浅色 Windows 工具样式，默认 960×760，最小 800×640。顶部显示 CPU/GPU 温度、两路实际 RPM、已应用目标和当前模式；主要操作页脚固定，设备信息、完整传感器和诊断错误在折叠详情中。
 
@@ -29,7 +29,9 @@
 
 曲线图是温度到目标 RPM 的静态映射预览。运行控制仍使用有效 CPU 温度最大值，排除 Distance to TjMax；GPU 只用于监测。实际目标还受降温迟滞和降速限制影响，实际 EC 测速反馈可能与目标略有偏差。
 
-当前源码新增自动曲线“升速延迟（秒）”，可填 0～10 的整数，默认 0 表示立即升速。目标高于已应用转速并持续达到设定时间后才升速；目标回落到已应用值会重新计时。首次启用曲线、降速、90°C 高温保护及温度失效恢复不等待。延迟按每秒温度样本判断，实际写入可能再等待下一次采样。编辑或保存延迟不会改变正在运行的控制，点击“应用自动曲线”后生效。配置保存为 `IncreaseDelaySeconds`；旧配置默认为 0。此功能尚未包含在已发布的 v0.1.3 包中。
+选择风扇 1 或 2，分别编辑升温滞回、降温滞回、升速延时、降速延时，均为 0～10 的整数（温度单位 °C，时间单位秒）。默认值依次为 0、2、0、0。滞回以该风扇上次成功改变转速时的温度为基准；例如基准 70°C、升温滞回 3°C、升速延时 2 秒，则温度持续达到 73°C 两秒后按最新温度升速。条件中断或方向反转会重新计时，成功调速后重新建立基准。首次应用、高温保护和温度失效恢复不等待；仍保留每秒最多降速 300 RPM 的限制。按约一秒样本判断，实际响应会受采样周期影响。
+
+圆圈表示启用曲线在当前温度下的目标，方块表示已应用目标，顶部实际转速仍来自 EC 测速。编辑草稿与启用曲线不同，会显示启用曲线的点线和草稿说明。参数配置保存为 `Fan1Response`、`Fan2Response`（`HeatingHysteresis`、`CoolingHysteresis`、`HeatingDelaySeconds`、`CoolingDelaySeconds`）。旧 `IncreaseDelaySeconds` 自动迁移；新参数优先。曲线预设和曲线复制仍只包含节点，响应参数独立保存。编辑或保存不改变正在运行的控制，点击“应用自动曲线”后生效。
 
 ### 手动控制与状态
 
@@ -70,7 +72,7 @@ v0.1.2：现有离线 UI 回归通过，覆盖默认 960×760、最小 800×640 
 - 历史 UI 窗口/托盘通过：`artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/window-product.json`。X 隐藏 12 秒后两路目标仍为 3600/3800 RPM，EC 反馈 3575/3763 RPM；托盘恢复显示与真正退出均通过，退出后 C/D/E/F 覆盖为零。
 - 总报告 `artifacts/diagnostics/ui-redesign-regression-20261004-050337-438/report.json` 的 Succeeded / ControlVerified / WindowVerified 均 true，Error=null。用户决定本轮先交付，真实 Modern Standby 睡眠唤醒验收延期，作为后续首项工作。
 
-历史视觉美化版的离线回归、十张截图、27 项策略与发布记录位于 `artifacts/diagnostics/ui-style-v2`。当前发布包位于 `artifacts/publish/myFanControl-v0-1-3`，旧版睡眠记录不能代替延期的新版睡眠验收。具体包哈希、构建警告和后续睡眠命令见 [HANDOFF.md](HANDOFF.md)。
+历史视觉美化版的离线回归、十张截图、27 项策略与发布记录位于 `artifacts/diagnostics/ui-style-v2`。v0.2.0 本地发布包位于 `artifacts/publish/myFanControl-v0-2-0` 与 `myFanControl-v0-2-0-framework-dependent`，本版证据位于 `artifacts/diagnostics/v0.2.0-final`。旧版睡眠记录不能代替本版实测；历史硬件说明见 [HANDOFF.md](HANDOFF.md)。
 
 2026-10-03 旧版基准包已有以下记录：
 

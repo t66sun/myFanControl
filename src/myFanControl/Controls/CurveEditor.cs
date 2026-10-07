@@ -10,12 +10,17 @@ public sealed class CurveEditor : FrameworkElement
     public IReadOnlyList<CurvePoint> Fan2 { get; set; } = [];
     public int SelectedFan { get; set; }
     public int SelectedNode { get; set; } = -1;
+    public IReadOnlyList<CurvePoint> ActiveCurve { get; set; } = [];
+    public double? LiveTemperature { get; set; }
+    public int? LiveTargetRpm { get; set; }
+    public int? AppliedRpm { get; set; }
+    public bool ShowingDraft { get; set; }
     public event Action<int, double, int>? NodeDragged;
     private int _drag = -1;
     private Rect Plot => new(58, 14, Math.Max(1, ActualWidth - 80), Math.Max(1, ActualHeight - 49));
     private double MinTemperature => Math.Min(20, Fan1.Concat(Fan2).Select(p => p.Celsius).DefaultIfEmpty(20).Min() - 5);
     private Point Map(CurvePoint p) => new(Plot.Left + (p.Celsius - MinTemperature) / (100 - MinTemperature) * Plot.Width, Plot.Bottom - (p.Rpm - 1500) / 6000d * Plot.Height);
-    public CurveEditor() { Focusable = true; ToolTip = "静态温度/RPM 映射。拖拽节点：1°C / 100 RPM。方向键调整所选节点。"; }
+    public CurveEditor() { Focusable = true; ToolTip = "拖拽节点：1°C / 100 RPM。方向键调整所选节点。圆圈为曲线目标，方块为已应用目标。"; }
     protected override void OnRender(DrawingContext dc)
     {
         dc.DrawRectangle((Brush)FindResource("PlotSurface"), null, new Rect(RenderSize));
@@ -25,6 +30,25 @@ public sealed class CurveEditor : FrameworkElement
         var fan1 = ((SolidColorBrush)FindResource("AccentInk")).Color;
         var fan2 = ((SolidColorBrush)FindResource("Fan2")).Color;
         if (SelectedFan == 0) { DrawCurve(dc, Fan2, fan2, false); DrawCurve(dc, Fan1, fan1, true); } else { DrawCurve(dc, Fan1, fan1, false); DrawCurve(dc, Fan2, fan2, true); }
+        if(LiveTemperature is { } temperature)
+        {
+            var ink=(Brush)FindResource("Ink");
+            if(ShowingDraft && ActiveCurve.Count>0)
+            {
+                var pen=new Pen(ink,2) { DashStyle=DashStyles.Dot };
+                Point previous=new(Plot.Left,Map(ActiveCurve[0]).Y);
+                foreach(var p in ActiveCurve) { var next=Map(p); dc.DrawLine(pen,previous,next); previous=next; }
+                dc.DrawLine(pen,previous,new(Plot.Right,previous.Y));
+            }
+            double plotted=Math.Clamp(temperature,MinTemperature,100);
+            double x=Map(new(plotted,1500)).X;
+            dc.DrawLine(new Pen(ink,1) { DashStyle=DashStyles.Dash },new(x,Plot.Top),new(x,Plot.Bottom));
+            if(LiveTargetRpm is { } target) dc.DrawEllipse((Brush)FindResource("PlotSurface"),new Pen(ink,2),Map(new(plotted,target)),6,6);
+            if(AppliedRpm is { } applied)
+            {
+                var p=Map(new(plotted,applied)); dc.DrawRectangle(ink,new Pen((Brush)FindResource("PlotSurface"),1),new Rect(p.X-4,p.Y-4,8,8));
+            }
+        }
         if (IsKeyboardFocused) dc.DrawRectangle(null, new Pen((Brush)FindResource("AccentInk"), 1), new Rect(1, 1, Math.Max(0, ActualWidth - 2), Math.Max(0, ActualHeight - 2)));
     }
     private void Label(DrawingContext dc, string text, double x, double y) => dc.DrawText(new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, (Brush)FindResource("Muted"), VisualTreeHelper.GetDpi(this).PixelsPerDip), new(x, y));

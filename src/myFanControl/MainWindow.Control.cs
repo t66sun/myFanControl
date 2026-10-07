@@ -33,8 +33,8 @@ public partial class MainWindow
     private bool _controlStopped;
     private int _settingsFan1Rpm = 3600;
     private int _settingsFan2Rpm = 3600;
-    private int _settingsIncreaseDelaySeconds;
-    private int _activeIncreaseDelaySeconds;
+    private FanResponseSettings[] _settingsResponses = [new(), new()];
+    private FanResponseSettings[] _activeResponses = [new(), new()];
     private string _settingsFan1Curve = DefaultCurve;
     private string _settingsFan2Curve = DefaultCurve;
 
@@ -99,13 +99,13 @@ public partial class MainWindow
         finally { _controlGate.Release(); }
     }
 
-    internal async Task ApplyCurvesAsync(string fan1Curve, string fan2Curve, int? increaseDelaySeconds = null)
+    internal async Task ApplyCurvesAsync(string fan1Curve, string fan2Curve, FanResponseSettings? fan1Response = null, FanResponseSettings? fan2Response = null)
     {
-        int delaySeconds = increaseDelaySeconds ?? _settingsIncreaseDelaySeconds;
-        ValidateIncreaseDelay(delaySeconds);
+        FanResponseSettings[] responses = [fan1Response ?? _settingsResponses[0], fan2Response ?? _settingsResponses[1]];
+        if(responses.Any(r => !r.IsValid)) throw new ArgumentException("响应参数需为 0～10 的整数。");
         FanCurve curve1 = ParseCurve(fan1Curve), curve2 = ParseCurve(fan2Curve);
-        FanControlPolicy policy1 = CreatePolicy(curve1, delaySeconds);
-        FanControlPolicy policy2 = CreatePolicy(curve2, delaySeconds);
+        FanControlPolicy policy1 = CreatePolicy(curve1, responses[0]);
+        FanControlPolicy policy2 = CreatePolicy(curve2, responses[1]);
         string canonical1 = FormatCurve(curve1), canonical2 = FormatCurve(curve2);
         await _controlGate.WaitAsync().ConfigureAwait(false);
         try
@@ -118,11 +118,17 @@ public partial class MainWindow
             _controlMode = ControlMode.Curve;
             _activeFan1Curve = canonical1;
             _activeFan2Curve = canonical2;
-            _activeIncreaseDelaySeconds = delaySeconds;
+            _activeResponses = responses;
+            var oldResponses = _settingsResponses;
+            string oldCurve1 = _settingsFan1Curve, oldCurve2 = _settingsFan2Curve;
             _settingsFan1Curve = canonical1;
             _settingsFan2Curve = canonical2;
-            _settingsIncreaseDelaySeconds = delaySeconds;
-            await SaveAppliedCurveSettingsAsync().ConfigureAwait(false);
+            _settingsResponses = responses;
+            if(!await SaveAppliedCurveSettingsAsync().ConfigureAwait(false))
+            {
+                _settingsResponses = oldResponses;
+                _settingsFan1Curve = oldCurve1; _settingsFan2Curve = oldCurve2;
+            }
             await SetControlStatusAsync("自动曲线已启用；等待有效 CPU 温度样本。").ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -224,13 +230,13 @@ public partial class MainWindow
                     _controlClient ??= new ControlClient();
                     await _controlClient.SetAsync(rpm1, rpm2).ConfigureAwait(false);
                     DateTimeOffset appliedAt = DateTimeOffset.UtcNow;
-                    _fan1Applied = new AppliedControl(rpm1, temperature, appliedAt);
-                    _fan2Applied = new AppliedControl(rpm2, temperature, appliedAt);
+                    if(write1) _fan1Applied = new AppliedControl(rpm1, temperature, appliedAt);
+                    if(write2) _fan2Applied = new AppliedControl(rpm2, temperature, appliedAt);
                     _firmwareRestoreConfirmed = true;
                     await SetControlStatusAsync($"{(temperature >= 90 ? "高温保护已生效" : "自动曲线控制中")} · CPU {temperature:F1} °C · 风扇 1：{rpm1} RPM · 风扇 2：{rpm2} RPM").ConfigureAwait(false);
                 }
-                else if (decision1.Reason == DecisionReason.HeatingDelay || decision2.Reason == DecisionReason.HeatingDelay)
-                    await SetControlStatusAsync($"自动曲线控制中 · 升速延迟计时中 · CPU {temperature:F1} °C").ConfigureAwait(false);
+                else
+                    await SetControlStatusAsync($"自动曲线控制中 · 风扇 1：{ResponseReason(decision1.Reason)} · 风扇 2：{ResponseReason(decision2.Reason)} · CPU {temperature:F1} °C").ConfigureAwait(false);
                 await SendHeartbeatAsync().ConfigureAwait(false);
             }
             catch (Exception exception)
@@ -275,8 +281,8 @@ public partial class MainWindow
     private async void OnApplyCurvesClick(object sender, RoutedEventArgs e)
     {
         string fan1 = Fan1CurveBox.Text, fan2 = Fan2CurveBox.Text;
-        if (!TryParseIncreaseDelay(IncreaseDelayBox.Text, out int delaySeconds)) return;
-        await RunUiControlActionAsync(() => ApplyCurvesAsync(fan1, fan2, delaySeconds));
+        if (!TryReadResponses(out var responses)) return;
+        await RunUiControlActionAsync(() => ApplyCurvesAsync(fan1, fan2, responses[0], responses[1]));
     }
 
     private async void OnRestoreFirmwareClick(object sender, RoutedEventArgs e)
@@ -311,6 +317,8 @@ public partial class MainWindow
             return;
         }
         if (mode != PowerModes.Suspend) return;
+        if(Dispatcher.CheckAccess()) ClearTemperatureDisplay();
+        else await Dispatcher.InvokeAsync(ClearTemperatureDisplay);
         try { await RestoreFirmwareAsync().ConfigureAwait(false); }
         catch (Exception exception)
         {
@@ -368,7 +376,7 @@ public partial class MainWindow
         _firmwareRestoreConfirmed = firmwareConfirmed;
         _controlMode = ControlMode.Firmware;
         _activeFan1Curve = _activeFan2Curve = null;
-        _activeIncreaseDelaySeconds = 0;
+        _activeResponses = [new(), new()];
         _fan1Policy = _fan2Policy = null;
         _fan1Applied = _fan2Applied = null;
     }
@@ -378,14 +386,19 @@ public partial class MainWindow
         if (_controlStopped) throw new ObjectDisposedException(nameof(MainWindow), "风扇控制已随窗口关闭而停止。");
     }
 
-    private static FanControlPolicy CreatePolicy(FanCurve curve, int increaseDelaySeconds = 0) => new(
-        curve, ["cpu"], CpuMaximumAge, TimeSpan.FromSeconds(1), 2, 90, 300,
-        TimeSpan.FromSeconds(increaseDelaySeconds));
-
-    private static void ValidateIncreaseDelay(int seconds)
+    private static FanControlPolicy CreatePolicy(FanCurve curve, FanResponseSettings? response = null)
     {
-        if (seconds is < 0 or > 10) throw new ArgumentOutOfRangeException(nameof(seconds), "升速延迟需为 0～10 秒。");
+        response ??= new();
+        return new(curve, ["cpu"], CpuMaximumAge, TimeSpan.FromSeconds(1), response.CoolingHysteresis, 90, 300,
+            TimeSpan.FromSeconds(response.HeatingDelaySeconds), response.HeatingHysteresis, TimeSpan.FromSeconds(response.CoolingDelaySeconds));
     }
+
+    private static string ResponseReason(DecisionReason reason) => reason switch
+    {
+        DecisionReason.HeatingDelay => "升速计时中", DecisionReason.CoolingDelay => "降速计时中",
+        DecisionReason.HeatingHysteresis => "等待升温阈值", DecisionReason.CoolingHysteresis => "等待降温阈值",
+        _ => "保持目标"
+    };
 
     private static bool TryParseIncreaseDelay(string text, out int seconds) =>
         int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out seconds) && seconds is >= 0 and <= 10;
@@ -458,9 +471,21 @@ public partial class MainWindow
             Fan1CurveBox.Text = _settingsFan1Curve;
             Fan2CurveBox.Text = _settingsFan2Curve;
             var rejected = new List<string>();
-            if (saved.IncreaseDelaySeconds is >= 0 and <= 10) _settingsIncreaseDelaySeconds = saved.IncreaseDelaySeconds;
-            else rejected.Add("升速延迟无效，已使用 0 秒。");
-            IncreaseDelayBox.Text = _settingsIncreaseDelaySeconds.ToString(CultureInfo.InvariantCulture);
+            int legacyDelay = saved.IncreaseDelaySeconds is >= 0 and <= 10 ? saved.IncreaseDelaySeconds : 0;
+            if(legacyDelay != saved.IncreaseDelaySeconds) rejected.Add("升速延迟无效，已使用 0 秒。");
+            JsonElement?[] loaded = [saved.Fan1Response, saved.Fan2Response];
+            for(int i=0;i<2;i++)
+            {
+                if(loaded[i] is null || loaded[i]!.Value.ValueKind==JsonValueKind.Null)
+                    _settingsResponses[i]=new(HeatingDelaySeconds:legacyDelay);
+                else
+                {
+                    FanResponseSettings? response=null;
+                    try { response=loaded[i]!.Value.Deserialize<FanResponseSettings>(); } catch(JsonException) { }
+                    if(response is { IsValid: true }) _settingsResponses[i]=response;
+                    else { _settingsResponses[i]=new(); rejected.Add($"风扇 {i+1} 响应参数无效，已使用默认值。"); }
+                }
+            }
             foreach (CurvePreset preset in saved.CurvePresets ?? [])
             {
                 try
@@ -499,7 +524,8 @@ public partial class MainWindow
             lock (_settingsFileGate)
             {
                 var settings = new ControlSettings(_settingsFan1Rpm, _settingsFan2Rpm,
-                    _settingsFan1Curve, _settingsFan2Curve, presets.ToList(), _themeColor, _settingsIncreaseDelaySeconds);
+                    _settingsFan1Curve, _settingsFan2Curve, presets.ToList(), _themeColor,
+                    _settingsResponses[0].HeatingDelaySeconds, JsonSerializer.SerializeToElement(_settingsResponses[0]), JsonSerializer.SerializeToElement(_settingsResponses[1]));
                 temporaryPath = _controlSettingsPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
                 File.WriteAllText(temporaryPath, JsonSerializer.Serialize(settings, SettingsJsonOptions));
                 File.Move(temporaryPath, _controlSettingsPath, overwrite: true);
@@ -523,11 +549,11 @@ public partial class MainWindow
 
     private Task SaveAppliedSettingsAsync() => SaveAppliedSettingsCoreAsync(saveCurves: false);
 
-    private Task SaveAppliedCurveSettingsAsync() => SaveAppliedSettingsCoreAsync(saveCurves: true);
+    private Task<bool> SaveAppliedCurveSettingsAsync() => SaveAppliedSettingsCoreAsync(saveCurves: true);
 
-    private async Task SaveAppliedSettingsCoreAsync(bool saveCurves)
+    private async Task<bool> SaveAppliedSettingsCoreAsync(bool saveCurves)
     {
-        if (!SaveControlSettings()) return;
+        if (!SaveControlSettings()) return false;
         void MarkSaved()
         {
             if (saveCurves) MarkEditorSaved();
@@ -540,6 +566,7 @@ public partial class MainWindow
         }
         if (Dispatcher.CheckAccess()) MarkSaved();
         else await Dispatcher.InvokeAsync(MarkSaved).Task.ConfigureAwait(false);
+        return true;
     }
 
     private void SetSettingsStatus(string message)
@@ -590,5 +617,6 @@ public partial class MainWindow
     }
 
     private sealed record ControlSettings(int Fan1Rpm, int Fan2Rpm, string Fan1Curve, string Fan2Curve,
-        List<CurvePreset>? CurvePresets = null, string? ThemeColor = null, int IncreaseDelaySeconds = 0);
+        List<CurvePreset>? CurvePresets = null, string? ThemeColor = null, int IncreaseDelaySeconds = 0,
+        JsonElement? Fan1Response = null, JsonElement? Fan2Response = null);
 }

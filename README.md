@@ -2,19 +2,19 @@
 
 面向 ThinkBook 14 G4+ IAP（21CX）的 Windows 风扇控制软件开发项目。
 
-当前版本为 `v0.1.3`：支持自定义主题色并精简界面文案。顶部“主题色”打开 Windows 原生颜色选择器，即时更新按钮、曲线、焦点与背景，自动保存并在重启后恢复；“重置”恢复默认色。保留命名预设、草稿状态和托盘运行，自包含与轻量两个包继续交付。
+本地版本为 `v0.2.0`：新增常驻 CPU/GPU 数字温度托盘图标，两把风扇分别设置升降温滞回、升降速延时，曲线显示启用目标与已应用目标。保留自定义主题色、命名预设、草稿状态和硬件保护。[版本说明](docs/releases/v0.2.0.md)。GitHub 最新已发布版本仍为 `v0.1.3`。
 
 ## 下载与运行
 
 下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `myFanControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `myFanControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
 
-v0.1.3 另有本地 Windows 安装向导 `artifacts/releases/myFanControl-v0.1.3-win-x64-setup.exe`，使用同版自包含 ZIP 构建，提供中英文安装页、开始菜单快捷方式、可选桌面快捷方式及卸载入口；仍需预先安装 PawnIO。构建命令：`& scripts/Build-ReleaseInstaller.ps1 -Version 0.1.3`（需 Inno Setup 7 的 `ISCC.exe`，默认位于 `.tools/innosetup/`，也可传 `-IsccPath`）。安装向导是本地成品，尚未上传到 GitHub Release；安装前请先在旧版托盘选择“恢复固件并退出”。
+v0.2.0 的两个 ZIP、安装向导和校验文件位于 `release/v0.2.0/`。安装向导使用同版自包含 ZIP 构建，提供中英文安装页、开始菜单快捷方式、可选桌面快捷方式及卸载入口；仍需预先安装 PawnIO。构建命令：`& scripts/Build-ReleaseInstaller.ps1 -Version 0.2.0`（需 Inno Setup 7 的 `ISCC.exe`，默认位于 `.tools/innosetup/`，也可传 `-IsccPath`）。本版仅本地交付；安装前请先在旧版托盘选择“恢复固件并退出”。
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 
-本地只保留最新发行版的自包含与轻量两种包：`artifacts/publish/myFanControl-v0-1-3`、`myFanControl-v0-1-3-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`。
+v0.2.0 发布目录为 `artifacts/publish/myFanControl-v0-2-0` 与 `myFanControl-v0-2-0-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`；旧版升速延时会迁移为两把风扇的独立参数。
 
-v0.1.3 的离线 UI 回归与 27 项控制策略检查通过，截图与日志位于 `artifacts/diagnostics/ui-theme-20261006`。主题保存、重启恢复、默认重置、白/黄/黑配色可读性、无效颜色及保存失败已验证；切换主题不会保存未完成的转速草稿或启用控制。真实硬件与实际睡眠本轮未重测。
+v0.2.0 的 51 项合成控制策略检查及离线 UI 检查通过；配置、托盘、实时曲线和多倍缩放截图位于 `artifacts/diagnostics/v0.2.0-final`。此前 v0.1.3 主题回归保留在 `artifacts/diagnostics/ui-theme-20261006`。真实硬件与实际睡眠本轮未重测。
 
 ## 只读诊断
 

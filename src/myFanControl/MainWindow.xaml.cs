@@ -12,6 +12,7 @@ public partial class MainWindow : Window
     private bool _closeAfterMonitor;
     private bool _closing;
     private IReadOnlyList<string> _identityErrors = Array.Empty<string>();
+    private TemperatureSnapshot? _displaySnapshot;
 
     public MainWindow(string? settingsPath = null)
     {
@@ -65,6 +66,7 @@ public partial class MainWindow : Window
         {
             await Dispatcher.InvokeAsync(() =>
             {
+                ClearTemperatureDisplay();
                 StatusText.Text = "温度监控初始化或采样失败。";
                 ErrorsText.Text = string.Join(Environment.NewLine,
                     _identityErrors.Append($"{exception.GetType().Name}: {exception.Message}"));
@@ -75,6 +77,8 @@ public partial class MainWindow : Window
         }
         finally
         {
+            if(!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
+                await Dispatcher.InvokeAsync(ClearTemperatureDisplay);
             try { await StopControlAsync().ConfigureAwait(false); }
             catch (Exception exception) {
                 await Dispatcher.InvokeAsync(() => ErrorsText.Text = "控制恢复失败：" + exception.Message);
@@ -120,15 +124,10 @@ public partial class MainWindow : Window
 
     private void ShowSnapshot(TemperatureSnapshot snapshot)
     {
+        _displaySnapshot=snapshot;
+        RefreshLiveTemperatureUi();
         bool fresh = snapshot.CapturedAtUtc <= DateTimeOffset.UtcNow &&
             DateTimeOffset.UtcNow - snapshot.CapturedAtUtc <= CpuMaximumAge;
-        CpuTemperatureText.Text = TryGetFreshCpuTemperature(snapshot, DateTimeOffset.UtcNow, out double cpu)
-            ? $"{cpu:F1} °C" : "不可用";
-        float[] gpu = snapshot.Temperatures.Where(reading => reading.Category == "GPU")
-            .Select(reading => reading.ValueCelsius)
-            .Where(value => value.HasValue && float.IsFinite(value.Value) && value.Value is >= -100 and <= 150)
-            .Select(value => value!.Value).ToArray();
-        GpuTemperatureText.Text = fresh && gpu.Length > 0 ? $"{gpu.Max():F1} °C" : "不可用";
         Fan1ActualText.Text = fresh && snapshot.EcFanTelemetry is { Available: true, Fan1Rpm: { } rpm1 }
             ? $"{rpm1} RPM" : "不可用";
         Fan2ActualText.Text = fresh && snapshot.EcFanTelemetry is { Available: true, Fan2Rpm: { } rpm2 }
@@ -174,6 +173,49 @@ public partial class MainWindow : Window
         ErrorsText.Text = allErrors.Length > 0
             ? string.Join(Environment.NewLine, allErrors)
             : string.Empty;
+    }
+
+    private void ClearTemperatureDisplay()
+    {
+        _displaySnapshot=null;
+        RefreshLiveTemperatureUi();
+    }
+
+    private void RefreshLiveTemperatureUi()
+    {
+        DateTimeOffset now=DateTimeOffset.UtcNow;
+        double? cpu=TryGetFreshCpuTemperature(_displaySnapshot,now,out double t) ? t : null;
+        bool fresh=_displaySnapshot is { } snapshot && snapshot.CapturedAtUtc<=now && now-snapshot.CapturedAtUtc<=CpuMaximumAge;
+        var gpuValues=_displaySnapshot?.Temperatures.Where(r => r.Category=="GPU")
+            .Select(r => r.ValueCelsius).Where(v => v.HasValue && float.IsFinite(v.Value) && v.Value is >= -100 and <= 150).ToArray();
+        double? gpu=fresh && gpuValues is { Length: >0 } ? gpuValues.Max() : null;
+        CpuTemperatureText.Text=cpu is { } c ? $"{c:F1} °C" : "不可用";
+        GpuTemperatureText.Text=gpu is { } g ? $"{g:F1} °C" : "不可用";
+        UpdateTrayTemperatures(cpu,gpu);
+        UpdateCurveLiveUi(cpu);
+        if(!fresh) Fan1ActualText.Text=Fan2ActualText.Text="不可用";
+    }
+
+    private void UpdateCurveLiveUi(double? cpu)
+    {
+        if(CurveGraph is null || CurveLiveText is null) return;
+        string? active=SelectedFan==0 ? _activeFan1Curve : _activeFan2Curve;
+        var applied=SelectedFan==0 ? _fan1Applied : _fan2Applied;
+        CurveGraph.LiveTemperature=null; CurveGraph.LiveTargetRpm=null; CurveGraph.AppliedRpm=null;
+        CurveGraph.ActiveCurve=[]; CurveGraph.ShowingDraft=false;
+        if(_controlMode==ControlMode.Curve && active is not null && cpu is { } temperature)
+        {
+            var curve=ParseCurve(active);
+            int target=temperature>=90 ? 7500 : QuantizeRpm(curve.Evaluate(temperature));
+            CurveGraph.LiveTemperature=temperature; CurveGraph.LiveTargetRpm=target; CurveGraph.AppliedRpm=applied?.Rpm;
+            CurveGraph.ActiveCurve=curve.Points;
+            CurveGraph.ShowingDraft=active!=(SelectedFan==0 ? Fan1CurveBox.Text : Fan2CurveBox.Text);
+            CurveLiveText.Text=$"风扇 {SelectedFan+1} · CPU {temperature:F1}°C · ○ 曲线目标 {target} RPM · ■ 已应用目标 {(applied is null ? "等待确认" : applied.Rpm+" RPM")}"+
+                (CurveGraph.ShowingDraft ? " · 当前编辑为草稿，点线为启用曲线" : "");
+        }
+        else CurveLiveText.Text=cpu is null ? "实时位置：温度不可用" : _controlMode==ControlMode.Firmware ? "实时位置：固件控制" : "实时位置：手动控制";
+        System.Windows.Automation.AutomationProperties.SetName(CurveGraph,"双路温度转速曲线，方向键调整节点。"+CurveLiveText.Text);
+        CurveGraph.InvalidateVisual();
     }
 
     private static string JoinAvailable(params string?[] values)

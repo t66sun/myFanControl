@@ -62,4 +62,21 @@ Check(missingReset.Evaluate(Frame(null,60,now+TimeSpan.FromMilliseconds(500)),no
 Check(missingReset.Evaluate(Frame(70,60,now+TimeSpan.FromSeconds(1)),now+TimeSpan.FromSeconds(1),baseline).Reason==DecisionReason.HeatingDelay,"Missing sensor did not reset the heating delay");
 Check(delayed.Evaluate(Frame(60,60),now,new AppliedControl(5500,70,now-TimeSpan.FromSeconds(5))).Reason==DecisionReason.Cooling,"Cooling was delayed");
 Reject(()=>new FanControlPolicy(curve,["CPU"],TimeSpan.FromSeconds(3),TimeSpan.FromSeconds(1),2,95,500,TimeSpan.FromSeconds(11)),"Excessive heating delay accepted");
+var offsetPolicy=new FanControlPolicy(curve,["CPU","GPU"],TimeSpan.FromSeconds(3),TimeSpan.FromSeconds(1),5,95,500,
+    TimeSpan.FromSeconds(2),heatingHysteresis:3);
+Check(offsetPolicy.Evaluate(Frame(62,60),now,baseline).Reason==DecisionReason.HeatingHysteresis,"Heating inside the offset must hold without starting the timer");
+Check(offsetPolicy.Evaluate(Frame(63,60,now.AddSeconds(1)),now.AddSeconds(1),baseline).Reason==DecisionReason.HeatingDelay,"Offset boundary must start the heating timer");
+Check(offsetPolicy.Evaluate(Frame(63,60,now.AddSeconds(2)),now.AddSeconds(2),baseline).Action==ControlAction.Hold,"Heating timer started before the offset boundary");
+Check(offsetPolicy.Evaluate(Frame(64,60,now.AddSeconds(3)),now.AddSeconds(3),baseline).RequestedRpm==4300,"Sustained heating must use the latest curve target");
+var coolingDelayed=new FanControlPolicy(curve,["CPU","GPU"],TimeSpan.FromSeconds(3),TimeSpan.FromSeconds(1),5,95,500,
+    TimeSpan.FromSeconds(2),heatingHysteresis:3,coolingDelay:TimeSpan.FromSeconds(2));
+var hotBaseline=new AppliedControl(5500,70,now.AddSeconds(-5));
+Check(coolingDelayed.Evaluate(Frame(65,60),now,hotBaseline).Reason==DecisionReason.CoolingDelay,"Cooling boundary must start its own timer");
+Check(coolingDelayed.Evaluate(Frame(66,60,now.AddSeconds(1)),now.AddSeconds(1),hotBaseline).Reason==DecisionReason.CoolingHysteresis,"Leaving the cooling threshold must cancel the wait");
+Check(coolingDelayed.Evaluate(Frame(65,60,now.AddSeconds(2)),now.AddSeconds(2),hotBaseline).Reason==DecisionReason.CoolingDelay,"Cooling delay did not restart");
+Check(coolingDelayed.Evaluate(Frame(64,60,now.AddSeconds(3)),now.AddSeconds(3),hotBaseline).Action==ControlAction.Hold,"Cooling used an interrupted timer");
+Check(coolingDelayed.Evaluate(Frame(64,60,now.AddSeconds(4)),now.AddSeconds(4),hotBaseline).RequestedRpm==4300,"Sustained cooling did not use the latest target");
+Check(coolingDelayed.Evaluate(Frame(96,60),now,hotBaseline).RequestedRpm==7500,"High temperature did not bypass offsets and both timers");
+Check(coolingDelayed.Evaluate(Frame(70,60),now,null).RequestedRpm==5500,"First application must bypass all response settings");
+Reject(()=>new FanControlPolicy(curve,["CPU"],TimeSpan.FromSeconds(3),TimeSpan.FromSeconds(1),2,95,500,heatingHysteresis:double.NaN),"Invalid heating offset accepted");
 Console.WriteLine($"{checks} control-policy checks passed. Synthetic inputs only; no hardware control or validated laptop RPM profile.");

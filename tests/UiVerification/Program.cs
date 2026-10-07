@@ -79,9 +79,11 @@ internal static class Program
         VerifyAppliedSummary(window);
 
         InitializeTray(window);
+        VerifyTemperatureTray(window, imageDirectory);
         window.Show(); // Creates an HWND and registers native power notices; no Loaded sampler remains.
         window.UpdateLayout();
         VerifyLayoutsAndScreenshots(window, imageDirectory);
+        VerifyCurveLive(window,imageDirectory);
         CaptureManualTab(window, imageDirectory);
         var graph = (UIElement)window.FindName("CurveGraph")!;
         Invoke(window, "LoadNodes", 0, "40:2500;60:3500;75:5000;90:7500"); Invoke(window, "LoadNodes", 1, "40:2500;60:3500;75:5000;90:7500"); Invoke(window, "UpdateEditorState");
@@ -233,6 +235,28 @@ internal static class Program
         var delayed = new MainWindow(delayPath); DetachLoadedHandler(delayed); Invoke(delayed, "InitializeControlUi");
         Require(Box(delayed, "IncreaseDelayBox").Text == "1", "Saved heating delay was not loaded.");
         delayed.Hide();
+        File.WriteAllText(delayPath, JsonSerializer.Serialize(new { Fan1Rpm = 3600, Fan2Rpm = 3600,
+            Fan1Curve = "40:2500;90:7500", Fan2Curve = "40:2500;90:7500", IncreaseDelaySeconds = 1,
+            Fan1Response = new { HeatingHysteresis = 3, CoolingHysteresis = 5, HeatingDelaySeconds = 2, CoolingDelaySeconds = 4 },
+            Fan2Response = new { HeatingHysteresis = 1, CoolingHysteresis = 2, HeatingDelaySeconds = 6, CoolingDelaySeconds = 0 } }));
+        var independent = new MainWindow(delayPath); DetachLoadedHandler(independent); Invoke(independent, "InitializeControlUi");
+        Require(Box(independent, "IncreaseDelayBox").Text == "2", "Per-fan response did not override the legacy shared delay.");
+        Require(Box(independent, "HeatingHysteresisBox").Text == "3" && Box(independent, "DecreaseDelayBox").Text == "4", "Fan 1 response did not load.");
+        ((RadioButton)independent.FindName("Fan2Choice")!).IsChecked = true;
+        Require(Box(independent, "IncreaseDelayBox").Text == "6" && Box(independent, "HeatingHysteresisBox").Text == "1", "Fan 2 response did not remain independent.");
+        Box(independent, "HeatingHysteresisBox").Text = "11";
+        Require(!((Button)independent.FindName("ApplyButton")!).IsEnabled, "Out-of-range response was accepted.");
+        ((RadioButton)independent.FindName("Fan1Choice")!).IsChecked = true;
+        Require(!((Button)independent.FindName("ApplyButton")!).IsEnabled && Box(independent, "IncreaseDelayBox").Text == "2", "Switching fans lost an invalid draft or changed the other fan.");
+        independent.Hide();
+        File.WriteAllText(delayPath,"""
+            {"Fan1Rpm":4200,"Fan2Rpm":4400,"Fan1Curve":"40:2500;90:7500","Fan2Curve":"40:2500;90:7500",
+             "Fan1Response":{"HeatingHysteresis":"bad"},"Fan2Response":{"HeatingDelaySeconds":6}}
+            """);
+        var malformed=new MainWindow(delayPath); DetachLoadedHandler(malformed); Invoke(malformed,"InitializeControlUi");
+        Require(Box(malformed,"Fan1RpmBox").Text=="4200" && Box(malformed,"HeatingHysteresisBox").Text=="0", "A malformed response discarded valid settings instead of using defaults.");
+        ((RadioButton)malformed.FindName("Fan2Choice")!).IsChecked=true;
+        Require(Box(malformed,"IncreaseDelayBox").Text=="6" && Text(malformed,"SettingsStatusText").Text.Contains("响应参数无效"),"Malformed response lost the other fan or lacked feedback."); malformed.Hide();
         File.WriteAllText(delayPath, JsonSerializer.Serialize(new { Fan1Rpm = 3600, Fan2Rpm = 3600,
             Fan1Curve = "40:2500;90:7500", Fan2Curve = "40:2500;90:7500", IncreaseDelaySeconds = 11 }));
         var invalidDelay = new MainWindow(delayPath); DetachLoadedHandler(invalidDelay); Invoke(invalidDelay, "InitializeControlUi");
@@ -420,13 +444,26 @@ internal static class Program
         object? oldActive1 = GetField(window, "_activeFan1Curve"), oldActive2 = GetField(window, "_activeFan2Curve");
         object? oldApplied1 = GetField(window, "_fan1Applied"), oldApplied2 = GetField(window, "_fan2Applied");
 
+        Box(window,"HeatingHysteresisBox").Text="3"; Box(window,"DecreaseDelayBox").Text="4";
+        ((RadioButton)window.FindName("Fan2Choice")!).IsChecked=true;
+        Box(window,"HeatingHysteresisBox").Text="1"; Box(window,"IncreaseDelayBox").Text="6";
+        ((RadioButton)window.FindName("Fan1Choice")!).IsChecked=true;
+
         AutoClickOwnedDialog(window, "保存双路曲线预设", dialog => SetDialogTextAndClick(dialog, "保存", "验收甲"),
             () => Click(window, "SaveAsPresetButton"), dialog => SaveDialogScreenshot(dialog, imageDirectory, "ui-dialog-preset-name.png"));
         CurvePreset first = presets.Cast<CurvePreset>().Single(p => p.Name == "验收甲");
         Require(first.Fan1Curve == firstCurve && first.Fan2Curve == firstCurve, "Save As did not persist both current curves.");
         using (var saved = JsonDocument.Parse(File.ReadAllText(settingsPath)))
+        {
             Require(saved.RootElement.GetProperty("CurvePresets").EnumerateArray().Any(p => p.GetProperty("Name").GetString() == "验收甲"),
                 "Save As did not write the named preset to disk.");
+            Require(saved.RootElement.GetProperty("Fan1Response").GetProperty("HeatingHysteresis").GetInt32()==3 && saved.RootElement.GetProperty("Fan2Response").GetProperty("HeatingDelaySeconds").GetInt32()==6,
+                "Saving through the UI lost independent fan response settings.");
+        }
+        var reloaded=new MainWindow(settingsPath); DetachLoadedHandler(reloaded); Invoke(reloaded,"InitializeControlUi");
+        Require(Box(reloaded,"HeatingHysteresisBox").Text=="3" && Box(reloaded,"DecreaseDelayBox").Text=="4","Saved fan 1 response did not reload.");
+        ((RadioButton)reloaded.FindName("Fan2Choice")!).IsChecked=true;
+        Require(Box(reloaded,"IncreaseDelayBox").Text=="6","Saved fan 2 response did not reload."); reloaded.Hide();
         VerifyPresetSaveDidNotApply(window, oldMode, oldActive1, oldActive2, oldApplied1, oldApplied2);
         Require(Text(window, "DraftStatusText").Text.Contains("已保存") && Text(window, "DraftStatusText").Text.Contains("尚未应用"),
             "Saving a preset did not distinguish saved edits from an unapplied control curve.");
@@ -737,6 +774,48 @@ internal static class Program
         Require(events.SequenceEqual(new[] { PowerModes.Suspend, PowerModes.Resume }), "Synthetic power routing/deduplication failed.");
         Require((bool)registered.GetValue(window)!, "Synthetic power messages unexpectedly released the registration.");
         // The explicit exit below verifies OnClosed unregisters the native registration.
+    }
+
+    private static void VerifyCurveLive(MainWindow window,string output)
+    {
+        object mode=GetField(window,"_controlMode")!;
+        SetField(window,"_controlMode",Enum.Parse(mode.GetType(),"Curve"));
+        SetField(window,"_activeFan1Curve","40:2500;90:7500");
+        SetField(window,"_activeFan2Curve","40:2500;90:7500");
+        SetField(window,"_fan1Applied",new AppliedControl(3600,60,DateTimeOffset.UtcNow));
+        SetField(window,"_fan2Applied",new AppliedControl(3700,60,DateTimeOffset.UtcNow));
+        Invoke(window,"RefreshAppliedUi");
+        var live=new TemperatureSnapshot(DateTimeOffset.UtcNow,[new("Cpu","CPU","Package","cpu",70)],[]);
+        ShowSnapshot(window,live);
+        Require(Text(window,"CurveLiveText").Text.Contains("5500") && Text(window,"CurveLiveText").Text.Contains("3600"),"Live curve confused the active curve target with the applied RPM or draft.");
+        Require(Text(window,"CurveLiveText").Text.Contains("草稿"),"Draft curve was not distinguished from the running curve.");
+        double oldWidth=window.Width,oldHeight=window.Height;
+        window.Width=960; window.Height=760; window.UpdateLayout(); SaveMainScreenshot(window,output,"ui-live-curve.png");
+        window.Width=oldWidth; window.Height=oldHeight; window.UpdateLayout();
+        ShowSnapshot(window,live with { CapturedAtUtc=DateTimeOffset.UtcNow.AddSeconds(-6) });
+        Require(!Text(window,"CurveLiveText").Text.Contains("5500"),"Stale live markers were retained.");
+        SetField(window,"_controlMode",mode); SetField(window,"_fan1Applied",null); SetField(window,"_fan2Applied",null);
+        SetField(window,"_activeFan1Curve",null); SetField(window,"_activeFan2Curve",null);
+        ShowSnapshot(window,fixture with { CapturedAtUtc=DateTimeOffset.UtcNow });
+    }
+
+    private static void VerifyTemperatureTray(MainWindow window, string imageDirectory)
+    {
+        var cpu=(System.Windows.Forms.NotifyIcon)GetField(window,"_trayIcon")!;
+        Require(cpu.Visible, "Temperature icons must be visible even while the main window is open.");
+        var gpu=(System.Windows.Forms.NotifyIcon)GetField(window,"_gpuTrayIcon")!;
+        ShowSnapshot(window,fixture with { CapturedAtUtc=DateTimeOffset.UtcNow });
+        Require(cpu.Text.StartsWith("CPU") && cpu.Text.Contains("°C") && gpu.Visible && gpu.Text.StartsWith("GPU") && gpu.Text.Contains("°C"), "Temperature tray tooltips were not updated from the sample.");
+        foreach(int size in new[]{16,24,32})
+        {
+            using var icon=new System.Drawing.Icon(cpu.Icon!,size,size);
+            using var bitmap=icon.ToBitmap(); bitmap.Save(Path.Combine(imageDirectory,$"tray-cpu-{size}.png"));
+        }
+        ShowSnapshot(window,fixture with { CapturedAtUtc=DateTimeOffset.UtcNow.AddSeconds(-6) });
+        Require(cpu.Text.Contains("不可用") && gpu.Text.Contains("不可用"), "Stale tray readings were retained.");
+        ShowSnapshot(window,fixture with { CapturedAtUtc=DateTimeOffset.UtcNow });
+        Invoke(window,"ShowFromTray");
+        Require(cpu.Visible && gpu.Visible,"Opening the main window hid temperature icons.");
     }
 
     private static void VerifyTrayLifecycle(MainWindow window)
