@@ -1,16 +1,16 @@
 # myFanControl
 
-2026-10-07 `v0.2.0`：新增 CPU/GPU 数字温度托盘图标、每扇风扇独立的温度滞回和升降速延时，以及曲线实时目标标记。本版仅本地交付。自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
+2026-10-07 `v0.2.1`：新增 CPU/GPU 数字温度托盘图标、每扇风扇独立的温度滞回和升降速延时，以及曲线实时目标标记。安装向导新增自动准备官方 PawnIO。自包含包共用一套 .NET 10 桌面运行时，轻量包使用系统的 .NET 10 Desktop Runtime x64。
 
 适用设备：ThinkBook 14 G4+ IAP / 21CX，BIOS HYCN42WW，Windows 11。v0.2.0 已通过 57 项合成控制策略检查和离线 UI、配置、托盘、模拟电源通知检查。本轮未重新进行真实硬件或实际睡眠验收；下方本机报告均属于对应历史版本。
 
-每个版本交付自包含与轻量两个 ZIP，同一 `SHA256SUMS.txt` 包含两包的校验值。
+每个版本交付自包含与轻量两个 ZIP，同一 `SHA256SUMS.txt` 包含两个 ZIP 与安装程序的校验值。
 
 ## 使用
 
 下载见 [Releases](https://github.com/t66sun/myFanControl/releases)。每个版本提供两个 Windows x64 ZIP：默认 ZIP 自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量 ZIP 不带 .NET，需要系统已有对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行其中的 `myFanControl.exe`。发行 ZIP 不包含个人 `control-settings.json`；升级时可把旧版该文件复制到新版 EXE 同目录。
 
-v0.2.0 的自包含 ZIP、轻量 ZIP、安装向导和统一校验文件位于 `release/v0.2.0/`。向导不安装 PawnIO 驱动，保留个人 `control-settings.json`；升级前请在旧版托盘选择“恢复固件并退出”。安装程序未签名。本版未上传到 GitHub Release，GitHub 最新版仍为 v0.1.3。
+v0.2.1 的自包含 ZIP、轻量 ZIP、安装向导和统一校验文件位于 `release/v0.2.1/`，下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。向导在缺少或较旧时联网下载、校验并安装官方 PawnIO 2.2.0，已有正式签名的 2.2 或更高版本则跳过。按提示重启后再启动应用；卸载保留共享驱动和个人配置。便携 ZIP 仍需预装 PawnIO。应用安装器未签名；PawnIO 的签名独立验证。升级前在旧版托盘选择“恢复固件并退出”。
 
 保留整个发布目录，运行 `myFanControl.exe`，确认管理员提示。启动和睡眠唤醒后均由固件控制，需要手动点击应用；没有开机启动或自动接管。窗口打开或隐藏时，CPU/GPU 数字图标均保持显示；悬停显示一位小数，双击打开窗口，两者共享托盘菜单。图标可能位于 Windows 的隐藏图标区，可在系统设置中调整。读数失效显示 `--`。
 

@@ -2,13 +2,13 @@
 
 面向 ThinkBook 14 G4+ IAP（21CX）的 Windows 风扇控制软件开发项目。
 
-本地版本为 `v0.2.0`：新增常驻 CPU/GPU 数字温度托盘图标，两把风扇分别设置升降温滞回、升降速延时，曲线显示启用目标与已应用目标。保留自定义主题色、命名预设、草稿状态和硬件保护。[版本说明](docs/releases/v0.2.0.md)。GitHub 最新已发布版本仍为 `v0.1.3`。
+当前版本为 `v0.2.1`：新增常驻 CPU/GPU 数字温度托盘图标，两把风扇分别设置升降温滞回、升降速延时，曲线显示启用目标与已应用目标。保留自定义主题色、命名预设、草稿状态和硬件保护。[版本说明](docs/releases/v0.2.0.md)。v0.2.1 安装向导新增自动准备官方 PawnIO 驱动。
 
 ## 下载与运行
 
-下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `myFanControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `myFanControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。本机使用已安装的 PawnIO 2.2 正式签名驱动，尚未提供驱动安装器。
+下载见 [GitHub Releases](https://github.com/t66sun/myFanControl/releases)。每个版本固定提供两个 Windows x64 ZIP：默认包自带 .NET，可直接运行；文件名含 `framework-dependent` 的轻量包不带 .NET，需要先安装对应版本的 Microsoft Windows Desktop Runtime x64。完整解压后运行 `myFanControl.exe`，按 Windows 提示确认管理员权限。根目录同时包含 `myFanControl.exe` 与 `EcPmcConfigProbe.exe`，`licenses` 随包保留。便携 ZIP 要求本机已安装 PawnIO 2.2 或更高正式签名驱动；安装向导可在缺少或较旧时联网下载安装。
 
-v0.2.0 的两个 ZIP、安装向导和校验文件位于 `release/v0.2.0/`。安装向导使用同版自包含 ZIP 构建，提供中英文安装页、开始菜单快捷方式、可选桌面快捷方式及卸载入口；仍需预先安装 PawnIO。构建命令：`& scripts/Build-ReleaseInstaller.ps1 -Version 0.2.0 -ReleaseDirectory release/v0.2.0`（需 Inno Setup 7 的 `ISCC.exe`，默认位于 `.tools/innosetup/`，也可传 `-IsccPath`）。ZIP 打包脚本同样接受 `-ReleaseDirectory`。本版仅本地交付；安装前请先在旧版托盘选择“恢复固件并退出”。
+v0.2.1 的两个 ZIP、安装向导和校验文件位于 `release/v0.2.1/`。向导提供中英文页面、快捷方式及卸载入口，并在需要时下载官方 PawnIO 2.2.0，验证固定 SHA256 与 Authenticode 签名后安装。首次缺驱动安装需要联网，按提示重启后再启动应用。升级前先在旧版托盘选择“恢复固件并退出”。构建命令：`& scripts/Build-ReleaseInstaller.ps1 -Version 0.2.1 -ReleaseDirectory release/v0.2.1`（Inno Setup 7，默认 `.tools/innosetup/ISCC.exe`）。构建前将官方 2.2.0 安装文件放在 `.tools/pawnio-2.2.0/PawnIO_setup.exe`；元数据见 `scripts/PawnIoDependency.json`，此文件仅供构建校验，不随包分发。[版本说明](docs/releases/v0.2.1.md)。
 
 当前仅验证 ThinkBook 14 G4+ IAP / 21CX / BIOS HYCN42WW。两路曲线使用有效 CPU 温度最大值；GPU 只展示，风扇保持“1／2”命名。编辑和保存不会改变控制，点击“应用”才启用。X 或最小化隐藏到托盘，右键托盘选择“恢复固件并退出”真正退出。使用与配置说明见 [PRODUCT_README.md](PRODUCT_README.md)，验证证据和源码构建依赖见 [HANDOFF.md](HANDOFF.md)。
 

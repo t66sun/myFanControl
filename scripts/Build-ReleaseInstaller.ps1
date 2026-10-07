@@ -1,11 +1,15 @@
 [CmdletBinding()]
 param(
-    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.2.0',
+    [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.2.1',
     [string]$IsccPath,
     [string]$ReleaseDirectory='artifacts/releases'
 )
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
+. (Join-Path $PSScriptRoot 'PawnIoPrerequisite.ps1')
+$taskDependency=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'PawnIoDependency.json') -Raw | ConvertFrom-Json
+$taskOfficialInstaller=Join-Path $taskRoot ('.tools/pawnio-'+$taskDependency.version+'/PawnIO_setup.exe')
+if(-not (Test-PawnIoInstallerTrust (Get-FileHash -LiteralPath $taskOfficialInstaller -Algorithm SHA256).Hash $taskDependency.sha256 ([string](Get-AuthenticodeSignature -LiteralPath $taskOfficialInstaller).Status))){throw 'Pinned official PawnIO installer failed offline trust validation.'}
 $taskReleaseDir=[IO.Path]::GetFullPath($ReleaseDirectory,$taskRoot)
 $taskName='myFanControl-v'+$Version+'-win-x64'
 $taskZip=Join-Path $taskReleaseDir ($taskName+'.zip')
@@ -42,7 +46,7 @@ New-Item -ItemType Directory -Path $taskStage -Force | Out-Null
 try {
     [IO.Compression.ZipFile]::ExtractToDirectory($taskZip,$taskStage)
     $taskPayload=Join-Path $taskStage 'myFanControl'
-    & $IsccPath '--quiet' ('--define=SourceDir='+$taskPayload) ('--define=AppVersion='+$Version) ('--output-dir='+$taskReleaseDir) ('--output-filename='+$taskName+'-setup') (Join-Path $PSScriptRoot 'ReleaseInstaller.iss')
+    & $IsccPath '--quiet' ('--define=SourceDir='+$taskPayload) ('--define=AppVersion='+$Version) ('--define=PawnIOUrl='+$taskDependency.url) ('--define=PawnIOSha256='+$taskDependency.sha256) ('--output-dir='+$taskReleaseDir) ('--output-filename='+$taskName+'-setup') (Join-Path $PSScriptRoot 'ReleaseInstaller.iss')
     if($LASTEXITCODE -ne 0){throw "Inno Setup compilation failed: $LASTEXITCODE"}
     if(-not (Test-Path -LiteralPath $taskOutput)){throw 'Installer output missing.'}
     $taskOutputHash=(Get-FileHash -LiteralPath $taskOutput -Algorithm SHA256).Hash.ToLowerInvariant()

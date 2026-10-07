@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>myFanControl</AssemblyName>
-    <Version>0.2.0</Version>
+    <Version>0.2.1</Version>
     <RootNamespace>myFanControl</RootNamespace>
     <SatelliteResourceLanguages>zh-Hans;zh-Hant</SatelliteResourceLanguages>
   </PropertyGroup>
