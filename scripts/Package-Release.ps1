@@ -2,11 +2,12 @@
 param(
     [Parameter(Mandatory)][ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version,
     [ValidatePattern('^[A-Za-z0-9-]+$')][string]$SelfContainedDirectory='myFanControl-compact',
-    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$FrameworkDependentDirectory='myFanControl-framework-dependent'
+    [ValidatePattern('^[A-Za-z0-9-]+$')][string]$FrameworkDependentDirectory='myFanControl-framework-dependent',
+    [string]$ReleaseDirectory='artifacts/releases'
 )
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
-$taskReleaseDirectory=Join-Path $taskRoot 'artifacts/releases'
+$taskReleaseDirectory=[IO.Path]::GetFullPath($ReleaseDirectory,$taskRoot)
 New-Item -ItemType Directory -Path $taskReleaseDirectory -Force | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 

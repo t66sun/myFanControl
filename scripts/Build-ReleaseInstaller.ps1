@@ -1,11 +1,12 @@
 [CmdletBinding()]
 param(
     [ValidatePattern('^\d+\.\d+\.\d+$')][string]$Version='0.2.0',
-    [string]$IsccPath
+    [string]$IsccPath,
+    [string]$ReleaseDirectory='artifacts/releases'
 )
 $ErrorActionPreference='Stop'
 $taskRoot=Split-Path -Parent $PSScriptRoot
-$taskReleaseDir=Join-Path $taskRoot 'artifacts/releases'
+$taskReleaseDir=[IO.Path]::GetFullPath($ReleaseDirectory,$taskRoot)
 $taskName='myFanControl-v'+$Version+'-win-x64'
 $taskZip=Join-Path $taskReleaseDir ($taskName+'.zip')
 $taskOutput=Join-Path $taskReleaseDir ($taskName+'-setup.exe')
