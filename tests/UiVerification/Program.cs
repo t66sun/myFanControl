@@ -270,6 +270,16 @@ internal static class Program
         Require(!(bool)Invoke(failing, "SaveControlSettings")!, "A save into a missing directory unexpectedly succeeded.");
         Require(Text(failing, "SettingsStatusText").Text.Contains("保存失败"), "Save failure was not reported in the settings status area.");
         Require(Text(failing, "ErrorsText").Text == "fixture diagnostic remains separate", "A settings save failure overwrote sensor diagnostics.");
+        Require(!File.Exists(Path.Combine(AppContext.BaseDirectory,"EcPmcConfigProbe.exe")),"This offline failure check must not have a hardware control host available.");
+        Text(failing,"SettingsStatusText").Text="";
+        var originalApplied=new AppliedControl(3600,60,DateTimeOffset.UtcNow);
+        var originalMode=GetField(failing,"_controlMode")!;
+        SetField(failing,"_controlMode",Enum.Parse(originalMode.GetType(),"Manual"));
+        SetField(failing,"_fan1Applied",originalApplied); SetField(failing,"_fan2Applied",originalApplied);
+        try { ((Task)Invoke(failing,"ApplyCurvesAsync","40:2500;90:7500","40:2500;90:7500",null,null)!).GetAwaiter().GetResult(); } catch(IOException) { }
+        Require(Text(failing,"SettingsStatusText").Text.Contains("保存失败") && GetField(failing,"_controlMode")!.ToString()=="Manual" && Equals(GetField(failing,"_fan1Applied"),originalApplied),
+            "Applying with an unwritable settings path must report saving failure and preserve the running configuration before opening the backend.");
+        Require(GetField(failing,"_controlClient") is null,"Failed persistence opened the control backend.");
         failing.Hide();
     }
 

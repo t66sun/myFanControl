@@ -18,7 +18,7 @@ public partial class MainWindow
     private int SelectedFan => Fan2Choice?.IsChecked == true ? 1 : 0;
     private bool CurveDirty => Fan1CurveBox.Text != _savedCurve1 || Fan2CurveBox.Text != _savedCurve2;
     private bool ManualDirty => Fan1RpmBox.Text != _savedManual1 || Fan2RpmBox.Text != _savedManual2;
-    private bool DelayDirty => Enumerable.Range(0,2).Any(i => !_responseDrafts[i].SequenceEqual(_savedResponseDrafts[i]));
+    private bool ResponseDirty => Enumerable.Range(0,2).Any(i => !_responseDrafts[i].SequenceEqual(_savedResponseDrafts[i]));
     private static string[] ResponseTexts(FanResponseSettings r) => [r.HeatingHysteresis.ToString(CultureInfo.InvariantCulture),r.CoolingHysteresis.ToString(CultureInfo.InvariantCulture),r.HeatingDelaySeconds.ToString(CultureInfo.InvariantCulture),r.CoolingDelaySeconds.ToString(CultureInfo.InvariantCulture)];
     private void LoadResponseEditor()
     {
@@ -32,7 +32,7 @@ public partial class MainWindow
         for(int i=0;i<2;i++)
         {
             var values=new int[4];
-            for(int j=0;j<4;j++) if(!TryParseIncreaseDelay(_responseDrafts[i][j],out values[j])) return false;
+            for(int j=0;j<4;j++) if(!TryParseResponseValue(_responseDrafts[i][j],out values[j])) return false;
             responses[i]=new(values[0],values[1],values[2],values[3]);
         }
         return true;
@@ -110,7 +110,7 @@ public partial class MainWindow
         AddNodeButton.IsEnabled = !_uiBusy && curvesValid;
         RemoveNodeButton.IsEnabled = !_uiBusy && _nodes[SelectedFan].Count > 2;
         bool sameApplied = manualTab ? _controlMode == ControlMode.Manual && manualValid && _fan1Applied?.Rpm == int.Parse(Fan1RpmBox.Text, CultureInfo.InvariantCulture) && _fan2Applied?.Rpm == int.Parse(Fan2RpmBox.Text, CultureInfo.InvariantCulture) : _controlMode == ControlMode.Curve && Fan1CurveBox.Text == _activeFan1Curve && Fan2CurveBox.Text == _activeFan2Curve && delayValid && responses.SequenceEqual(_activeResponses);
-        DraftStatusText.Text = (CurveDirty || ManualDirty || DelayDirty ? "● 未保存修改" : "修改已保存") + (sameApplied ? " · 当前配置已启用" : " · 当前输入尚未应用");
+        DraftStatusText.Text = (CurveDirty || ManualDirty || ResponseDirty ? "● 未保存修改" : "修改已保存") + (sameApplied ? " · 当前配置已启用" : " · 当前输入尚未应用");
         RefreshLiveTemperatureUi();
     }
     private void SetUiBusy(bool busy)
@@ -125,7 +125,7 @@ public partial class MainWindow
     }
     private void OnEditorTabChanged(object sender, SelectionChangedEventArgs e) { if (ReferenceEquals(e.Source, EditorTabs)) UpdateEditorState(); }
     private void OnManualDraftChanged(object sender, TextChangedEventArgs e) => UpdateEditorState();
-    private void OnIncreaseDelayChanged(object sender, TextChangedEventArgs e) { if(!_editorReady || _editorChanging) return; StoreResponseEditor(); UpdateEditorState(); }
+    private void OnResponseDraftChanged(object sender, TextChangedEventArgs e) { if(!_editorReady || _editorChanging) return; StoreResponseEditor(); UpdateEditorState(); }
     private void OnNodeBeginningEdit(object sender, DataGridBeginningEditEventArgs e) { if (e.Column.DisplayIndex == 1 && ReferenceEquals(e.Row.Item, _nodes[SelectedFan].LastOrDefault())) e.Cancel = true; }
     private void OnNodeCellEditEnding(object sender, DataGridCellEditEndingEventArgs e) => Dispatcher.BeginInvoke(new Action(UpdateEditorState));
     private void OnSelectedFanChanged(object sender, RoutedEventArgs e) { if (!_editorReady) return; _editorChanging=true; StoreResponseEditor(); _responseFan=SelectedFan; LoadResponseEditor(); _editorChanging=false; NodeGrid.ItemsSource = _nodes[SelectedFan]; CurveGraph.SelectedNode = -1; UpdateEditorState(); }
@@ -199,7 +199,7 @@ public partial class MainWindow
     }
     private bool ConfirmDiscardUnsavedChanges()
     {
-        if (!_editorReady || (!CurveDirty && !ManualDirty && !DelayDirty)) return true;
+        if (!_editorReady || (!CurveDirty && !ManualDirty && !ResponseDirty)) return true;
         var content = new StackPanel { Margin = new Thickness(20) }; content.Children.Add(new TextBlock { Text = "存在未保存修改。曲线将保存为命名预设；手动参数和每扇响应参数保存为下次输入，不启用控制。", TextWrapping = TextWrapping.Wrap, MaxWidth = 390, Margin = new Thickness(0, 0, 0, 18) });
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right }; int result = 0;
         var dialog = new Window { Owner = this, Resources = Resources, Background = (System.Windows.Media.Brush)FindResource("Canvas"), Foreground = (System.Windows.Media.Brush)FindResource("Ink"), FontSize = 13, FontFamily = new System.Windows.Media.FontFamily("Segoe UI, Microsoft YaHei UI"), Title = "处理未保存修改", Content = content, Width = 440, SizeToContent = SizeToContent.Height, ResizeMode = ResizeMode.NoResize, WindowStartupLocation = WindowStartupLocation.CenterOwner };

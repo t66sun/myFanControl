@@ -111,14 +111,6 @@ public partial class MainWindow
         try
         {
             ThrowIfControlStopped();
-            _controlClient ??= new ControlClient();
-            _fan1Policy = policy1;
-            _fan2Policy = policy2;
-            _fan1Applied = _fan2Applied = null;
-            _controlMode = ControlMode.Curve;
-            _activeFan1Curve = canonical1;
-            _activeFan2Curve = canonical2;
-            _activeResponses = responses;
             var oldResponses = _settingsResponses;
             string oldCurve1 = _settingsFan1Curve, oldCurve2 = _settingsFan2Curve;
             _settingsFan1Curve = canonical1;
@@ -128,7 +120,16 @@ public partial class MainWindow
             {
                 _settingsResponses = oldResponses;
                 _settingsFan1Curve = oldCurve1; _settingsFan2Curve = oldCurve2;
+                await SetControlStatusAsync("设置保存失败，当前运行配置保持原状。").ConfigureAwait(false);
+                return;
             }
+            _fan1Policy = policy1;
+            _fan2Policy = policy2;
+            _fan1Applied = _fan2Applied = null;
+            _controlMode = ControlMode.Curve;
+            _activeFan1Curve = canonical1;
+            _activeFan2Curve = canonical2;
+            _activeResponses = responses;
             await SetControlStatusAsync("自动曲线已启用；等待有效 CPU 温度样本。").ConfigureAwait(false);
         }
         catch (Exception exception)
@@ -400,7 +401,7 @@ public partial class MainWindow
         _ => "保持目标"
     };
 
-    private static bool TryParseIncreaseDelay(string text, out int seconds) =>
+    private static bool TryParseResponseValue(string text, out int seconds) =>
         int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out seconds) && seconds is >= 0 and <= 10;
 
     private static FanCurve ParseCurve(string text)

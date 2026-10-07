@@ -14,7 +14,7 @@ v0.2.0 的两个 ZIP、安装向导和校验文件位于 `release/v0.2.0/`。安
 
 v0.2.0 发布目录为 `artifacts/publish/myFanControl-v0-2-0` 与 `myFanControl-v0-2-0-framework-dependent`。发行 ZIP 不带个人配置，升级时可复制旧版 `control-settings.json`；旧版升速延时会迁移为两把风扇的独立参数。
 
-v0.2.0 的 51 项合成控制策略检查及离线 UI 检查通过；配置、托盘、实时曲线和多倍缩放截图位于 `artifacts/diagnostics/v0.2.0-final`。此前 v0.1.3 主题回归保留在 `artifacts/diagnostics/ui-theme-20261006`。真实硬件与实际睡眠本轮未重测。
+v0.2.0 的 57 项合成控制策略检查及离线 UI 检查通过；配置、托盘、实时曲线和多倍缩放截图位于 `artifacts/diagnostics/v0.2.0-final`。此前 v0.1.3 主题回归保留在 `artifacts/diagnostics/ui-theme-20261006`。真实硬件与实际睡眠本轮未重测。
 
 ## 只读诊断
 

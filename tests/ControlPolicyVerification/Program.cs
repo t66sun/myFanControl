@@ -79,4 +79,12 @@ Check(coolingDelayed.Evaluate(Frame(64,60,now.AddSeconds(4)),now.AddSeconds(4),h
 Check(coolingDelayed.Evaluate(Frame(96,60),now,hotBaseline).RequestedRpm==7500,"High temperature did not bypass offsets and both timers");
 Check(coolingDelayed.Evaluate(Frame(70,60),now,null).RequestedRpm==5500,"First application must bypass all response settings");
 Reject(()=>new FanControlPolicy(curve,["CPU"],TimeSpan.FromSeconds(3),TimeSpan.FromSeconds(1),2,95,500,heatingHysteresis:double.NaN),"Invalid heating offset accepted");
+var newBaseline=new AppliedControl(4300,64,now.AddSeconds(3));
+Check(offsetPolicy.Evaluate(Frame(67,60,now.AddSeconds(4)),now.AddSeconds(4),newBaseline).Reason==DecisionReason.HeatingDelay,"A successful change must establish a new offset baseline and timer");
+Check(offsetPolicy.Evaluate(Frame(67,60,now.AddSeconds(5)),now.AddSeconds(5),newBaseline).Action==ControlAction.Hold,"Previous baseline timer survived a successful change");
+Check(offsetPolicy.Evaluate(Frame(67,60,now.AddSeconds(6)),now.AddSeconds(6),newBaseline).RequestedRpm==4900,"New baseline could not finish its own waiting period");
+_ = coolingDelayed.Evaluate(Frame(65,60,now.AddSeconds(6)),now.AddSeconds(6),hotBaseline);
+Check(coolingDelayed.Evaluate(Frame(74,60,now.AddSeconds(7)),now.AddSeconds(7),hotBaseline).Reason==DecisionReason.HeatingDelay,"Direction reversal did not start a fresh heating timer");
+Check(coolingDelayed.Evaluate(Frame(65,60,now.AddSeconds(8)),now.AddSeconds(8),hotBaseline).Reason==DecisionReason.CoolingDelay,"Returning to cooling used its old timer");
+Check(coolingDelayed.Evaluate(Frame(65,60,now.AddSeconds(9)),now.AddSeconds(9),hotBaseline).Action==ControlAction.Hold,"Cooling did not wait after a direction reversal");
 Console.WriteLine($"{checks} control-policy checks passed. Synthetic inputs only; no hardware control or validated laptop RPM profile.");
